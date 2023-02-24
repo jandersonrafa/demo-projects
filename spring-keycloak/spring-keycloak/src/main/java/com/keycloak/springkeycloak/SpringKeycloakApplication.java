@@ -13,7 +13,7 @@ public class SpringKeycloakApplication {
         // app.setApplicationStartup(new BufferingApplicationStartup(2048));
         // app.run(args);
 
-		
+
 		SpringApplication.run(SpringKeycloakApplication.class, args);
 	}
 
