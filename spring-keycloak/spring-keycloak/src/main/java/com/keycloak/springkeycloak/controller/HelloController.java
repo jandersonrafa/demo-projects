@@ -18,7 +18,7 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String getMethodName() {
-        return "teste s";
+        return "hello";
     }
 
     // @PreAuthorize("hasAuthority('SCOPE_profile2')")
@@ -26,7 +26,7 @@ public class HelloController {
     public String getMethodName2(Principal principal) {
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) principal;
         token.getPrincipal().getName();
-        return "teste s";
+        return "hello2";
     }
     
     
