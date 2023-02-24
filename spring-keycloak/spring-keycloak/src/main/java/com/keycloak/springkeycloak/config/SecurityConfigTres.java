@@ -4,30 +4,24 @@
 // import org.springframework.context.annotation.Configuration;
 // import org.springframework.core.convert.converter.Converter;
 // import org.springframework.security.authentication.AbstractAuthenticationToken;
-// import org.springframework.security.config.Customizer;
 // import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 // import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 // import org.springframework.security.core.session.SessionRegistryImpl;
 // import org.springframework.security.oauth2.jwt.Jwt;
-// import org.springframework.security.oauth2.jwt.JwtDecoder;
-// import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 // import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 // import org.springframework.security.web.SecurityFilterChain;
 // import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 // import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 //
-// import static org.springframework.security.core.context.SecurityContextHolder.getContext;
-//
 // @Configuration
 // @EnableWebSecurity
-// class SecurityConfig {
+// class SecurityConfigTres {
 //
 //     String jwkSetUri = "http://localhost:8080/auth/realms/wstutorial/protocol/openid-connect/certs";
 //
 //     private final KeycloakLogoutHandler keycloakLogoutHandler;
 //
-//     SecurityConfig(KeycloakLogoutHandler keycloakLogoutHandler) {
+//     SecurityConfigTres(KeycloakLogoutHandler keycloakLogoutHandler) {
 //         this.keycloakLogoutHandler = keycloakLogoutHandler;
 //     }
 //
