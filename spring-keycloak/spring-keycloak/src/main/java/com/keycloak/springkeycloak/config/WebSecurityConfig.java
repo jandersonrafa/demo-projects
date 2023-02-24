@@ -37,31 +37,24 @@ public class WebSecurityConfig {
 
     public static final String ADMIN = "admin";
     public static final String USER = "user";
-    private final JwtAuthorityConverter jwtAuthorityConverter;
-
     private final KeycloakLogoutHandler keycloakLogoutHandler;
     private final JwtAuthConverter jwtAuthConverter;
+    private final GrantedAuthoritiesMapperImpl grantedAuthoritiesMapper;
 
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET, "/api/hello2", "/test/anonymous/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/admin", "/test/admin/**").hasRole(ADMIN)
+                .requestMatchers(HttpMethod.GET, "/api/hello2").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/admin").hasRole(ADMIN)
                 .requestMatchers(HttpMethod.GET, "/api/hello").hasAnyRole(USER)
                 .anyRequest().authenticated();
 
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(jwtAuthorityConverter);
-        http.oauth2Login().userInfoEndpoint().userAuthoritiesMapper(userAuthoritiesMapper());
-//                .oidcUserService(new OAuth2UserService<OidcUserRequest, OidcUser>() {
-//            @Override
-//            public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
-//                return new DefaultOidcUser(null, userRequest.getIdToken());
-//            }
-//        });
-//        http.oauth2Login().userInfoEndpoint().userAuthoritiesMapper(userAuthoritiesMapper()).oidcUserService(oAuth2UserServiceImpl);
-                http.logout()
+        http.oauth2Login()
+                .userInfoEndpoint()
+                .userAuthoritiesMapper(grantedAuthoritiesMapper);
+
+
+        http.logout()
                 .addLogoutHandler(keycloakLogoutHandler)
                 .logoutSuccessUrl("/")
                 .and()
@@ -70,97 +63,8 @@ public class WebSecurityConfig {
                                 .jwtAuthenticationConverter(jwtAuthConverter)
                         )
                 );
-//                .and()
-//                .oauth2ResourceServer(oauth2 -> oauth2
-//                        .jwt(jwt -> jwt
-//                                .jwtAuthenticationConverter(converter)
-//                        )
-//                );
-
-//                .jwt()
-//                .jwtAuthenticationConverter(jwtAuthConverter);
-//        http.oauth2Login();
-//        http.oauth2Login()
-//                .and()
-//                .logout()
-//                .addLogoutHandler(keycloakLogoutHandler)
-//                .logoutSuccessUrl("/");
-
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
     }
-
-//    @Bean
-    GrantedAuthoritiesMapper userAuthoritiesMapper() {
-        return (authorities) -> {
-            Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-
-            authorities.forEach(authority -> {
-                if (authority instanceof OidcUserAuthority oidcAuth) {
-                    mappedAuthorities.addAll(jwtAuthorityConverter.convert(oidcAuth.getUserInfo()));
-                } else if (authority instanceof OAuth2UserAuthority oauth2Auth) {
-                    mappedAuthorities.addAll(jwtAuthorityConverter.convert(oauth2Auth.getAttributes()));
-
-                }
-            });
-
-            return mappedAuthorities;
-        };
-    }
-
-
-
-
-//    @Bean
-//    Converter<Jwt, Collection<GrantedAuthority>> userAuthoritiesMapper() {
-//        return new Converter<Jwt, Collection<GrantedAuthority>>() {
-//            @Override
-//            public Collection<GrantedAuthority> convert(Jwt source) {
-//                return null;
-//            }
-//        };
-//    }
-//    @Bean
-//    GrantedAuthoritiesMapper userAuthoritiesMapper(Converter<Jwt, Collection<? extends GrantedAuthority>> authoritiesConverter) {
-//        return (authorities) -> {
-//            Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-//
-//            authorities.forEach(authority -> {
-//                if (authority instanceof OidcUserAuthority oidcAuth) {
-//                    mappedAuthorities.addAll(authoritiesConverter.convert(oidcAuth.getIdToken().getClaims()));
-//
-//                } else if (authority instanceof OAuth2UserAuthority oauth2Auth) {
-//                    mappedAuthorities.addAll(authoritiesConverter.convert(oauth2Auth.getAttributes()));
-//
-//                }
-//            });
-//
-//            return mappedAuthorities;
-//        };
-//    }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
-//        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-//        converter.setJwtGrantedAuthoritiesConverter(jwtAuthorityConverter);
-//
-//        http.oauth2ResourceServer()
-//                .jwt()
-//                .jwtAuthenticationConverter(converter);
-//        http.oauth2Login()
-//                .and()
-//                .logout()
-//                .addLogoutHandler(keycloakLogoutHandler)
-//                .logoutSuccessUrl("/");
-//        http.authorizeHttpRequests()
-//                .requestMatchers("/api/hello2").permitAll()
-//                .requestMatchers("/api/hello").hasRole(USER).anyRequest().authenticated();
-//
-//        return http.build();
-//    }
-
-
 
 }
