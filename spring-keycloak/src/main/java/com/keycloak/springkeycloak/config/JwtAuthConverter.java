@@ -24,6 +24,10 @@ import java.util.HashMap;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+/**
+ * Classe utilizada para processar token vindo no cabecalho bearer token
+ * e converter realm_access do keycloak para authorities spring
+ */
 public class JwtAuthConverter implements Converter<Jwt, OAuth2AuthenticationToken> {
 
     private final JwtAuthorityConverter jwtAuthorityConverter;

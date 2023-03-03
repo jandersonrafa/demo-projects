@@ -11,6 +11,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
+/**
+ * Classe utilizada para processar usuario keycloak autenticado pela página keycloak
+ * e converter realm_access do endpoint userinfo keycloak para authorities spring
+ */
 @Component
 @RequiredArgsConstructor
 public class GrantedAuthoritiesMapperImpl implements GrantedAuthoritiesMapper {

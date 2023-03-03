@@ -20,6 +20,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ *
+ */
 @Component
 public class JwtAuthorityConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 

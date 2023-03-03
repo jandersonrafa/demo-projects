@@ -1,5 +1,6 @@
 package com.keycloak.springkeycloak.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -16,18 +17,22 @@ import java.security.Principal;
 @RequestMapping("/api")
 public class HelloController {
 
-    @GetMapping("/hello")
-    public String getMethodName() {
-        return "hello";
+    @GetMapping("/public")
+    public String publicMethod() {
+        return "Endpoint público";
     }
 
-    // @PreAuthorize("hasAuthority('SCOPE_profile2')")
-    @GetMapping("/hello2")
-    public String getMethodName2(Principal principal) {
+    @GetMapping("/private/user")
+    public String privateMethodUser(Principal principal, HttpServletRequest request) {
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) principal;
-        token.getPrincipal().getName();
-        return "hello2";
+        String name = token.getPrincipal().getName();
+        return "Endpoint privado - User : "  + name + " com permissao user";
     }
-    
-    
+    @GetMapping("/private/admin")
+    public String privateMethodAdmin(Principal principal) {
+        OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) principal;
+        String name = token.getPrincipal().getName();
+        return "Endpoint privado - User : "  + name + " com permissao admin";
+    }
+
 }

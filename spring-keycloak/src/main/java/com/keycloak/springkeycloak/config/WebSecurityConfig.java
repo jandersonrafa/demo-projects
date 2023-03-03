@@ -44,20 +44,23 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET, "/api/hello2").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/admin").hasRole(ADMIN)
-                .requestMatchers(HttpMethod.GET, "/api/hello").hasAnyRole(USER)
+                .requestMatchers(HttpMethod.GET, "/api/public").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/private/admin").hasRole(ADMIN)
+                .requestMatchers(HttpMethod.GET, "/api/private/user").hasRole(USER)
                 .anyRequest().authenticated();
 
+        // oauth2Login  Utilizado para definir que tem uma entidade externa keycloak para servir pagina para autenticacao para
+        // todo endpoint que nao vier token
         http.oauth2Login()
                 .userInfoEndpoint()
                 .userAuthoritiesMapper(grantedAuthoritiesMapper);
-
 
         http.logout()
                 .addLogoutHandler(keycloakLogoutHandler)
                 .logoutSuccessUrl("/")
                 .and()
+                // oauth2ResourceServer  Utilizado para registrar que qunado vier cabecalho bearer token ele sera analisado para criar
+                // usuario na sessao
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthConverter)
