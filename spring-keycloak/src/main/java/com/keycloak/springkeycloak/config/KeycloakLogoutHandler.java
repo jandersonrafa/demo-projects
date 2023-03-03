@@ -14,6 +14,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Classe responsável por
+ * efetuar logou chamando endpoint api keycloak
+ */
 @Component
 public class KeycloakLogoutHandler implements LogoutHandler {
 
@@ -25,19 +29,18 @@ public class KeycloakLogoutHandler implements LogoutHandler {
     }
 
     @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, 
-      Authentication auth) {
+    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
         logoutFromKeycloak((OidcUser) auth.getPrincipal());
     }
 
     private void logoutFromKeycloak(OidcUser user) {
         String endSessionEndpoint = user.getIssuer() + "/protocol/openid-connect/logout";
         UriComponentsBuilder builder = UriComponentsBuilder
-          .fromUriString(endSessionEndpoint)
-          .queryParam("id_token_hint", user.getIdToken().getTokenValue());
+                .fromUriString(endSessionEndpoint)
+                .queryParam("id_token_hint", user.getIdToken().getTokenValue());
 
         ResponseEntity<String> logoutResponse = restTemplate.getForEntity(
-        builder.toUriString(), String.class);
+                builder.toUriString(), String.class);
         if (logoutResponse.getStatusCode().is2xxSuccessful()) {
             logger.info("Successfulley logged out from Keycloak");
         } else {
