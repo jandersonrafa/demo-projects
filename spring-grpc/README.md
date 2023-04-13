@@ -39,6 +39,12 @@ Nesses testes tivemos os seguintes resultados (imagens na raiz do projeto)
     - Requests per second:: 613
     - Time per request: 81 ms
     
+Os resultados inferiores do Grpc em relação ao rest pode ser pelo fato de que como esta subindo local o browser esta usando http1 ao invés de http2 , pois não tem tls. Citação:
+
+`gRPC é aproximadamente 7 vezes mais rápido que REST ao receber dados e aproximadamente 10 vezes mais rápido que REST ao enviar dados para esta carga específica. Isso se deve principalmente ao empacotamento compacto dos buffers de protocolo e ao uso de HTTP/2 pelo gRPC.`
+
+
+
 # Referencias
 https://sajeerzeji44.medium.com/grpc-for-spring-boot-microservices-bd9b79569772
 https://github.com/piinalpin/gRPC-example
