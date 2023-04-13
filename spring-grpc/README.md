@@ -39,3 +39,6 @@ Nesses testes tivemos os seguintes resultados (imagens na raiz do projeto)
     - Requests per second:: 613
     - Time per request: 81 ms
     
+# Referencias
+https://sajeerzeji44.medium.com/grpc-for-spring-boot-microservices-bd9b79569772
+https://github.com/piinalpin/gRPC-example
