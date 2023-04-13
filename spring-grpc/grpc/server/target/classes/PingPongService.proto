@@ -1,0 +1,22 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.example.grpc.server.grpcserver;
+message PingRequest {
+  string ping = 1;
+}
+message PongResponse {
+  string pong = 1;
+  string descricao = 2;
+  repeated string listTeste = 3;
+  repeated Product listProduct = 4;
+  message Product {
+    string id = 1;
+    string name = 2;
+    int32 quantity = 3;
+    double price = 4;
+    bool status = 5;
+  }
+}
+service PingPongService {
+  rpc ping(PingRequest) returns (PongResponse);
+}
