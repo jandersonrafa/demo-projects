@@ -26,7 +26,7 @@ facil implementacao
 ## contras
 nao é compativel com spring 3 nesse momento
 ainda nao e incorporado pelo spring
-num simples de carga demorou mais tempo para responder
+num simples de carga demorou mais tempo para responder devido a response ser pequeno
 
 # Teste de carga
 Foi realizado um teste de carga simples com apache benchmark
@@ -39,10 +39,10 @@ Nesses testes tivemos os seguintes resultados (imagens na raiz do projeto)
     - Requests per second:: 613
     - Time per request: 81 ms
     
-Os resultados inferiores do Grpc em relação ao rest pode ser pelo fato de que como esta subindo local o browser esta usando http1 ao invés de http2 , pois não tem tls. Citação:
+Resumidamente podemos observar no grafico abaixo que o grpc se mostra melhor apenas em cenarios onde o response é de um tamanho grande, e response de tamanhos pequenos o rest pode ser superior
 
-`gRPC é aproximadamente 7 vezes mais rápido que REST ao receber dados e aproximadamente 10 vezes mais rápido que REST ao enviar dados para esta carga específica. Isso se deve principalmente ao empacotamento compacto dos buffers de protocolo e ao uso de HTTP/2 pelo gRPC.`
-
+https://github.com/recepinanc/spring-boot-grpc-benchmarking/tree/main/benchmarking/response-time-graphs
+https://github.com/recepinanc/spring-boot-grpc-benchmarking/blob/main/benchmarking/response-time-graphs/collage.png
 
 
 # Referencias
