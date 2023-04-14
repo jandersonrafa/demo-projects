@@ -1,0 +1,8 @@
+/home/janderson/colombo/others-projects/demo-projects/spring-grpc/v1/openfeign-with-protobuf/server/src/main/java/com/example/demo/controller/HelloController.java
+/home/janderson/colombo/others-projects/demo-projects/spring-grpc/v1/openfeign-with-protobuf/server/target/generated-sources/protobuf/java/com/example/demo/server/grpcserver/PingPongService.java
+/home/janderson/colombo/others-projects/demo-projects/spring-grpc/v1/openfeign-with-protobuf/server/src/main/java/com/example/demo/service/PingPongServiceImpl.java
+/home/janderson/colombo/others-projects/demo-projects/spring-grpc/v1/openfeign-with-protobuf/server/src/main/java/com/example/demo/ServerApplication.java
+/home/janderson/colombo/others-projects/demo-projects/spring-grpc/v1/openfeign-with-protobuf/server/target/generated-sources/protobuf/java/com/example/demo/server/grpcserver/PongResponse.java
+/home/janderson/colombo/others-projects/demo-projects/spring-grpc/v1/openfeign-with-protobuf/server/src/main/java/com/example/demo/controller/PingPongEndpoint.java
+/home/janderson/colombo/others-projects/demo-projects/spring-grpc/v1/openfeign-with-protobuf/server/src/main/java/com/example/demo/service/MyFeignConfiguration.java
+/home/janderson/colombo/others-projects/demo-projects/spring-grpc/v1/openfeign-with-protobuf/server/target/generated-sources/protobuf/java/com/example/demo/server/grpcserver/PongResponseOrBuilder.java

@@ -1,0 +1,22 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.example.demo.server.grpcserver;
+message PongResponse {
+  string pong = 1;
+  string descricao = 2;
+  repeated string listTeste = 3;
+  repeated Product listProduct = 4;
+  message Product {
+    string id = 1;
+    string name = 2;
+    string name2 = 3;
+    string name3 = 4;
+    string name4 = 5;
+    string name5 = 6;
+    string name6 = 7;
+    string name7 = 8;
+    int32 quantity = 9;
+    double price = 10;
+    bool status = 11;
+  }
+}
