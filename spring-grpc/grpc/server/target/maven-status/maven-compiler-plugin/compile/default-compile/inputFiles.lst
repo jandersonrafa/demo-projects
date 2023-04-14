@@ -1,9 +1,0 @@
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/target/generated-sources/protobuf/java/com/example/grpc/server/grpcserver/PingRequestOrBuilder.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/src/main/java/com/example/demo/service/PingPongServiceImpl.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/target/generated-sources/protobuf/java/com/example/grpc/server/grpcserver/PongResponse.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/target/generated-sources/protobuf/java/com/example/grpc/server/grpcserver/PongResponseOrBuilder.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/src/main/java/com/example/demo/DemoApplication.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/src/main/java/com/example/demo/controller/HelloController.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/target/generated-sources/protobuf/java/com/example/grpc/server/grpcserver/PingRequest.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/target/generated-sources/protobuf/grpc-java/com/example/grpc/server/grpcserver/PingPongServiceGrpc.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/server/target/generated-sources/protobuf/java/com/example/grpc/server/grpcserver/PingPongServiceOuterClass.java
