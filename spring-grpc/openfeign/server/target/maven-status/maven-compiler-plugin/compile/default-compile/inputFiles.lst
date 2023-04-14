@@ -1,6 +1,0 @@
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/openfeign/server/src/main/java/com/example/demo/controller/PingPongEndpoint.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/openfeign/server/src/main/java/com/example/demo/controller/HelloController.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/openfeign/server/src/main/java/com/example/demo/ServerApplication.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/openfeign/server/src/main/java/com/example/demo/shared/PongResponse.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/openfeign/server/src/main/java/com/example/demo/shared/PingRequest.java
-/home/janderson/colombo/others-projects/demo-projects/spring-grpc/openfeign/server/src/main/java/com/example/demo/service/PingPongServiceImpl.java
