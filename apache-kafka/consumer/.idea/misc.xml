@@ -4,9 +4,8 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../spring-grpc/pom.xml" />
-        <option value="$PROJECT_DIR$/../apache-kafka/producer/pom.xml" />
-        <option value="$PROJECT_DIR$/../apache-kafka/consumer/pom.xml" />
       </list>
     </option>
   </component>
