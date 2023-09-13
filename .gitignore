@@ -24,3 +24,10 @@ hs_err_pid*
 
 # target
 */target/**
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
