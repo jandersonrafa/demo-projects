@@ -1,0 +1,181 @@
+Signature-Version: 1.0
+Created-By: 11.0.11.0.2 (Oracle Corporation)
+SHA-256-Digest-Manifest: ++t8yAmFWVMNqhfiY4Kj4mlcIoWnZ1xgX1OP0sVPMk8=
+SHA-256-Digest-Manifest-Main-Attributes: Y6Lvle4RuGg62KoNHSXjHLn+eMWTD7k
+ wkEV7Nikb/Gc=
+
+Name: content/root_l.xhtml
+SHA-256-Digest: KxjkIvQp5sE6OerOzHjooSAHMcqKtUD7KxQ0kKW6Wbs=
+
+Name: content/console_samples_l.xhtml
+SHA-256-Digest: Qn4h1zDUVBD3AMgDKCYx2vEGsMJd/Bb7fePvYpuDChg=
+
+Name: plugin.xml
+SHA-256-Digest: l4RPNXMP08zTOqTi8i4g0TPXISc0rzQJACrG0f5BrIs=
+
+Name: content/images/memleak.png
+SHA-256-Digest: SDqwWHF1TrzIRmz9Ct1gXk43kUyguXTB9Y2euNU9IAQ=
+
+Name: content/images/output_general.gif
+SHA-256-Digest: GgG0ATXmCDvgO5gAOa03ykfW1jpK2SjRPtEBTGeocag=
+
+Name: content/images/mission_control_64.png
+SHA-256-Digest: u/JTslbK0JCffSJS3KyIuz7LEpOa9w91DLndMMFN7s4=
+
+Name: content/images/dtrace.gif
+SHA-256-Digest: bzJhtuDvbSpCZ/QB69jZVibzqbj7oPiSKdNozFrMQ/k=
+
+Name: plugin.properties
+SHA-256-Digest: qXQO2kkZnbyV4KjRdUiAV8PQO9ZZfJk722kv+DSDwN0=
+
+Name: content/jfr_samples_l.xhtml
+SHA-256-Digest: M4yAXRwcMfve7QzrpWTPsZdIiPsp+Nbu+hAqWIG7NoY=
+
+Name: content/standby.xhtml
+SHA-256-Digest: KpnqMMf50NvXW+iI1JUIGimb2kZXZOWlxAGmAcQ+fzo=
+
+Name: license/LICENSE.txt
+SHA-256-Digest: Q36IUWEk+D/QbPMDe0Jox6e2QWqw5BDhqwwDkox7vZQ=
+
+Name: content/images/icon_tutorial.gif
+SHA-256-Digest: Ql13YZjbeDJfzi3Dl0wQMPtl/AImdHdrkkH8fazzOiA=
+
+Name: content/standby.css
+SHA-256-Digest: 6/uUbQ351E6bRYbRHkFGkF3TcqDj2BE+6I9I/ig0Ouk=
+
+Name: content/images/expandallnodes.gif
+SHA-256-Digest: iOkeChpFBFx7i/PtK3683Mr/o44PisIl5lMUyCQLgrA=
+
+Name: content/plugins_samples.xhtml
+SHA-256-Digest: 83ktF31+IMvc7WH8+zAtdfu+FkSZgsZ5WKhKeAbbD88=
+
+Name: content/strings.xhtml
+SHA-256-Digest: +RjlKKuTQTydNy33Oq96CEE8YcVerh1lmpuuCxDdVb8=
+
+Name: content/images/missioncontrol.gif
+SHA-256-Digest: UsX3CqEdCe6Su9wZULkTvddIMbpaRTFyEpFxjGY5sfo=
+
+Name: content/images/toolbar-runtime-64.png
+SHA-256-Digest: /Bv8/Ztcp7SgHzT9FosaxpIVeNUBTaY5mw3wIK2Fmr4=
+
+Name: content/images/toolbar-threads-64.png
+SHA-256-Digest: i9/ppRJyF8NcbgHYb+gLnzrjEGPqm9UJyaT8rQdgA6c=
+
+Name: content/images/jfr.png
+SHA-256-Digest: zhKDEvsbEE+YNcsyVKQ8LL1Nu7WcV+JvIhfiFTRh948=
+
+Name: content/images/help.gif
+SHA-256-Digest: lYCOs5NIWfpiVJgizNIgRx/4XQBIFcQBBGH9ZqrqT9s=
+
+Name: content/jfr_samples.xhtml
+SHA-256-Digest: DfYY39tsimIFf9WhvCVPfAZNM1HN2bYVUJDCX7AiIa0=
+
+Name: content/root.css
+SHA-256-Digest: C58HLETjllzxgalJynSVSX3oDgDqWuhslJSjMyc9yqA=
+
+Name: META-INF/maven/org.openjdk.jmc/org.openjdk.jmc.rcp.intro/pom.prope
+ rties
+SHA-256-Digest: acAhvIBagKF0MvTqVDnNlVAnCwDvTR9ieiSpi0HeuvQ=
+
+Name: org/openjdk/jmc/rcp/intro/FlightRecordingExampleAction.class
+SHA-256-Digest: FAa82HpiwohKrYiRcESVHYtGvyRRAys99ldvh+TwO+o=
+
+Name: content/images/debug_watch.gif
+SHA-256-Digest: jnBumWJnBj+nIc5x53Gzwt0K1YDUOoRpHMdLtSz/ZLI=
+
+Name: introContent.xml
+SHA-256-Digest: 7P8tGKyuIy2zc2JF3E1Iu5fdzMFQzy9Ihw+cpj+rK3E=
+
+Name: content/images/instancesgraph.gif
+SHA-256-Digest: e3Yg5f0orefAorthGG2d7H+bpK6aCLh0jzIdib8V21o=
+
+Name: content/images/gc-16.png
+SHA-256-Digest: v8PEZPQ+za3Bb8FQ+MMj4aIL/hVsOU2AiOfc4PhrVm4=
+
+Name: content/pageparts.xhtml
+SHA-256-Digest: 6LyolRrNZtZRXzuuPV6+Mtwhuo6VfH6hmbEY4eirYxQ=
+
+Name: content/images/toolbar-latency-64.png
+SHA-256-Digest: 4GegqOPycoWpIM3wFu79wXGq0zW4mL9/a86GUBvJRoY=
+
+Name: content/images/toolbar-memory-64.png
+SHA-256-Digest: r1GD2XCPqaUhXeYrpN+ed9mWXmXyOOXM6ZvZLpwVz0w=
+
+Name: content/images/joined_classes_16.png
+SHA-256-Digest: Jkp5Rxu5/AOpFjzc0g1xkygIKHUxRrUJB+5rUomclYk=
+
+Name: content/images/joverflow_16.png
+SHA-256-Digest: E4RxuJwZLT0kbL6ftffPp8rd/oiqzPtpw7mM89HqX1U=
+
+Name: content/console_samples.xhtml
+SHA-256-Digest: jXfI+AIVhhYT2IkwOth5Wlkfe/OJhHHrUdkzG7fzvb8=
+
+Name: content/root_l.css
+SHA-256-Digest: S3G52zQiQZHDxRZ7nudrqq6oJ1vuwwYf4LwD2XyCIu8=
+
+Name: content/images/toolbar-mbean-64.png
+SHA-256-Digest: SNjZ1DifOA9tqL9egqArmDwsdF2IW6DREkP+jgfaSqk=
+
+Name: content/shared.css
+SHA-256-Digest: 0JeFp5M12xaEtltOc+0QJmIR1+b2VLYLiPtXk2+fdOY=
+
+Name: content/images/debug_callstack.gif
+SHA-256-Digest: Uc3uwu9dUaMUs1rWd4/bfs4s3AnbsFaIuLHiKwyJlgg=
+
+Name: content/images/typesgraph_C.gif
+SHA-256-Digest: JxC/MeqEGYnXxn9i8hVhmH3DV6iWP0cbPdeFgN+Mc90=
+
+Name: content/plugins_samples_l.xhtml
+SHA-256-Digest: YfIiZyMPul9k8xuUZ/kseoq6bHoh4vUaSw47+5Az+T0=
+
+Name: org/openjdk/jmc/rcp/intro/CloseIntroAction.class
+SHA-256-Digest: sPuVEobYigyxGpPtDoPkx+TWAcZSJB4sjB8cc8RjHdE=
+
+Name: content/images/placeholder.png
+SHA-256-Digest: TGjazkY3L14ArsvzZN1o4vwQJwSWcmB4ounBFkhNZ6Y=
+
+Name: content/images/new_page_64.png
+SHA-256-Digest: aE0/Oy/KP7W1x2bMJFKBzasDNdod9GcIPXzPAAg7OLg=
+
+Name: org/openjdk/jmc/rcp/intro/ConsoleExampleAction.class
+SHA-256-Digest: z+O2NrsDrkGfNpBKt6e74JemINzsdOLfCQL3hdEf2wU=
+
+Name: content/images/icon_discussion.gif
+SHA-256-Digest: MGLHbpcT2MzFSa16sEFYt1/fiESHlwdNdGgqFAYlPOs=
+
+Name: content/images/zoom-selected-node-16.png
+SHA-256-Digest: D+ujUaIeXo54oFylRIleas6/IR208WENsKxSJ9cu6aY=
+
+Name: content/images/webcenter_16x16.png
+SHA-256-Digest: BQC52OOLvn2sONWXBNK2ZUvFPchrrZV1pHICC3mWwyI=
+
+Name: META-INF/maven/org.openjdk.jmc/org.openjdk.jmc.rcp.intro/pom.xml
+SHA-256-Digest: d+9E6QyxseYCWdo/yUdq4SGTCC/WjDP/lZyw9x52pSc=
+
+Name: org/openjdk/jmc/rcp/intro/messages.properties
+SHA-256-Digest: YvMyhEEebq7HlUJ5t99KQ+Hn09DnWYrFBjmLgccw940=
+
+Name: content/images/console.gif
+SHA-256-Digest: /MGvcZf0gy7Oh6k1OCtGca4jrw07UEPw27jP8fCW03w=
+
+Name: content/images/sp.gif
+SHA-256-Digest: ys3NAjZS5n6vjidGe8OlxgFLHiQB592NEKGC/SH45n4=
+
+Name: content/images/JMC_docs_header.png
+SHA-256-Digest: 1ppthwA0rCVzVas/2zF+w76wt8EFHk1sx/vbIhM7JgQ=
+
+Name: content/images/toolbar-code-64.png
+SHA-256-Digest: TD39ECmCSUypXuv3gQfuchH/d7GMb6t+nqUWrhHbjbg=
+
+Name: content/root.xhtml
+SHA-256-Digest: 6cfmU7TYqG7bLQlRqausUnpSTVTxEhMP3nOFGw+7M68=
+
+Name: org/openjdk/jmc/rcp/intro/Messages.class
+SHA-256-Digest: ucpUdAy17ty1RmBAm0cyGSr5A7ljGRiA+JVyGXupZYw=
+
+Name: org/openjdk/jmc/rcp/intro/IntroToolkit.class
+SHA-256-Digest: U5QMMeP0gq8N2bFD2wsN/8pg40xycGTDodEJG4iLjUE=
+
+Name: content/images/toolbar-general-64.png
+SHA-256-Digest: mpyzZoGHqzJE/6eBCUbfspaKKUcmXKwc5eCs5TtCL7o=
+
