@@ -30,7 +30,7 @@ Em resumo, o Java Flight Recorder (JFR) é a tecnologia subjacente que coleta da
 # Executáveis profilers
 - `Java VisualVM (jvisualvm.exe)` - Presente em jdks mais legadas e hoje se baixa separadamente
 - `JConsole (jconsole.exe)` - Presente dentro do bin da jdk
-- `Java Mission Control (jmc.exe)` - Presente em jdks mais legadas e hoje se baixa separadamente
+- `Java Mission Control (jmc.exe)` - Presente em jdks mais legadas e hoje se baixa separadamente. Download em https://jdk.java.net/jmc/8/
 - `Diagnostic Command Tool (jcmd.exe)` - Presente dentro do bin da jdk
 
 # Usar Flight Recorder e java mission control
