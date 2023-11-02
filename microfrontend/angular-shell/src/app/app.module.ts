@@ -27,6 +27,16 @@ const routes: Routes = [
     loadComponent: () =>
       import("./settings/settings.component").then((m) => m.SettingsComponent),
   },
+  {
+    path: "menu",
+    loadComponent: () =>
+      import("./menu/menu.component").then((m) => m.MenuComponent),
+  },
+  {
+    path: "card",
+    loadComponent: () =>
+      import("./card/card.component").then((m) => m.CardComponent),
+  },
 ];
 
 export function initializeApp(): () => void {
@@ -40,6 +50,16 @@ export function initializeApp(): () => void {
       remoteEntry: "http://localhost:3002/remoteEntry.js",
       remoteName: "settings_user",
       exposedModule: "./Settings",
+    });
+    loadRemoteModule({
+      remoteEntry: "http://localhost:3003/remoteEntry.js",
+      remoteName: "menu_user",
+      exposedModule: "./Menu",
+    });
+    loadRemoteModule({
+      remoteEntry: "http://localhost:3002/remoteEntryCard.js",
+      remoteName: "card_user",
+      exposedModule: "./Card",
     });
   };
 }

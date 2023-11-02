@@ -10,17 +10,17 @@ const containerVueElementName = "customVueComponentContainer";
 
 @Component({
   standalone: true,
-  selector: "app-settings",
+  selector: "app-menu",
   template: `<div style="margin: 35px">
-    <h2 style="color: cadetblue">Settings (Vue Microfrontend - Projeto 3)</h2>
+    <h2 style="color: cadetblue">Menu (Vue Microfrontend - Projeto 4)</h2>
     <div>
-      Exemplo componente vue
+      Exemplo componente menu vue
     </div>
     <span #${containerVueElementName}></span>
   </div>`,
   encapsulation: ViewEncapsulation.None,
 })
-export class SettingsComponent {
+export class MenuComponent {
   @ViewChild(containerVueElementName, { static: true })
   containerVueRef!: ElementRef;
 
@@ -34,7 +34,7 @@ export class SettingsComponent {
 
   ngAfterViewInit() {
     try {
-      import("settings_user/Settings").then((val) => {
+      import("menu_user/Menu").then((val) => {
         this.renderer.appendChild(
           this.containerVueRef.nativeElement,
           new val.default()
