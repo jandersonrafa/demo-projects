@@ -36,7 +36,7 @@ export const ProfileReactComponent: FunctionComponent<IProfileProps> = (
     <div className="container">
       <div style={{ display: "flex", paddingTop: "10px" }}>
         <div>
-          <label htmlFor="name">Name</label>
+          <label>Name</label>
           <input
             type="text"
             name="name"
@@ -45,7 +45,7 @@ export const ProfileReactComponent: FunctionComponent<IProfileProps> = (
           />
         </div>
         <div>
-          <label htmlFor="email">Email</label>
+          <label>email</label>
           <input
             type="email"
             name="email"

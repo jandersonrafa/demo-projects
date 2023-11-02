@@ -62,23 +62,10 @@ module.exports = (env = {}) => ({
       filename: '[name].css',
     }),
     new ModuleFederationPlugin({
-      name: 'settings_user',
+      name: 'menu_user',
       filename: 'remoteEntry.js',
       exposes: {
-        './Settings': './src/components/Settings',
-      },
-      shared: {
-        vue: {
-          eager: true,
-          requiredVersion: deps.vue,
-        },
-      },
-    }),
-    new ModuleFederationPlugin({
-      name: 'card_user',
-      filename: 'remoteEntryCard.js',
-      exposes: {
-        './Card': './src/components/Card',
+        './Menu': './src/components/Menu'
       },
       shared: {
         vue: {
@@ -96,7 +83,7 @@ module.exports = (env = {}) => ({
       directory: path.join(__dirname),
     },
     compress: true,
-    port: 3002,
+    port: 3003,
     hot: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
