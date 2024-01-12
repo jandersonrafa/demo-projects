@@ -6,13 +6,22 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../profiler-stackify-prefix/hello/pom.xml" />
+        <option value="$PROJECT_DIR$/../graalvm/pom.xml" />
+        <option value="$PROJECT_DIR$/../quarkus-security/code-with-quarkus/pom.xml" />
+        <option value="$PROJECT_DIR$/../../../cwi/dojos/criando-teste-carga/best-answer-back-main/pom.xml" />
+        <option value="$PROJECT_DIR$/../spring-circuit-breaker/client/pom.xml" />
+        <option value="$PROJECT_DIR$/../spring-circuit-breaker/server/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/../../../cwi/dojos/criando-teste-carga/best-answer-back-main/pom.xml" />
+        <option value="$PROJECT_DIR$/../graalvm/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../profiler-stackify-prefix/hello/pom.xml" />
+        <option value="$PROJECT_DIR$/../quarkus-security/code-with-quarkus/pom.xml" />
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK" />
 </project>

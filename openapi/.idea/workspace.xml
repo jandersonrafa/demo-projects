@@ -5,12 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c92a2fb-accc-471c-b51a-493bd20e6db8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../profiler-stackify-prefix/hello/src/main/java/com/example/demo/service/TesteService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../quarkus-security/code-with-quarkus/src/main/java/org/acme/CustomAuthentication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-circuit-breaker/client/src/main/java/com/example/demo/controller/Resilience4JConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-circuit-breaker/client/src/main/java/com/example/demo/controller/WebclientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graalvm/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../graalvm/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graalvm/dockerfiles/DockerfileGraalvm" beforeDir="false" afterPath="$PROJECT_DIR$/../graalvm/dockerfiles/DockerfileGraalvm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graalvm/dockerfiles/DockerfileJvm" beforeDir="false" afterPath="$PROJECT_DIR$/../graalvm/dockerfiles/DockerfileJvm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -21,6 +39,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
         <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
@@ -33,15 +52,72 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/projetos-pessoais/demo-projects/profiler-stackify-prefix/hello/pom.xml"
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/projetos-pessoais/demo-projects/spring-circuit-breaker/client",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propCompiler"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projetos-pessoais\demo-projects\quarkus-security\code-with-quarkus\src\main\resources\META-INF\resources" />
+      <recent name="C:\projetos-pessoais\demo-projects\graalvm\dockerfiles" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\projetos-pessoais\demo-projects\graalvm\dockerfiles" />
+      <recent name="C:\projetos-pessoais\demo-projects\graalvm" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.demo.controller" />
+      <recent name="org.acme" />
       <recent name="com.example.demo.service" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.DemoApplication (1)">
+    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.bestanswer.demonstracao.Application" />
+      <module name="demonstracao" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bestanswer.demonstracao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DemoApplication (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.DemoApplication" />
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DemoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.DemoApplication" />
+      <module name="client" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../spring-circuit-breaker/client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="openapi" />
       <method v="2">
@@ -55,6 +131,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Unnamed" type="QuarkusMavenBridge">
+      <option name="jreName" value="17" />
+      <option name="profiles" />
+      <option name="vmOptions" />
+      <option name="workingDir" value="C:\projetos-pessoais\demo-projects\quarkus-security\code-with-quarkus" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.DemoApplication (1)" />
+      <item itemvalue="Application.Application" />
+      <item itemvalue="Application.DemoApplication" />
+      <item itemvalue="Quarkus (Maven).Unnamed" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.DemoApplication" />
+        <item itemvalue="Application.DemoApplication (1)" />
+        <item itemvalue="Application.Application" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -66,5 +162,21 @@
       <updated>1696972860806</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../quarkus-security/code-with-quarkus/src/main/java/org/acme/AuthenticationFailedExceptionMapper.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../quarkus-security/code-with-quarkus/src/main/java/org/acme/UnauthorizedExceptionMapper.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

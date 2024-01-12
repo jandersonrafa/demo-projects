@@ -21,4 +21,5 @@ EXPOSE 8080
 
 # Copy the native executable into the containers
 COPY --from=builder /build/target/hello-artifact app
+
 ENTRYPOINT ["/app"]
