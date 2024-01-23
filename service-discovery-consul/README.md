@@ -15,8 +15,7 @@ instalar consul
 https://developer.hashicorp.com/consul/docs/install
 https://developer.hashicorp.com/consul/downloads
 
-Dentro do projeto tem a pasta consul_1.17.1_windows_386 que ja possui o executavel do consul
-Para subir basta abrir pasta consul_1.17.1_windows_386 e rodar consul com comando consul agent -dev
+instalar consul basta baixar o zip, descompactar que ele vai extrair um arquivo .exe. Dentro da pasta com o executavel rodar consul com comando consul agent -dev
 Ele vai estar rodando em http://localhost:8500/ui/dc1/services
 https://www.baeldung.com/spring-cloud-consul
 
