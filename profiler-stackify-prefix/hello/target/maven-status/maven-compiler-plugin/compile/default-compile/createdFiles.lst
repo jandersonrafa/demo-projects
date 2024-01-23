@@ -1,0 +1,6 @@
+com\example\demo\controller\HelloController.class
+com\example\demo\DemoApplication.class
+com\example\demo\dto\PessoaDto.class
+com\example\demo\service\MinhaServiceHelloService.class
+com\example\demo\service\TesteService.class
+com\example\demo\service\MinhaSegundaServiceHelloService.class
