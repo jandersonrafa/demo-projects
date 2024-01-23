@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c92a2fb-accc-471c-b51a-493bd20e6db8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../quarkus-security/code-with-quarkus/src/main/java/org/acme/CustomAuthentication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../spring-circuit-breaker/client/src/main/java/com/example/demo/controller/Resilience4JConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../spring-circuit-breaker/client/src/main/java/com/example/demo/controller/WebclientConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../graalvm/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../graalvm/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../graalvm/dockerfiles/DockerfileGraalvm" beforeDir="false" afterPath="$PROJECT_DIR$/../graalvm/dockerfiles/DockerfileGraalvm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../graalvm/dockerfiles/DockerfileJvm" beforeDir="false" afterPath="$PROJECT_DIR$/../graalvm/dockerfiles/DockerfileJvm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +42,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/projetos-pessoais/demo-projects/spring-circuit-breaker/client",
+    "last_opened_file_path": "C:/cwi/dojos/criando-teste-carga/best-answer-back-main/pom.xml",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
