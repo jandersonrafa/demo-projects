@@ -82,7 +82,8 @@ public final class PingPongServiceGrpc {
               new MethodHandlers<
                 com.example.grpc.server.grpcserver.PingRequest,
                 com.example.grpc.server.grpcserver.PongResponse>(
-                  this, METHODID_PING)))
+                  this, METHODID_PING))
+          )
           .build();
     }
   }
