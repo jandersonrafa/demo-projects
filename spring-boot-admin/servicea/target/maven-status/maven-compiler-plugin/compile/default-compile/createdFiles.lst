@@ -1,0 +1,11 @@
+com\example\demo\controller\HelloController.class
+com\example\demo\controller\PesquisaController.class
+com\example\demo\ServiceAApplication.class
+com\example\demo\service\PesquisaGradeProdutoAdaptee.class
+com\example\demo\scheduler\SchedulerTask.class
+com\example\demo\service\TesteService.class
+com\example\demo\service\GradeProdutoAdapter.class
+com\example\demo\scheduler\AsyncTask.class
+com\example\demo\service\AbstractGradeProduto.class
+com\example\demo\service\PesquisaService.class
+com\example\demo\service\CategoriaGradeProdutoAdaptee.class

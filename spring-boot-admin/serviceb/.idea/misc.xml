@@ -6,9 +6,6 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../spring-grpc/pom.xml" />
-        <option value="$PROJECT_DIR$/../service/pom.xml" />
-        <option value="$PROJECT_DIR$/../servicea/pom.xml" />
-        <option value="$PROJECT_DIR$/../serviceb/pom.xml" />
       </list>
     </option>
   </component>
