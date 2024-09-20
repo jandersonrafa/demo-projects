@@ -32,3 +32,6 @@ hs_err_pid*
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+**/node_modules/
+
