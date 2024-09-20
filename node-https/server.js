@@ -1,11 +1,12 @@
 // server.js
+const app = require('express')();
 const https = require('https');
 const fs = require('fs');
 
 
 const options = {
-    key: fs.readFileSync('./certs/old/server.key'), // replace it with your key path
-    cert: fs.readFileSync('./certs/old/server.crt'), // replace it with your certificate path
+    key: fs.readFileSync('./certs/server.key'), // replace it with your key path
+    cert: fs.readFileSync('./certs/server.crt'), // replace it with your certificate path
     secureProtocol: "TLSv1_2_method",    
     ciphers: 'AES256-SHA256:AES256-SHA:AES128-SHA256:AES128-SHA:RC4-SHA:RC4-MD5:DES-CBC3-SHA',
     honorCipherOrder: true 
