@@ -36,12 +36,4 @@ public class EmployeeController {
         this.employeeService.deleteById(id);
     }
 
-
-//    @GetMapping("/test")
-//    @Transactional
-//    public Employee test() {
-//        return employeeService.test();
-//    }
-
-
 }
