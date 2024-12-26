@@ -78,3 +78,5 @@ Abrir Java Application >  Memory
 Basta iniciar aplicação
 Abrir jdk/bin/jconsole.exe
 
+# Referencias importantes
+https://digma.ai/9-best-java-profilers-to-use-in-2024/
