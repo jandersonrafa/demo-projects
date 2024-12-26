@@ -1,3 +1,8 @@
+# Glowroot
+Site: https://glowroot.org/
+Download and unzip glowroot-0.14.0-dist.zip, add -javaagent:path/to/glowroot.jar to your application's JVM args, point your browser to http://localhost:4000, and see all
+Esse profile extremamente simples proporciona uma visão simples por endpoint de controller, o que ajuda a mapear mais facilmente problemas no endpoint x. 
+
 
 # Jconsole
 Pesa muito na aplicacao, recomendado usar local ou em teste.
