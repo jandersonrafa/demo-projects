@@ -81,7 +81,8 @@ Abrir Java Application >  method profilling
 Abrir Java Application >  Memory 
 ![alt text for screen readers](./image2.PNG).
 
-
+# indicao jonas analisar dump gerado aplicacao
+https://fastthread.io/
 
 # Usar jConsole
 Basta iniciar aplicação
