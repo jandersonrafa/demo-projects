@@ -1,0 +1,77 @@
+{
+  "name": "electron-react-hello",
+  "homepage": "./",
+  "author": {
+    "name": "Seu Nome",
+    "email": "seuemail@exemplo.com"
+  },
+  "version": "0.1.0",
+  "private": true,
+  "main": "electron.js",
+  "type": "module",
+  "dependencies": {
+    "cra-template": "1.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-scripts": "5.0.1",
+    "electron-is-dev": "^3.0.1"
+  },
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "build": "npm run react-build && npm run electron-build",
+    "electron": "electron ."
+  },
+  "build": {
+    "asar": false,
+    "extends": null,
+    "appId": "com.example.myapp",
+    "productName": "My Electron App",
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "category": "Utility",
+      "maintainer": "Seu Nome <seuemail@exemplo.com>"
+    },
+    "win": {
+      "target": "NSIS"
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "electron.js"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8",
+    "web-vitals": "^4.2.4"
+  }
+
+}
