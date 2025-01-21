@@ -11,10 +11,10 @@
   "type": "module",
   "dependencies": {
     "cra-template": "1.2.0",
+    "electron-is-dev": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-scripts": "5.0.1",
-    "electron-is-dev": "^3.0.1"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -29,7 +29,7 @@
     "asar": false,
     "extends": null,
     "appId": "com.example.myapp",
-    "productName": "My Electron App",
+    "productName": "electronteste",
     "linux": {
       "target": [
         "deb",
@@ -47,7 +47,8 @@
     "files": [
       "build/**/*",
       "node_modules/**/*",
-      "electron.js"
+      "electron.js",
+      "icon.png"
     ]
   },
   "eslintConfig": {
@@ -71,7 +72,7 @@
   "devDependencies": {
     "electron": "^34.0.0",
     "electron-builder": "^25.1.8",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.4",
+    "electron-is-dev": "^3.0.1"
   }
-
 }

@@ -15,7 +15,24 @@ Em um segundo prompt `npm run electron` para executar electron
 ## Construir pacote distribuivel para produção
 Executar `npm run build` vai criar na pasta dist os arquivos referentes a um executavel para instalar a aplicacao electron. 
 Por padrão ele vai criar um executável para a arquitetura onde está sendo executada, porém pode ser passado os sinalizados para definir se quer 
-gerar executável para qual plataforma `--mac, --win, --linux`
+gerar executável para qual plataforma `--mac, --win, --linux`.
 
-## Build in package.json
-O objeto build no package.json define as configurações a serem usadas ao ser gerado o executável. É possível customizar as plataformas conforme os atributos win e linux.
+Pacote é gerado no dist e pode ser executado simplesmente ou usado o .deb para instalar
+
+## Codigos importantes 
+- Build in package.json: O objeto build no package.json define as configurações a serem usadas ao ser gerado o executável. É possível customizar as plataformas conforme os atributos win e linux.
+- Configuração para programa inicializar com windows
+    ```JAVA
+    app.setLoginItemSettings({
+    openAtLogin: true
+    })
+    ```
+- Configuração para programa inicializar com windows
+    ```JAVA
+    app.setLoginItemSettings({
+    openAtLogin: true
+    })
+    ```
+
+
+
