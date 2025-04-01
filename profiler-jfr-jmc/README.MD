@@ -84,7 +84,7 @@ Abrir Java Application >  Memory
 # indicao jonas analisar dump gerado aplicacao
 https://fastthread.io/
 
-7. Analisar dump e verificar problema de memoria
+# Analisar dump e verificar problema de memoria
 https://eclipse.dev/mat/
 
 # Usar jConsole
