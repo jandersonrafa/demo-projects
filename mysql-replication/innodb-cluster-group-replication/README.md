@@ -1,8 +1,10 @@
-Configurar replicacao multimater com 3 bancos usando innodb group replication
-
+# Introdução
+Configurar replicacao multimaster com 3 bancos usando innodb group replication
 
 https://dev.mysql.com/blog-archive/setting-up-mysql-group-replication-with-mysql-docker-images/
 
+# Subir containers
+## Node 1
 docker run -d \
   --name=node1 \
   --net=groupnet \
@@ -31,9 +33,7 @@ docker run -d \
   --loose-group-replication-single-primary-mode='OFF' \
   --loose-group-replication-enforce-update-everywhere-checks='ON'
   
-
-
-
+## Node 2
 docker run -d \
   --name=node2 \
   --net=groupnet \
@@ -62,7 +62,7 @@ docker run -d \
   --loose-group-replication-single-primary-mode='OFF' \
   --loose-group-replication-enforce-update-everywhere-checks='ON'
   
-  
+  ## Node 3
   docker run -d \
   --name=node3 \
   --net=groupnet \
@@ -91,10 +91,8 @@ docker run -d \
   --loose-group-replication-single-primary-mode='OFF' \
   --loose-group-replication-enforce-update-everywhere-checks='ON'
   
-  
-  
-  
-
+# Configurando e iniciando o GR nos contêineres
+## Para configurar node 1
 docker exec -it node1 mysql -uroot -pmypass \
   -e "SET @@GLOBAL.group_replication_bootstrap_group=1;" \
   -e "create user 'repl'@'%';" \
@@ -105,20 +103,28 @@ docker exec -it node1 mysql -uroot -pmypass \
   -e "SET @@GLOBAL.group_replication_bootstrap_group=0;" \
   -e "SELECT * FROM performance_schema.replication_group_members;"
   
-  
-  
-  for N in 2 3
-do docker exec -it node$N mysql -uroot -pmypass \
+## Para configurar node 2 e 3
+docker exec -it node2 mysql -uroot -pmypass \
   -e "change master to master_user='repl' for channel 'group_replication_recovery';" \
   -e "START GROUP_REPLICATION;"
-done
 
+docker exec -it node3 mysql -uroot -pmypass \
+  -e "change master to master_user='repl' for channel 'group_replication_recovery';" \
+  -e "START GROUP_REPLICATION;"
 
-
+## Verificar status
 docker exec -it node1 mysql -uroot -pmypass \
   -e "SELECT * FROM performance_schema.replication_group_members;"
-  
-  
-   docker exec -it node2 mysql -uroot -pmypass \
+
+
+# Dicas gerais
+Após container cair, quando voltar precisa registrar de volta no cluster com:
+docker exec -it <container_name> mysql -uroot -pmypass \
   -e "change master to master_user='repl' for channel 'group_replication_recovery';" \
   -e "START GROUP_REPLICATION;"
+
+--group-replication-start-on-boot='OFF': essa configuração sinalizar para container registar automaticamente no cluster quando iniciar 
+
+--loose-group-replication-single-primary-mode: isso habilita para ter escrita somente em um nodo ou ter escrita em todos via multimaster
+
+--loose-group-replication-enforce-update-everywhere-checks: resolve conflito de ids, ou seja, sempre quando dois bancos iniciarem transacao e tentarem alterar o mesmo id somente o primeiro vai passar o segundo sera revertido
