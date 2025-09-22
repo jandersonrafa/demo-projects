@@ -34,4 +34,8 @@ hs_err_pid*
 *.tfstate.*
 
 **/node_modules/
+# replicacaomysql volumes
+mysql-replication/innodb-cluster-group-replication/db1
+mysql-replication/innodb-cluster-group-replication/db2
+mysql-replication/innodb-cluster-group-replication/db3
 

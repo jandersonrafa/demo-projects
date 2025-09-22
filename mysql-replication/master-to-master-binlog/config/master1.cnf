@@ -1,0 +1,7 @@
+[mysqld]
+server-id=1
+log-bin=mysql-bin
+binlog-do-db=my_database
+relay-log=mysql-relay-bin
+log-slave-updates=1
+read-only=0

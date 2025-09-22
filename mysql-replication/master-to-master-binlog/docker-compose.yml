@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  mysql-master-1:
+    image: mysql:5.7
+    container_name: mysql-master-1
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+    volumes:
+      - ./config/master1.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - replication-net
+
+  mysql-master-2:
+    image: mysql:5.7
+    container_name: mysql-master-2
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+    volumes:
+      - ./config/master2.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - replication-net
+
+networks:
+  replication-net:
