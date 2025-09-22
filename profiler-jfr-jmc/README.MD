@@ -1,3 +1,12 @@
+# Glowroot
+Site: https://glowroot.org/
+Download and unzip glowroot-0.14.0-dist.zip, add -javaagent:path/to/glowroot.jar to your application's JVM args, point your browser to http://localhost:4000, and see all
+Esse profile extremamente simples proporciona uma visão simples por endpoint de controller, o que ajuda a mapear mais facilmente problemas no endpoint x. 
+
+Também é possivel ter uma nocao dos metodos com maior tempo dentro do endpoint basta ir em Transactions > selecionar a request > aba Slow traces > Selecionar no grafico ponto de requisicao desejado Clicar em profile ou clicar em view flame graph. 
+Caso queira ter uma visao geral é só ir na aba Thread Profile e filtrar pelo pacote do projeto, exemplo com.example.demo.*
+
+Caso ele seja usado em produção e aplicação cair, podemos depois somente executar o glowroot para ver os dados em offline exemplo: "java -jar glowroot.jar"
 
 # Jconsole
 Pesa muito na aplicacao, recomendado usar local ou em teste.
@@ -72,9 +81,15 @@ Abrir Java Application >  method profilling
 Abrir Java Application >  Memory 
 ![alt text for screen readers](./image2.PNG).
 
+# indicao jonas analisar dump gerado aplicacao
+https://fastthread.io/
 
+# Analisar dump e verificar problema de memoria
+https://eclipse.dev/mat/
 
 # Usar jConsole
 Basta iniciar aplicação
 Abrir jdk/bin/jconsole.exe
 
+# Referencias importantes
+https://digma.ai/9-best-java-profilers-to-use-in-2024/

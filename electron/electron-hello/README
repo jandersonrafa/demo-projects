@@ -1,0 +1,5 @@
+# Subir projeto
+npm start
+
+# Gerar executavel linux
+ npx electron-packager . MyApp - platform=linux - arch=x64
