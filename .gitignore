@@ -38,4 +38,9 @@ hs_err_pid*
 mysql-replication/innodb-cluster-group-replication/db1
 mysql-replication/innodb-cluster-group-replication/db2
 mysql-replication/innodb-cluster-group-replication/db3
+# MySQL data directories (Docker volumes)
+mysql-replication/**/mysql/
+mysql-replication/**/performance_schema/
+mysql-replication/**/sys/
+mysql-replication/**/data/
 
