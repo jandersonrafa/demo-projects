@@ -1,0 +1,97 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['host.docker.internal:8081'] # Point to host's 8081
+        labels:
+          stack: infra
+          component: cadvisor
+
+  - job_name: 'node-monolith'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:3001']
+        labels:
+          stack: node
+          component: monolith
+
+  - job_name: 'node-gateway'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:3005']
+        labels:
+          stack: node
+          component: gateway
+
+  - job_name: 'java-webflux-monolith'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:3002']
+        labels:
+          stack: java-webflux
+          component: monolith
+
+  - job_name: 'java-webflux-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:3006']
+        labels:
+          stack: java-webflux
+          component: gateway
+
+  - job_name: 'java-mvc-vt-monolith'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:3003']
+        labels:
+          stack: java-mvc-vt
+          component: monolith
+
+  - job_name: 'java-mvc-vt-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:3007']
+        labels:
+          stack: java-mvc-vt
+          component: gateway
+
+  - job_name: 'python-monolith'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:3004']
+        labels:
+          stack: python
+          component: monolith
+
+  - job_name: 'python-gateway'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:3008']
+        labels:
+          stack: python
+          component: gateway
+
+  - job_name: 'php-monolith'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:3010']
+        labels:
+          stack: php
+          component: monolith
+
+  - job_name: 'php-gateway'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:3009']
+        labels:
+          stack: php
+          component: gateway
+
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+        labels:
+          stack: infra
+          component: postgres

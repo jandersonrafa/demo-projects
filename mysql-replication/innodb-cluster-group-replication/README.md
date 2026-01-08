@@ -4,17 +4,21 @@ Configurar replicacao multimaster com 3 bancos usando innodb group replication
 https://dev.mysql.com/blog-archive/setting-up-mysql-group-replication-with-mysql-docker-images/
 
 # Subir containers
+
+## Criar network
+docker network create groupnet
+
 ## Node 1
 docker run -d \
   --name=node1 \
   --net=groupnet \
   --hostname=node1 \
-  -p 3306:3306 \
+  -p 3316:3306 \
   -p 33061:33061 \
   -v $PWD/d1:/var/lib/mysql \
   -e MYSQL_ROOT_PASSWORD=mypass \
   -e MYSQL_ROOT_HOST=% \
-  mysql/mysql-server:5.7 \
+  mysql:5.7 \
   --server-id=1 \
   --log-bin='mysql-bin-1.log' \
   --enforce-gtid-consistency='ON' \
@@ -38,12 +42,12 @@ docker run -d \
   --name=node2 \
   --net=groupnet \
   --hostname=node2 \
-  -p 3307:3306 \
+  -p 3317:3306 \
   -p 33062:33061 \
   -v $PWD/d2:/var/lib/mysql \
   -e MYSQL_ROOT_PASSWORD=mypass \
   -e MYSQL_ROOT_HOST=% \
-  mysql/mysql-server:5.7 \
+  mysql:5.7 \
   --server-id=2 \
   --log-bin='mysql-bin-1.log' \
   --enforce-gtid-consistency='ON' \
@@ -67,12 +71,12 @@ docker run -d \
   --name=node3 \
   --net=groupnet \
   --hostname=node3 \
-  -p 3308:3306 \
+  -p 3318:3306 \
   -p 33063:33061 \
   -v $PWD/d3:/var/lib/mysql \
   -e MYSQL_ROOT_PASSWORD=mypass \
   -e MYSQL_ROOT_HOST=% \
-  mysql/mysql-server:5.7 \
+  mysql:5.7 \
   --server-id=3 \
   --log-bin='mysql-bin-1.log' \
   --enforce-gtid-consistency='ON' \
@@ -128,3 +132,6 @@ docker exec -it <container_name> mysql -uroot -pmypass \
 --loose-group-replication-single-primary-mode: isso habilita para ter escrita somente em um nodo ou ter escrita em todos via multimaster
 
 --loose-group-replication-enforce-update-everywhere-checks: resolve conflito de ids, ou seja, sempre quando dois bancos iniciarem transacao e tentarem alterar o mesmo id somente o primeiro vai passar o segundo sera revertido
+
+
+Fazer teste concorrência: while true; do for id in $(seq 1 100); do mysql -uroot -prootpass -p'mypass' -h127.0.0.1 -P3306 -N -e "UPDATE sys.Endereco SET name = CONCAT('Cidade_',RAND()*100) WHERE id=2;"; done; done

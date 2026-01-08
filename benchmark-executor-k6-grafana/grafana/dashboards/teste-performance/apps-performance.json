@@ -1,0 +1,255 @@
+{
+    "title": "Apps - Load Test Performance",
+    "tags": [
+        "apps",
+        "loadtest",
+        "performance"
+    ],
+    "schemaVersion": 39,
+    "version": 1,
+    "refresh": "5s",
+    "tooltip": {
+        "mode": "all"
+    },
+    "templating": {
+        "list": [
+            {
+                "name": "service",
+                "label": "Service",
+                "type": "query",
+                "datasource": {
+                    "type": "prometheus"
+                },
+                "query": {
+                    "query": "label_values(up{job=~\".*-(monolith|gateway)\"}, job)",
+                    "refId": "A"
+                },
+                "refresh": 1,
+                "multi": true,
+                "includeAll": true
+            }
+        ]
+    },
+    "panels": [
+        {
+            "type": "timeseries",
+            "title": "CPU Usage (Cores)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 0
+            },
+            "targets": [
+                {
+                    "expr": "sum(rate(container_cpu_usage_seconds_total{container_label_com_docker_compose_service=~\"$service\"}[1m])) by (container_label_com_docker_compose_service)",
+                    "legendFormat": "{{container_label_com_docker_compose_service}}"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "Memory Usage (MB)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 0
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "mbytes"
+                }
+            },
+            "targets": [
+                {
+                    "expr": "sum(container_memory_usage_bytes{container_label_com_docker_compose_service=~\"$service\"}) by (container_label_com_docker_compose_service) / 1024 / 1024",
+                    "legendFormat": "{{container_label_com_docker_compose_service}}"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "HTTP requests (rps)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 8
+            },
+            "targets": [
+                {
+                    "expr": "sum by (job) (rate(http_requests_total{job=~\"$service\" , uri!~\"/actuator.*|/metrics\"}[1m]) or rate(http_server_requests_seconds_count{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m]))",
+                    "legendFormat": "{{job}}"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "App Latency (P95) - ms",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 16
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "ms"
+                }
+            },
+            "targets": [
+                {
+                    "expr": "histogram_quantile(0.95, sum by (le, job) (rate(http_request_duration_seconds_bucket{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m]) or rate(http_server_requests_seconds_bucket{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m]))) * 1000",
+                    "legendFormat": "{{job}} P95"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "App Latency (P99) - ms",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 16
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "ms"
+                }
+            },
+            "targets": [
+                {
+                    "expr": "histogram_quantile(0.99, sum by (le, job) (rate(http_request_duration_seconds_bucket{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m]) or rate(http_server_requests_seconds_bucket{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m]))) * 1000",
+                    "legendFormat": "{{job}} P99"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "App Success (2xx |3xx)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 16
+            },
+            "targets": [
+                {
+                    "expr": "sum by (job) (  increase(http_requests_total{job=~\"$service\", handler!~\"/actuator.*|/metrics\", path!~\"/actuator.*|/metrics\", status=~\"2..|3..\"}[1m]) or increase(http_server_requests_seconds_count{job=~\"$service\", uri!~\"/actuator.*|/metrics\", status=~\"2..|3..\"}[1m]))",
+                    "legendFormat": "{{job}} errors"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "App Errors (4xx|5xx)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 16
+            },
+            "targets": [
+                {
+                    "expr": "sum by (job) (  increase(http_requests_total{job=~\"$service\", handler!~\"/actuator.*|/metrics\", path!~\"/actuator.*|/metrics\", status=~\"4..|5..\"}[1m]) or increase(http_server_requests_seconds_count{job=~\"$service\", uri!~\"/actuator.*|/metrics\", status=~\"4..|5..\"}[1m]))",                    
+                    "legendFormat": "{{job}} errors"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "Call Latency Average per endpoint - ms",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 0
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "ms"
+                }
+            },
+            "targets": [
+                {
+                    "expr": "sum by (path, job) (rate(http_request_duration_seconds_sum{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m])) / sum by (path, job) (rate(http_request_duration_seconds_count{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m])) * 1000",
+                    "legendFormat": "{{job}} {{path}}"
+                },
+                {
+                    "expr": "sum by (uri, job) (rate(http_server_requests_seconds_sum{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m])) / sum by (uri, job) (rate(http_server_requests_seconds_count{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m])) * 1000",
+                    "legendFormat": "{{job}} {{uri}}"
+                }
+            ]
+        }
+    ],
+    "time": {
+        "from": "now-15m",
+        "to": "now"
+    }
+}

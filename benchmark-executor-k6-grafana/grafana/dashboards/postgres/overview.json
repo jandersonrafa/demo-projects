@@ -1,0 +1,253 @@
+{
+    "title": "PostgreSQL Overview",
+    "tags": [
+        "postgres",
+        "database",
+        "infra"
+    ],
+        "schemaVersion": 39,
+        "version": 2,
+        "refresh": "10s",
+        "tooltip": {
+            "mode": "all"
+        },
+        "panels": [
+        {
+            "type": "stat",
+            "title": "Database Size",
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 0,
+                "y": 0
+            },
+            "targets": [
+                {
+                    "expr": "sum(pg_database_size_bytes{datname=\"benchmark\"})",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "bytes",
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Active Connections",
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 18,
+                "x": 6,
+                "y": 0
+            },
+            "targets": [
+                {
+                    "expr": "sum(pg_stat_activity_count{datname=\"benchmark\"})",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "short",
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "fillOpacity": 10
+                    }
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Transactions Commited",
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 4
+            },
+            "targets": [
+                {
+                    "expr": "sum(pg_stat_database_xact_commit{datname=\"benchmark\"})",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "short",
+                    "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 10
+                    }
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Deadlocks",
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 4
+            },
+            "targets": [
+                {
+                    "expr": "sum(pg_stat_database_deadlocks{datname=\"benchmark\"})",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "short",
+                    "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 10
+                    },
+                    "color": {
+                        "fixedColor": "red",
+                        "mode": "fixed"
+                    }
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Transactions Rate (per second)",
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 12
+            },
+            "targets": [
+                {
+                    "expr": "rate(pg_stat_database_xact_commit{datname=\"benchmark\"}[1m])",
+                    "legendFormat": "Commits"
+                },
+                {
+                    "expr": "rate(pg_stat_database_xact_rollback{datname=\"benchmark\"}[1m])",
+                    "legendFormat": "Rollbacks"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "ops",
+                    "custom": {
+                        "drawStyle": "line",
+                        "lineInterpolation": "smooth",
+                        "fillOpacity": 10
+                    }
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Cache Hit Ratio (%)",
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 12
+            },
+            "targets": [
+                {
+                    "expr": "sum(rate(pg_stat_database_blks_hit{datname=\"benchmark\"}[1m])) / (sum(rate(pg_stat_database_blks_hit{datname=\"benchmark\"}[1m])) + sum(rate(pg_stat_database_blks_read{datname=\"benchmark\"}[1m]))) * 100",
+                    "legendFormat": "Hit Ratio"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "percent",
+                    "min": 0,
+                    "max": 100,
+                    "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 10
+                    }
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Tuples Operations",
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 24,
+                "x": 0,
+                "y": 20
+            },
+            "targets": [
+                {
+                    "expr": "rate(pg_stat_database_tup_inserted{datname=\"benchmark\"}[1m])",
+                    "legendFormat": "Inserted"
+                },
+                {
+                    "expr": "rate(pg_stat_database_tup_updated{datname=\"benchmark\"}[1m])",
+                    "legendFormat": "Updated"
+                },
+                {
+                    "expr": "rate(pg_stat_database_tup_deleted{datname=\"benchmark\"}[1m])",
+                    "legendFormat": "Deleted"
+                },
+                {
+                    "expr": "rate(pg_stat_database_tup_fetched{datname=\"benchmark\"}[1m])",
+                    "legendFormat": "Fetched"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "ops",
+                    "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 10
+                    }
+                }
+            }
+        }
+    ]
+}

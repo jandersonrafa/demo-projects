@@ -1,0 +1,227 @@
+{
+    "title": "K6 - Load Test Performance",
+    "tags": [
+        "k6",
+        "loadtest",
+        "performance"
+    ],
+        "schemaVersion": 39,
+        "version": 1,
+        "refresh": "5s",
+        "tooltip": {
+            "mode": "all"
+        },
+        "templating": {
+        "list": [
+            {
+                "name": "scenario",
+                "label": "Scenario",
+                "type": "query",
+                "datasource": {
+                    "type": "prometheus"
+                },
+                "query": {
+                    "query": "label_values(k6_http_reqs_total, scenario)",
+                    "refId": "A"
+                },
+                "refresh": 1,
+                "multi": true,
+                "includeAll": true
+            }
+        ]
+    },
+    "panels": [
+        {
+            "type": "timeseries",
+            "title": "Virtual Users (VUs)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 0
+            },
+            "targets": [
+                {
+                    "expr": "sum(k6_vus) by (scenario)",
+                    "legendFormat": "{{scenario}}"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "HTTP Request (RPS)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 0
+            },
+            "targets": [
+                {
+                    "expr": "sum(rate(k6_http_reqs_total{scenario=~\"$scenario\"}[1m])) by (scenario)",
+                    "legendFormat": "{{scenario}}"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "HTTP Request Duration (P95) - ms",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 8
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "ms"
+                }
+            },
+            "targets": [
+                {
+                    "expr": "sum(k6_http_req_duration_p95{scenario=~\"$scenario\"}) by (scenario) * 1000",
+                    "legendFormat": "{{scenario}} P95"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "HTTP Request Duration (P99) - ms",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 8
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "ms"
+                }
+            },
+            "targets": [
+                {
+                    "expr": "sum(k6_http_req_duration_p99{scenario=~\"$scenario\"}) by (scenario) * 1000",
+                    "legendFormat": "{{scenario}} P99"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "HTTP Success (2xx |3xx)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 16
+            },
+            "targets": [
+                {
+                    "expr": "sum(increase(k6_http_reqs_total{scenario=~\"$scenario\", expected_response=\"true\"}[1m])) by (scenario)",
+                    "legendFormat": "{{scenario}}"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "HTTP Errors (4xx|5xx)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 16
+            },
+            "targets": [
+                {
+                    "expr": "sum by (scenario, tag_target) (  k6_http_req_failed_rate  *  rate(k6_http_reqs_total[1m])) * 60",
+                    "legendFormat": "{{scenario}} errors"
+                }
+            ]
+        }
+        ,
+        {
+            "type": "timeseries",
+            "title": "Call Duration Average ms",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 24,
+                "x": 0,
+                "y": 24
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "ms"
+                }
+            },
+            "targets": [
+                {
+                    "expr": "avg by (tag_target, tag_endpoint) (  k6_http_req_duration_avg)",
+                    "legendFormat": "{{scenario}} {{name}}"
+                },
+                {
+                    "expr": "sum by (url, scenario) (rate(k6_http_req_duration_sum{scenario=~\"$scenario\", url!~\"/actuator.*|/metrics\"}[1m])) / sum by (url, scenario) (rate(k6_http_req_duration_count{scenario=~\"$scenario\", url!~\"/actuator.*|/metrics\"}[1m])) * 1000",
+                    "legendFormat": "{{scenario}} {{url}}"
+                }
+            ]
+        }
+    ],
+    "time": {
+        "from": "now-15m",
+        "to": "now"
+    }
+}
