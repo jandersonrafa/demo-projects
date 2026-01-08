@@ -8,6 +8,11 @@ import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporte
 const targetsEnv = __ENV.TARGETS || '';
 const targets = targetsEnv.split(',').filter(Boolean);
 
+          // { duration: '1m', target: 20 },
+          // { duration: '1m', target: 80 },
+          // { duration: '1m', target: 120 }, // 🎯 pico
+          // { duration: '2m', target: 120 }, // sustentação
+          // { duration: '1m', target: 0 },
 // Build scenarios: one per target (20 RPS cada)
 export const options = {
   scenarios: Object.fromEntries(
@@ -18,11 +23,15 @@ export const options = {
         startRate: 20,
         timeUnit: '1s',
         stages: [
-          { duration: '1m', target: 20 },
-          { duration: '1m', target: 80 },
-          { duration: '1m', target: 120 }, // 🎯 pico
-          { duration: '2m', target: 120 }, // sustentação
-          { duration: '1m', target: 0 },
+          { duration: '1m', target: 100 },
+          { duration: '1m', target: 200 },
+          // { duration: '30s', target: 120 },
+          // { duration: '30s', target: 150 },
+          // { duration: '30s', target: 180 },
+          // { duration: '30s', target: 210 },
+          // { duration: '30s', target: 240 },
+          { duration: '1m', target: 270 },
+          { duration: '30s', target: 0 },
         ],
         preAllocatedVUs: 50,
         maxVUs: 300,

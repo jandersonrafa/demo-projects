@@ -31,7 +31,7 @@ class BonusService:
 
         db_bonus = Bonus(
             amount=final_amount,
-            description=bonus_data.description,
+            description="PYTHONFASTAPI - " + bonus_data.description,
             clientId=bonus_data.clientId,
             expirationDate=expiration_date
         )

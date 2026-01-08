@@ -37,7 +37,7 @@ public class BonusService {
                 Bonus toSave = new Bonus(
                     null, 
                     finalAmount, 
-                    dto.description(), 
+                    "JAVAWEBFLUX - " + dto.description(), 
                     dto.clientId(), 
                     expirationDate, 
                     LocalDateTime.now()

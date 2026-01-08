@@ -14,7 +14,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2G
+          memory: 6G
 
   grafana:
     image: grafana/grafana:latest
@@ -31,7 +31,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2G
+          memory: 6G
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -46,7 +46,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2G
+          memory: 6G
 
   k6:
     image: grafana/k6:latest

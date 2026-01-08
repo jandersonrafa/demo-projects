@@ -186,6 +186,11 @@
           "mode": "all"
         }
       },
+      "fieldConfig": {
+          "defaults": {
+              "unit": "ms"
+          }
+      },
       "gridPos": {
         "h": 8,
         "w": 12,

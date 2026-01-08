@@ -34,6 +34,7 @@ export class BonusService {
         const expirationDate = new Date();
         expirationDate.setDate(expirationDate.getDate() + 30); // 30 days from now
 
+        bonusData.description = "NODENESTJS - " + bonusData.description;
         const bonus = this.bonusRepository.create({
             ...bonusData,
             amount,

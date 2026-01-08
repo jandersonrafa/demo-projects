@@ -33,7 +33,7 @@ class BonusService
 
         $bonus = Bonus::create([
             'amount' => $amount,
-            'description' => $data['description'],
+            'description' => 'PHPLARAVEL - ' . $data['description'],
             'client_id' => $data['clientId'],
             'expiration_date' => $expirationDate,
             'created_at' => $now

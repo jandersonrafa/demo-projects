@@ -221,6 +221,11 @@
         "x": 12,
         "y": 32
       },
+      "fieldConfig": {
+          "defaults": {
+              "unit": "ms"
+          }
+      },
       "targets": [
         {
           "expr": "sum by (uri, job) (rate(http_server_requests_seconds_sum{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m])) / sum by (uri, job) (rate(http_server_requests_seconds_count{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m])) * 1000",

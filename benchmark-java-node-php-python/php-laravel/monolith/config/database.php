@@ -100,8 +100,7 @@ return [
             'sslmode' => 'prefer',
             'options' => extension_loaded('pdo_pgsql') ? array_filter([
                 PDO::ATTR_PERSISTENT => env('DB_PERSISTENT', true),
-            ]) : [],
-            'pool_max' => env('DB_POOL_MAX', 15),
+            ]) : []
         ],
 
         'sqlsrv' => [

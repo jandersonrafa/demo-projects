@@ -33,7 +33,7 @@ public class BonusService {
 
         Bonus bonus = new Bonus();
         bonus.setAmount(finalAmount);
-        bonus.setDescription(dto.getDescription());
+        bonus.setDescription("JAVAMVCVT - " + dto.getDescription());
         bonus.setClientId(dto.getClientId());
         bonus.setCreatedAt(LocalDateTime.now());
         bonus.setExpirationDate(LocalDateTime.now().plusDays(30));

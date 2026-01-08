@@ -238,8 +238,8 @@
             },
             "targets": [
                 {
-                    "expr": "sum by (path, job) (rate(http_request_duration_seconds_sum{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m])) / sum by (path, job) (rate(http_request_duration_seconds_count{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m])) * 1000",
-                    "legendFormat": "{{job}} {{path}}"
+                    "expr": "sum by (path, handler, job) (rate(http_request_duration_seconds_sum{job=~\"$service\", handler!~\"/actuator.*|/metrics\", path!~\"/actuator.*|/metrics\"}[1m])) / sum by (path, handler, job) (rate(http_request_duration_seconds_count{job=~\"$service\", handler!~\"/actuator.*|/metrics\", path!~\"/actuator.*|/metrics\"}[1m])) * 1000",
+                    "legendFormat": "{{job}} {{path}} {{handler}}"
                 },
                 {
                     "expr": "sum by (uri, job) (rate(http_server_requests_seconds_sum{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m])) / sum by (uri, job) (rate(http_server_requests_seconds_count{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m])) * 1000",
