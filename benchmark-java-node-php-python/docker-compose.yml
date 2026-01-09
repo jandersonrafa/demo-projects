@@ -282,3 +282,76 @@ services:
       resources:
         limits:
           memory: 1G
+
+  php-octane-monolith-app:
+    build:
+      context: ./php-laravel-octane/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-php-octane-monolith-app
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_DATABASE: benchmark
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: false
+      LOG_CHANNEL: stderr
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  php-octane-monolith-web:
+    image: nginx:alpine
+    container_name: benchmark-php-octane-monolith-web
+    ports:
+      - "3015:80"
+    volumes:
+      - ./php-laravel-octane/monolith:/var/www/html
+      - ./php-laravel-octane/monolith/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php-octane-monolith-app
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  php-octane-gateway-app:
+    build:
+      context: ./php-laravel-octane/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-php-octane-gateway-app
+    environment:
+      MONOLITH_URL: http://php-octane-monolith-web
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: false
+      LOG_CHANNEL: stderr
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    depends_on:
+      - php-octane-monolith-web
+
+  php-octane-gateway-web:
+    image: nginx:alpine
+    container_name: benchmark-php-octane-gateway-web
+    ports:
+      - "3014:80"
+    volumes:
+      - ./php-laravel-octane/gateway:/var/www/html
+      - ./php-laravel-octane/gateway/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php-octane-gateway-app
+    deploy:
+      resources:
+        limits:
+          memory: 1G
