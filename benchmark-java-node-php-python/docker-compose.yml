@@ -36,6 +36,7 @@ services:
           memory: 2G
     ports:
       - "3005:3000"
+    profiles: ["node"]
     depends_on:
       node-monolith:
         condition: service_started
@@ -58,6 +59,7 @@ services:
           memory: 2G
     ports:
       - "3001:3001" # Exposed for Prometheus
+    profiles: ["node"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -76,6 +78,7 @@ services:
           memory: 2G
     ports:
       - "3006:8080"
+    profiles: ["webflux"]
     depends_on:
       - java-webflux-monolith
 
@@ -94,6 +97,7 @@ services:
           memory: 2G
     ports:
       - "3002:3002" # Exposed for Prometheus
+    profiles: ["webflux"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -112,6 +116,7 @@ services:
           memory: 2G
     ports:
       - "3007:3000"
+    profiles: ["mvc-vt"]
     depends_on:
       - java-mvc-vt-monolith
 
@@ -130,6 +135,7 @@ services:
           memory: 2G
     ports:
       - "3003:3000" # Exposed for Prometheus mapping to internal 3000
+    profiles: ["mvc-vt"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -148,6 +154,7 @@ services:
           memory: 2G
     ports:
       - "3016:3000"
+    profiles: ["mvc"]
     depends_on:
       - java-mvc-monolith
 
@@ -166,6 +173,7 @@ services:
           memory: 2G
     ports:
       - "3017:3000" # Exposed for Prometheus mapping to internal 3000
+    profiles: ["mvc"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -184,6 +192,7 @@ services:
           memory: 2G
     ports:
       - "3008:3000"
+    profiles: ["python"]
     depends_on:
       - python-monolith
 
@@ -200,6 +209,7 @@ services:
           memory: 2G
     ports:
       - "3004:8000" # Exposed for Prometheus mapping to internal 8000
+    profiles: ["python"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -220,6 +230,7 @@ services:
           memory: 2G
     ports:
       - "3009:8000"
+    profiles: ["php"]
     depends_on:
       - php-monolith
 
@@ -242,6 +253,7 @@ services:
           memory: 2G
     ports:
       - "3010:8000" # Exposed for Prometheus mapping to internal 8000
+    profiles: ["php"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -264,6 +276,7 @@ services:
       resources:
         limits:
           memory: 2G
+    profiles: ["php-fpm"]
     depends_on:
       - php-fpm-monolith-web
 
@@ -275,6 +288,7 @@ services:
     volumes:
       - ./php-laravel-fpm/gateway:/var/www/html
       - ./php-laravel-fpm/gateway/nginx/conf.d:/etc/nginx/conf.d
+    profiles: ["php-fpm"]
     depends_on:
       - php-fpm-gateway-app
     deploy:
@@ -305,6 +319,7 @@ services:
           memory: 2G
     ports:
       - "3013:9000"
+    profiles: ["php-fpm"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -317,6 +332,7 @@ services:
     volumes:
       - ./php-laravel-fpm/monolith:/var/www/html
       - ./php-laravel-fpm/monolith/nginx/conf.d:/etc/nginx/conf.d
+    profiles: ["php-fpm"]
     depends_on:
       - php-fpm-monolith-app
     deploy:
@@ -346,6 +362,7 @@ services:
           memory: 2G
     volumes:
       - ./php-laravel-octane/monolith:/app
+    profiles: ["php-octane"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -358,6 +375,7 @@ services:
     volumes:
       - ./php-laravel-octane/monolith:/var/www/html
       - ./php-laravel-octane/monolith/nginx/conf.d:/etc/nginx/conf.d
+    profiles: ["php-octane"]
     depends_on:
       - php-octane-monolith-app
     deploy:
@@ -383,6 +401,7 @@ services:
           memory: 2G
     volumes:
       - ./php-laravel-octane/gateway:/app
+    profiles: ["php-octane"]
     depends_on:
       - php-octane-monolith-web
 
@@ -394,6 +413,7 @@ services:
     volumes:
       - ./php-laravel-octane/gateway:/var/www/html
       - ./php-laravel-octane/gateway/nginx/conf.d:/etc/nginx/conf.d
+    profiles: ["php-octane"]
     depends_on:
       - php-octane-gateway-app
     deploy:

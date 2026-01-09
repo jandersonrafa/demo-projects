@@ -2,6 +2,8 @@
 
 Para limpar o histórico de métricas e os dados do banco antes de um novo benchmark:
 
+Para subir por stack leiad COMMANDS.md;
+
 ```bash
 # Subir stack docker compose
 docker compose up -d
@@ -15,6 +17,8 @@ docker compose down
 # Parar docker compose e limpa banco de dados
 docker compose down -v
 ```
+
+
 
 # Query agrupar por linguagem bonus criados
 ```SQL
