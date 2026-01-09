@@ -1,0 +1,28 @@
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Uses proxy env variable NO_PROXY == '*.azureedge.net'
+* Host localhost:3009 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying [::1]:3009...
+* Connected to localhost (::1) port 3009
+> POST /bonus HTTP/1.1
+> Host: localhost:3009
+> User-Agent: curl/8.5.0
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 75
+> 
+} [75 bytes data]
+100    75    0     0  100    75      0     62  0:00:01  0:00:01 --:--:--    62100    75    0     0  100    75      0     34  0:00:02  0:00:02 --:--:--    34100    75    0     0  100    75      0     23  0:00:03  0:00:03 --:--:--    23100    75    0     0  100    75      0     17  0:00:04  0:00:04 --:--:--    17< HTTP/1.1 500 Internal Server Error
+< Server: nginx/1.29.4
+< Content-Type: text/html; charset=UTF-8
+< Transfer-Encoding: chunked
+< Connection: keep-alive
+< X-Powered-By: PHP/8.2.30
+< Cache-Control: no-cache, private
+< Date: Fri, 09 Jan 2026 13:53:37 GMT
+< 
+100    75    0     0  100    75      0     14  0:00:05  0:00:05 --:--:--    14100    75    0     0  100    75      0     14  0:00:05  0:00:05 --:--:--     0
+* Connection #0 to host localhost left intact

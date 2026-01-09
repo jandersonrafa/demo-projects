@@ -204,3 +204,81 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  # PHP Laravel FPM
+  php-fpm-gateway-app:
+    build:
+      context: ./php-laravel-fpm/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-php-fpm-gateway-app
+    image: benchmark-php-fpm-gateway-app
+    environment:
+      MONOLITH_URL: http://php-fpm-monolith-web
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: false
+      LOG_CHANNEL: stderr
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    depends_on:
+      - php-fpm-monolith-web
+
+  php-fpm-gateway-web:
+    image: nginx:alpine
+    container_name: benchmark-php-fpm-gateway-web
+    ports:
+      - "3011:80"
+    volumes:
+      - ./php-laravel-fpm/gateway:/var/www/html
+      - ./php-laravel-fpm/gateway/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php-fpm-gateway-app
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  php-fpm-monolith-app:
+    build:
+      context: ./php-laravel-fpm/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-php-fpm-monolith-app
+    image: benchmark-php-fpm-monolith-app
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_DATABASE: benchmark
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: false
+      LOG_CHANNEL: stderr
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3013:9000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  php-fpm-monolith-web:
+    image: nginx:alpine
+    container_name: benchmark-php-fpm-monolith-web
+    ports:
+      - "3012:80"
+    volumes:
+      - ./php-laravel-fpm/monolith:/var/www/html
+      - ./php-laravel-fpm/monolith/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php-fpm-monolith-app
+    deploy:
+      resources:
+        limits:
+          memory: 1G
