@@ -14,7 +14,8 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./postgres/init-users.sql:/docker-entrypoint-initdb.d/02-init-users.sql
     deploy:
       resources:
         limits:
@@ -47,8 +48,8 @@ services:
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_USER: nodejs_user
+      DB_PASSWORD: nodejs_pass
       DB_NAME: benchmark
       PORT: 3001
     deploy:
@@ -85,6 +86,8 @@ services:
     container_name: benchmark-java-webflux-monolith
     environment:
       DB_HOST: postgres
+      DB_USER: java_webflux_user
+      DB_PASSWORD: java_webflux_pass
     deploy:
       resources:
         limits:
@@ -119,6 +122,8 @@ services:
     container_name: benchmark-java-mvc-vt-monolith
     environment:
       DB_HOST: postgres
+      DB_USER: java_mvcvt_user
+      DB_PASSWORD: java_mvcvt_pass
     deploy:
       resources:
         limits:
@@ -152,7 +157,7 @@ services:
       dockerfile: Dockerfile
     container_name: benchmark-python-monolith
     environment:
-      DB_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/benchmark
+      DB_URL: postgresql+asyncpg://python_fastapi_user:python_fastapi_pass@postgres:5432/benchmark
     deploy:
       resources:
         limits:
@@ -191,8 +196,8 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: postgres
       DB_DATABASE: benchmark
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
+      DB_USERNAME: php_cli_user
+      DB_PASSWORD: php_cli_pass
       APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
       SESSION_DRIVER: array
     deploy:
@@ -251,8 +256,8 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: postgres
       DB_DATABASE: benchmark
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
+      DB_USERNAME: php_fpm_user
+      DB_PASSWORD: php_fpm_pass
       APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
       SESSION_DRIVER: array
       APP_ENV: production
@@ -292,8 +297,8 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: postgres
       DB_DATABASE: benchmark
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
+      DB_USERNAME: php_octane_user
+      DB_PASSWORD: php_octane_pass
       APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
       SESSION_DRIVER: array
       APP_ENV: production
