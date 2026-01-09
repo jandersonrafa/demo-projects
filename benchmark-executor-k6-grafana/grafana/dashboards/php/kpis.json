@@ -1,12 +1,12 @@
 {
-  "title": "KPIs - PHP",
+  "title": "KPIs - PHP Laravel",
   "tags": [
     "stack",
     "php",
     "kpi"
   ],
   "schemaVersion": 39,
-  "version": 2,
+  "version": 3,
   "refresh": "15s",
   "tooltip": {
     "mode": "all"
@@ -21,13 +21,13 @@
           "type": "prometheus"
         },
         "query": {
-          "query": "label_values(container_cpu_usage_seconds_total{container_label_com_docker_compose_service=~\"php-.*\"}, container_label_com_docker_compose_service)",
+          "query": "label_values(container_cpu_usage_seconds_total{container_label_com_docker_compose_service=~\"php-(gateway|monolith)\"}, container_label_com_docker_compose_service)",
           "refId": "A"
         },
         "refresh": 1,
         "multi": true,
         "includeAll": true,
-        "allValue": "php-.*"
+        "allValue": "php-(gateway|monolith)"
       }
     ]
   },
@@ -174,8 +174,7 @@
           "legendFormat": "{{job}}"
         }
       ]
-    }
-    ,
+    },
     {
       "type": "timeseries",
       "title": "HTTP Latency Average per endpoint - ms",
@@ -188,9 +187,9 @@
         }
       },
       "fieldConfig": {
-          "defaults": {
-              "unit": "ms"
-          }
+        "defaults": {
+          "unit": "ms"
+        }
       },
       "gridPos": {
         "h": 8,
