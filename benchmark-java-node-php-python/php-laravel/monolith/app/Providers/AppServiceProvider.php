@@ -21,9 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        DB::listen(function () {
-            DB::statement("SET application_name = 'php-laravel'");
-        });
     }
-    
+
 }
