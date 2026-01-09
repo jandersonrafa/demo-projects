@@ -23,7 +23,13 @@ export const options = {
         startRate: 20,
         timeUnit: '1s',
         stages: [
-          { duration: '30s', target: 50 }
+          { duration: '1m', target: 50 },
+          { duration: '1m', target: 100 },
+          { duration: '1m', target: 150 }, 
+          { duration: '1m', target: 200 }, 
+          { duration: '1m', target: 250 }, // 🎯 pico
+          { duration: '1m', target: 0 },// sustentação
+
         ],
         preAllocatedVUs: 50,
         maxVUs: 300,

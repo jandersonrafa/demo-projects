@@ -4,7 +4,7 @@ global:
 scrape_configs:
   - job_name: 'cadvisor'
     static_configs:
-      - targets: ['host.docker.internal:8081'] # Point to host's 8081
+      - targets: ['192.168.0.114:8081'] # Point to host's 8081
         labels:
           stack: infra
           component: cadvisor
@@ -12,7 +12,7 @@ scrape_configs:
   - job_name: 'node-monolith'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3001']
+      - targets: ['192.168.0.114:3001']
         labels:
           stack: node
           component: monolith
@@ -20,7 +20,7 @@ scrape_configs:
   - job_name: 'node-gateway'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3005']
+      - targets: ['192.168.0.114:3005']
         labels:
           stack: node
           component: gateway
@@ -28,7 +28,7 @@ scrape_configs:
   - job_name: 'java-webflux-monolith'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:3002']
+      - targets: ['192.168.0.114:3002']
         labels:
           stack: java-webflux
           component: monolith
@@ -36,7 +36,7 @@ scrape_configs:
   - job_name: 'java-webflux-gateway'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:3006']
+      - targets: ['192.168.0.114:3006']
         labels:
           stack: java-webflux
           component: gateway
@@ -44,7 +44,7 @@ scrape_configs:
   - job_name: 'java-mvc-vt-monolith'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:3003']
+      - targets: ['192.168.0.114:3003']
         labels:
           stack: java-mvc-vt
           component: monolith
@@ -52,7 +52,7 @@ scrape_configs:
   - job_name: 'java-mvc-vt-gateway'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:3007']
+      - targets: ['192.168.0.114:3007']
         labels:
           stack: java-mvc-vt
           component: gateway
@@ -60,7 +60,7 @@ scrape_configs:
   - job_name: 'python-monolith'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3004']
+      - targets: ['192.168.0.114:3004']
         labels:
           stack: python
           component: monolith
@@ -68,7 +68,7 @@ scrape_configs:
   - job_name: 'python-gateway'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3008']
+      - targets: ['192.168.0.114:3008']
         labels:
           stack: python
           component: gateway
@@ -76,7 +76,7 @@ scrape_configs:
   - job_name: 'php-monolith'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3010']
+      - targets: ['192.168.0.114:3010']
         labels:
           stack: php
           component: monolith
@@ -84,7 +84,7 @@ scrape_configs:
   - job_name: 'php-gateway'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3009']
+      - targets: ['192.168.0.114:3009']
         labels:
           stack: php
           component: gateway
@@ -92,7 +92,7 @@ scrape_configs:
   - job_name: 'php-fpm-monolith'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3012']
+      - targets: ['192.168.0.114:3012']
         labels:
           stack: php-fpm
           component: monolith
@@ -100,7 +100,7 @@ scrape_configs:
   - job_name: 'php-fpm-gateway'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3011']
+      - targets: ['192.168.0.114:3011']
         labels:
           stack: php-fpm
           component: gateway
@@ -108,7 +108,7 @@ scrape_configs:
   - job_name: 'php-octane-monolith'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3015']
+      - targets: ['192.168.0.114:3015']
         labels:
           stack: php-octane
           component: monolith
@@ -116,7 +116,7 @@ scrape_configs:
   - job_name: 'php-octane-gateway'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['host.docker.internal:3014']
+      - targets: ['192.168.0.114:3014']
         labels:
           stack: php-octane
           component: gateway
@@ -124,7 +124,7 @@ scrape_configs:
   - job_name: 'java-mvc-monolith'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:3017']
+      - targets: ['192.168.0.114:3017']
         labels:
           stack: java-mvc
           component: monolith
@@ -132,7 +132,7 @@ scrape_configs:
   - job_name: 'java-mvc-gateway'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:3016']
+      - targets: ['192.168.0.114:3016']
         labels:
           stack: java-mvc
           component: gateway
