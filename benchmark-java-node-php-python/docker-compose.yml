@@ -134,6 +134,42 @@ services:
       postgres:
         condition: service_healthy
 
+  # Java MVC Traditional
+  java-mvc-gateway:
+    build:
+      context: ./java-mvc/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-java-mvc-gateway
+    environment:
+      MONOLITH_URL: http://java-mvc-monolith:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3016:3000"
+    depends_on:
+      - java-mvc-monolith
+
+  java-mvc-monolith:
+    build:
+      context: ./java-mvc/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-java-mvc-monolith
+    environment:
+      DB_HOST: postgres
+      DB_USER: java_mvc_user
+      DB_PASSWORD: java_mvc_pass
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3017:3000" # Exposed for Prometheus mapping to internal 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   # Python FastAPI
   python-gateway:
     build:
@@ -308,6 +344,8 @@ services:
       resources:
         limits:
           memory: 2G
+    volumes:
+      - ./php-laravel-octane/monolith:/app
     depends_on:
       postgres:
         condition: service_healthy
@@ -343,6 +381,8 @@ services:
       resources:
         limits:
           memory: 2G
+    volumes:
+      - ./php-laravel-octane/gateway:/app
     depends_on:
       - php-octane-monolith-web
 

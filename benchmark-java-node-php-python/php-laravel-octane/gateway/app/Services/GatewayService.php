@@ -13,7 +13,7 @@ class GatewayService
 
     public function __construct()
     {
-        $this->monolithUrl = 'http://php-monolith:8000';
+        $this->monolithUrl = env('MONOLITH_URL', 'http://php-monolith:8000');
 
         if (is_null(self::$guzzleClient)) {
             self::$guzzleClient = new Client([

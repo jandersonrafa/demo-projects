@@ -13,11 +13,11 @@ class BonusService
     {
         // 1. Integrity Check
         $client = Client::find($data['clientId']);
-        
+
         if (!$client) {
             return ['error' => 'Client not found', 'status' => 404];
         }
-        
+
         if (!$client->active) {
             return ['error' => 'Client is inactive', 'status' => 400];
         }
@@ -33,7 +33,7 @@ class BonusService
 
         $bonus = Bonus::create([
             'amount' => $amount,
-            'description' => 'PHPLARAVEL - ' . $data['description'],
+            'description' => 'PHPLARAVELOCTANE - ' . $data['description'],
             'client_id' => $data['clientId'],
             'expiration_date' => $expirationDate,
             'created_at' => $now
