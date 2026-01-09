@@ -9,4 +9,4 @@ COPY . .
 RUN composer require laravel/octane -W
 RUN composer update --no-dev --optimize-autoloader
 RUN php artisan octane:install --server=swoole
-CMD ["php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000", "--workers=auto"]
+CMD ["sh", "-c", "php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000 --workers=${OCTANE_WORKERS:-auto}"]

@@ -272,6 +272,8 @@ services:
       APP_ENV: production
       APP_DEBUG: false
       LOG_CHANNEL: stderr
+      FPM_MAX_CHILDREN: 15
+      DB_PERSISTENT: "true"
     deploy:
       resources:
         limits:
@@ -313,6 +315,8 @@ services:
       APP_ENV: production
       APP_DEBUG: false
       LOG_CHANNEL: stderr
+      FPM_MAX_CHILDREN: 15
+      DB_PERSISTENT: "true"
     deploy:
       resources:
         limits:
@@ -356,6 +360,8 @@ services:
       APP_ENV: production
       APP_DEBUG: false
       LOG_CHANNEL: stderr
+      OCTANE_WORKERS: 15
+      DB_PERSISTENT: "true"
     deploy:
       resources:
         limits:
@@ -395,6 +401,8 @@ services:
       APP_ENV: production
       APP_DEBUG: false
       LOG_CHANNEL: stderr
+      OCTANE_WORKERS: 15
+      DB_PERSISTENT: "true"
     deploy:
       resources:
         limits:

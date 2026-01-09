@@ -22,11 +22,30 @@ docker compose down -v
 
 # Query agrupar por linguagem bonus criados
 ```SQL
+-- Monitorar conexoes por stack (user) database
+SELECT
+    usename AS usuario,
+    COUNT(*) AS total_conexoes,
+    COUNT(*) FILTER (WHERE state = 'active') AS ativas,
+    COUNT(*) FILTER (WHERE state = 'idle') AS idle,
+    COUNT(*) FILTER (WHERE state = 'idle in transaction') AS idle_em_transacao
+FROM pg_stat_activity
+GROUP BY usename
+ORDER BY total_conexoes DESC;
+
+-- Monitorar conexoes por stack (user) database
+SELECT usename, application_name, state, count(*) 
+FROM pg_stat_activity 
+WHERE usename LIKE '%_user' 
+GROUP BY usename, application_name, state;
+
+
+-- Verificar registros criados por stack
 SELECT  
-    LEFT(description, 10) AS prefixo,
+    split_part(description , '-', 1) AS prefixo,
   COUNT(*) AS total
 FROM bonus
-GROUP BY  LEFT(description, 10)
+GROUP BY  split_part(description, '-', 1);
 ```
 
 

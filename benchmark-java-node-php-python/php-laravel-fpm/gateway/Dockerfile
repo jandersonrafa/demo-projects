@@ -19,6 +19,9 @@ RUN composer update --no-dev --optimize-autoloader
 RUN echo "catch_workers_output = yes" >> /usr/local/etc/php-fpm.d/www.conf && \
     echo "decorate_workers_output = no" >> /usr/local/etc/php-fpm.d/www.conf && \
     echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf && \
-    echo "php_flag[display_errors] = off" >> /usr/local/etc/php-fpm.d/www.conf
+    echo "php_flag[display_errors] = off" >> /usr/local/etc/php-fpm.d/www.conf && \
+    echo "pm = static" >> /usr/local/etc/php-fpm.d/www.conf && \
+    echo "pm.max_children = \${FPM_MAX_CHILDREN}" >> /usr/local/etc/php-fpm.d/www.conf && \
+    echo "clear_env = no" >> /usr/local/etc/php-fpm.d/www.conf
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
