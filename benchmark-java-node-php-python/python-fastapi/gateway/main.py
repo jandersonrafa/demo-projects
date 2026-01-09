@@ -18,7 +18,9 @@ except ValueError:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Setup: Create a single client for connection pooling
-    async with httpx.AsyncClient() as client:
+    limits = httpx.Limits(max_connections=500, max_keepalive_connections=100)
+    timeout = httpx.Timeout(30.0, connect=15.0)
+    async with httpx.AsyncClient(limits=limits, timeout=timeout) as client:
         app.state.client = client
         yield
     # Teardown: Client is closed when the context manager exits

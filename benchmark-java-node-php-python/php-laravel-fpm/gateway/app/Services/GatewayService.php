@@ -18,7 +18,7 @@ class GatewayService
         if (is_null(self::$guzzleClient)) {
             self::$guzzleClient = new Client([
                 'base_uri' => $this->monolithUrl,
-                'timeout' => 10,
+                'timeout' => 30,
                 'http_errors' => false,
                 'headers' => [
                     'Connection' => 'keep-alive'
