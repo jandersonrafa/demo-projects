@@ -39,7 +39,8 @@
             },
             "options": {
                 "tooltip": {
-                    "mode": "all"
+                    "mode": "all",
+                    "sort": "desc"
                 }
             },
             "gridPos": {
@@ -63,7 +64,8 @@
             },
             "options": {
                 "tooltip": {
-                    "mode": "all"
+                    "mode": "all",
+                    "sort": "desc"
                 }
             },
             "gridPos": {
@@ -87,7 +89,8 @@
             },
             "options": {
                 "tooltip": {
-                    "mode": "all"
+                    "mode": "all",
+                    "sort": "desc"
                 }
             },
             "gridPos": {
@@ -116,7 +119,8 @@
             },
             "options": {
                 "tooltip": {
-                    "mode": "all"
+                    "mode": "all",
+                    "sort": "desc"
                 }
             },
             "gridPos": {
@@ -145,7 +149,8 @@
             },
             "options": {
                 "tooltip": {
-                    "mode": "all"
+                    "mode": "all",
+                    "sort": "desc"
                 }
             },
             "gridPos": {
@@ -169,7 +174,8 @@
             },
             "options": {
                 "tooltip": {
-                    "mode": "all"
+                    "mode": "all",
+                    "sort": "desc"
                 }
             },
             "gridPos": {
@@ -194,7 +200,8 @@
             },
             "options": {
                 "tooltip": {
-                    "mode": "all"
+                    "mode": "all",
+                    "sort": "desc"
                 }
             },
             "gridPos": {
