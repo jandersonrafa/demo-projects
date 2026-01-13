@@ -11,7 +11,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(\GuzzleHttp\Client::class, function ($app) {
+            return new \GuzzleHttp\Client([
+                'base_uri' => env('MONOLITH_URL', 'http://php-monolith:8000'),
+                'timeout' => 30,
+                'http_errors' => false,
+                'headers' => [
+                    'Connection' => 'keep-alive'
+                ],
+                'curl' => [
+                    CURLOPT_TCP_NODELAY => true,
+                ],
+            ]);
+        });
     }
 
     /**

@@ -3,4 +3,5 @@
 use App\Http\Controllers\GatewayController;
 use Illuminate\Support\Facades\Route;
 
-Route::any('{any}', [GatewayController::class, 'proxy'])->where('any', '.*');
+Route::post('/bonus', [GatewayController::class, 'createBonus']);
+Route::get('/bonus/{id}', [GatewayController::class, 'getBonus']);
