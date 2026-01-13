@@ -15,7 +15,13 @@ class PrometheusMiddleware
         $response = $next($request);
         $duration = microtime(true) - $start;
 
-        if ($request->is('metrics') || $request->is('prometheus') || $request->is('up') || $request->is('health')) {
+        // ignora endpoints internos
+        if (
+            $request->is('metrics') ||
+            $request->is('prometheus') ||
+            $request->is('up') ||
+            $request->is('health')
+        ) {
             return $response;
         }
 
@@ -23,37 +29,52 @@ class PrometheusMiddleware
             $adapter = new APCng();
             $registry = new CollectorRegistry($adapter);
 
-            $counter = $registry->getOrRegisterCounter(
-                '',
+            $method = $request->getMethod();
+            $path = $request->route()
+                ? $request->route()->uri()
+                : $request->getPathInfo();
+            $status = (string) $response->getStatusCode();
+
+            /**
+             * TOTAL DE REQUESTS
+             */
+            $requestsCounter = $registry->getOrRegisterCounter(
+                'app',
                 'http_requests_total',
-                'Total number of requests',
+                'Total number of HTTP requests',
                 ['method', 'path', 'status']
             );
 
-            $counter->inc([
-                $request->getMethod(),
-                $request->route() ? $request->route()->uri() : $request->getPathInfo(),
-                (string) $response->getStatusCode()
-            ]);
+            $requestsCounter->inc([$method, $path, $status]);
 
+            /**
+             * CONTADOR DE ERROS (4xx + 5xx)
+             */
+            if ((int) $status >= 400) {
+                $errorsCounter = $registry->getOrRegisterCounter(
+                    'app',
+                    'http_requests_errors_total',
+                    'Total number of HTTP error responses',
+                    ['method', 'path', 'status']
+                );
+
+                $errorsCounter->inc([$method, $path, $status]);
+            }
+
+            /**
+             * HISTOGRAMA DE DURAÇÃO
+             */
             $histogram = $registry->getOrRegisterHistogram(
-                '',
+                'app',
                 'http_request_duration_seconds',
                 'Request duration in seconds',
                 ['method', 'path', 'status'],
-                [0.1, 0.2, 0.3, 0.5, 0.8, 1, 1.5, 2, 5]
+                [0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10]
             );
 
-            $histogram->observe(
-                $duration,
-                [
-                    $request->getMethod(),
-                    $request->route() ? $request->route()->uri() : $request->getPathInfo(),
-                    (string) $response->getStatusCode()
-                ]
-            );
-        } catch (\Exception $e) {
-            // Silence errors in metrics to not break the app
+            $histogram->observe($duration, [$method, $path, $status]);
+        } catch (\Throwable $e) {
+            // nunca quebrar a app por causa de métricas
         }
 
         return $response;
