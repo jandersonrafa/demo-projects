@@ -103,7 +103,7 @@
       },
       "targets": [
         {
-          "expr": "sum by (job) (rate(http_requests_total{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m]))",
+          "expr": "sum by (job) (rate(http_request_duration_seconds_bucket{job=~\"$service\", handler!~\"/actuator.*|/metrics\"}[1m]))",
           "legendFormat": "{{job}} {{status}}"
         }
       ],

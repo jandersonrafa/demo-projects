@@ -110,7 +110,7 @@
       },
       "targets": [
         {
-          "expr": "sum by (job) (rate(http_requests_total{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m]))",
+          "expr": "sum by (job) (rate(http_request_duration_seconds_bucket{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m]))",
           "legendFormat": "{{job}} RPS"
         }
       ]
@@ -205,6 +205,37 @@
         {
           "expr": "sum by (job, path, status) (rate(http_request_duration_seconds_sum{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m])) / sum by (job, path, status) (rate(http_request_duration_seconds_count{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m])) * 1000",
           "legendFormat": "{{job}} {{status}} {{path}}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "HTTP total requests by status (instant) per endpoint",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "options": {
+        "tooltip": {
+          "mode": "all"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "sum by (job, path, status) (increase(http_request_duration_seconds_bucket{job=~\"$service\", path!~\"/actuator.*|/metrics\", le=\"+Inf\"}[1m]))",
+          "legendFormat": "{{job}} {{path}} {{status}}"
         }
       ]
     }

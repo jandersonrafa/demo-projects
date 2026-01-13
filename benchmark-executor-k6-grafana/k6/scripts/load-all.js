@@ -60,7 +60,7 @@ export function hit() {
       'Content-Type': 'application/json',
     },
   };
-  const res = http.post(`${base}/bonus`, payload, params);
+  const res = http.post(`${base}/bonusteste`, payload, params);
 
 
   check(res, {
