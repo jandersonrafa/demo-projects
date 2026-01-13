@@ -3,3 +3,4 @@ uvicorn
 httpx
 prometheus-fastapi-instrumentator
 gunicorn
+psutil

@@ -39,7 +39,7 @@ class PrometheusMiddleware
              * TOTAL DE REQUESTS
              */
             $requestsCounter = $registry->getOrRegisterCounter(
-                'app',
+                '',
                 'http_requests_total',
                 'Total number of HTTP requests',
                 ['method', 'path', 'status']
@@ -52,7 +52,7 @@ class PrometheusMiddleware
              */
             if ((int) $status >= 400) {
                 $errorsCounter = $registry->getOrRegisterCounter(
-                    'app',
+                    '',
                     'http_requests_errors_total',
                     'Total number of HTTP error responses',
                     ['method', 'path', 'status']
@@ -65,7 +65,7 @@ class PrometheusMiddleware
              * HISTOGRAMA DE DURAÇÃO
              */
             $histogram = $registry->getOrRegisterHistogram(
-                'app',
+                '',
                 'http_request_duration_seconds',
                 'Request duration in seconds',
                 ['method', 'path', 'status'],

@@ -2,9 +2,12 @@ import httpx
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from prometheus_fastapi_instrumentator import Instrumentator, metrics
-from prometheus_client import PROCESS_COLLECTOR, PLATFORM_COLLECTOR, REGISTRY, CollectorRegistry, multiprocess, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import PROCESS_COLLECTOR, PLATFORM_COLLECTOR, REGISTRY, CollectorRegistry, multiprocess, generate_latest, CONTENT_TYPE_LATEST, Gauge
 import os
 import shutil
+import psutil
+import threading
+import time
 from fastapi import Response
 
 # Import the bonus router
@@ -13,9 +16,24 @@ from app.routes import bonus
 # Ensure multiprocess directory exists before Instrumentator initialization
 multiproc_dir = os.environ.get("PROMETHEUS_MULTIPROC_DIR")
 if multiproc_dir:
-    # We don't clean it here because each worker would wipe others' metrics
-    # Cleaning should happen in a separate process or we just rely on fresh starts
     os.makedirs(multiproc_dir, exist_ok=True)
+
+# Custom Gauge for RSS memory in multiprocess mode
+# Using 'livesum' so metrics from multiple workers are summed
+PROCESS_RSS = Gauge(
+    "process_resident_memory_bytes",
+    "Resident memory size in bytes",
+    multiprocess_mode="livesum",
+)
+
+def update_rss():
+    process = psutil.Process(os.getpid())
+    while True:
+        try:
+            PROCESS_RSS.set(process.memory_info().rss)
+        except Exception:
+            pass
+        time.sleep(1)
 
 # Register collectors
 try:
@@ -29,7 +47,10 @@ except ValueError:
 async def lifespan(app: FastAPI):
     # Setup: Create a single client for connection pooling
     limits = httpx.Limits(max_connections=500, max_keepalive_connections=100)
-    timeout = httpx.Timeout(30.0, connect=15.0)
+    
+    # Start background thread to update RSS
+    rss_thread = threading.Thread(target=update_rss, daemon=True)
+    rss_thread.start()
     
     async with httpx.AsyncClient(limits=limits, timeout=timeout) as client:
         app.state.client = client

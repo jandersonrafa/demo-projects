@@ -6,3 +6,4 @@ asyncpg
 pydantic
 prometheus-fastapi-instrumentator
 gunicorn
+psutil

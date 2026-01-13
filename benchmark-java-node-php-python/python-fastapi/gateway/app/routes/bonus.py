@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request, Response
+import httpx
 from ..config import MONOLITH_URL
 
 router = APIRouter()
