@@ -76,7 +76,11 @@
             "targets": [
                 {
                     "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
-                    "legendFormat": "{{container_label_com_docker_compose_service}}"
+                    "legendFormat": "{{container_label_com_docker_compose_service}} allocated"
+                },
+                {
+                    "expr": "sum by (container_label_com_docker_compose_service) (container_memory_working_set_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
+                    "legendFormat": "{{container_label_com_docker_compose_service}} used"
                 }
             ]
         },
@@ -136,11 +140,11 @@
             },
             "targets": [
                 {
-                    "expr": "histogram_quantile(0.95, sum by (le, job) ((rate(http_request_duration_seconds_bucket{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m])))) * 1000",
+                    "expr": "histogram_quantile(0.95, sum by (le, job) ((rate(http_request_duration_seconds_bucket{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m])))) * 1000",
                     "legendFormat": "{{job}} P95"
                 },
                 {
-                    "expr": "histogram_quantile(0.99, sum by (le, job) ((rate(http_request_duration_seconds_bucket{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m])))) * 1000",
+                    "expr": "histogram_quantile(0.99, sum by (le, job) ((rate(http_request_duration_seconds_bucket{job=~\"$service\", path!~\"/actuator.*|/metrics\"}[1m])))) * 1000",
                     "legendFormat": "{{job}} P99"
                 }
             ]
@@ -171,6 +175,10 @@
             "targets": [
                 {
                     "expr": "sum by (job) (php_memory_peak_usage_bytes{job=~\"$service\"}) / 1024 / 1024",
+                    "legendFormat": "{{job}}"
+                },
+                {
+                    "expr": "sum by (job) (process_resident_memory_bytes{job=~\"$service\"}) / 1024 / 1024",
                     "legendFormat": "{{job}}"
                 }
             ]

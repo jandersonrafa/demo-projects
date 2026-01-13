@@ -76,7 +76,11 @@
       "targets": [
         {
           "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
-          "legendFormat": "{{container_label_com_docker_compose_service}}"
+          "legendFormat": "{{container_label_com_docker_compose_service}} allocated"
+        },
+        {
+          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_working_set_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
+          "legendFormat": "{{container_label_com_docker_compose_service}} used"
         }
       ]
     },
@@ -171,6 +175,36 @@
     },
     {
       "type": "timeseries",
+      "title": "Process CPU Usage (cores)",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "options": {
+        "tooltip": {
+          "mode": "all"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 3
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by (job) (rate(process_cpu_usage{job=~\"$service\"}[1m]))",
+          "legendFormat": "{{job}} CPU Usage"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
       "title": "JVM Heap Memory (MB)",
       "datasource": {
         "type": "prometheus"
@@ -202,8 +236,7 @@
           "legendFormat": "{{job}} max"
         }
       ]
-    }
-    ,
+    },
     {
       "type": "timeseries",
       "title": "HTTP Latency Average per endpoint - ms",
@@ -222,9 +255,9 @@
         "y": 32
       },
       "fieldConfig": {
-          "defaults": {
-              "unit": "ms"
-          }
+        "defaults": {
+          "unit": "ms"
+        }
       },
       "targets": [
         {

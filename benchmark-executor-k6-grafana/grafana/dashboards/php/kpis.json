@@ -76,7 +76,11 @@
       "targets": [
         {
           "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
-          "legendFormat": "{{container_label_com_docker_compose_service}}"
+          "legendFormat": "{{container_label_com_docker_compose_service}} allocated"
+        },
+        {
+          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_working_set_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
+          "legendFormat": "{{container_label_com_docker_compose_service}} used"
         }
       ]
     },

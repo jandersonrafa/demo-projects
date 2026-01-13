@@ -76,7 +76,11 @@
       "targets": [
         {
           "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
-          "legendFormat": "{{container_label_com_docker_compose_service}}"
+          "legendFormat": "{{container_label_com_docker_compose_service}} allocated"
+        },
+        {
+          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_working_set_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
+          "legendFormat": "{{container_label_com_docker_compose_service}} used"
         }
       ]
     },
@@ -110,6 +114,36 @@
         },
         "overrides": []
       }
+    },
+    {
+      "type": "timeseries",
+      "title": "Process CPU Usage (cores)",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "options": {
+        "tooltip": {
+          "mode": "all"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 3
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by (job) (rate(process_cpu_seconds_total{job=~\"$service\"}[1m]))",
+          "legendFormat": "{{job}} CPU Usage"
+        }
+      ]
     },
     {
       "type": "timeseries",
@@ -187,9 +221,9 @@
         }
       },
       "fieldConfig": {
-          "defaults": {
-              "unit": "ms"
-          }
+        "defaults": {
+          "unit": "ms"
+        }
       },
       "gridPos": {
         "h": 8,
@@ -225,6 +259,36 @@
         {
           "expr": "sum by (job) (  increase(http_requests_total{job=~\"$service\", handler!~\"/actuator.*|/metrics\", path!~\"/actuator.*|/metrics\", status=~\"4..|5..\"}[1m]))",
           "legendFormat": "{{job}} errors"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Memory Fisica RSS (MB)",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "options": {
+        "tooltip": {
+          "mode": "all"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "mbytes",
+          "decimals": 1
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by (job) (process_resident_memory_bytes{job=~\"$service\"}) / 1024 / 1024",
+          "legendFormat": "{{job}} Mem Fisica"
         }
       ]
     }

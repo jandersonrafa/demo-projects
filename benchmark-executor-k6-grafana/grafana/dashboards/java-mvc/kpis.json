@@ -76,7 +76,11 @@
             "targets": [
                 {
                     "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
-                    "legendFormat": "{{container_label_com_docker_compose_service}}"
+                    "legendFormat": "{{container_label_com_docker_compose_service}} allocated"
+                },
+                {
+                    "expr": "sum by (container_label_com_docker_compose_service) (container_memory_working_set_bytes{container_label_com_docker_compose_service=~\"$service\"}) / 1024 / 1024",
+                    "legendFormat": "{{container_label_com_docker_compose_service}} used"
                 }
             ]
         },
@@ -166,6 +170,36 @@
                 {
                     "expr": "histogram_quantile(0.99, sum by (le, job) (rate(http_server_requests_seconds_bucket{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m]))) * 1000",
                     "legendFormat": "{{job}} P99"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "Process CPU Usage (cores)",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 16
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "short",
+                    "decimals": 3
+                }
+            },
+            "targets": [
+                {
+                    "expr": "sum by (job) (rate(process_cpu_usage{job=~\"$service\"}[1m]))",
+                    "legendFormat": "{{job}} CPU Usage"
                 }
             ]
         },

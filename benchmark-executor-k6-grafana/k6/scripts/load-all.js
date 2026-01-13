@@ -23,16 +23,15 @@ export const options = {
         startRate: 20,
         timeUnit: '1s',
         stages: [
-          { duration: '1m', target: 50 },
           { duration: '1m', target: 100 },
-          { duration: '1m', target: 150 }, 
-          { duration: '1m', target: 200 }, 
-          { duration: '1m', target: 250 }, // 🎯 pico
+          { duration: '1m', target: 200 },
+          { duration: '1m', target: 300 },
+          { duration: '1m', target: 400 },
+          { duration: '1m', target: 500 }, // 🎯 pico
           { duration: '1m', target: 0 },// sustentação
-
         ],
-        preAllocatedVUs: 50,
-        maxVUs: 300,
+        preAllocatedVUs: 100,
+        maxVUs: 600,
         exec: 'hit',
         env: { TARGET: t },
         tags: { target: t },
@@ -80,9 +79,14 @@ export function hit() {
 
 // ✅ RELATÓRIO AUTOMÁTICO (HTML + JSON)
 export function handleSummary(data) {
+  const timestamp = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '').replace(/:/g, '-');
+  // Extrai apenas as portas dos alvos (ex: 3005) e junta com '_'
+  const ports = targets.map(t => t.split(':').pop()).join('_');
+  const reportName = ports ? `summary-${timestamp}-${ports}` : `summary-${timestamp}`;
+
   return {
-    "/reports/summary.html": htmlReport(data),
-    "/reports/summary.json": JSON.stringify(data, null, 2),
+    [`/reports/${reportName}.html`]: htmlReport(data),
+    [`/reports/${reportName}.json`]: JSON.stringify(data, null, 2),
   };
 }
 
