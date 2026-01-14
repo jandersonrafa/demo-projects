@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from app.api.bonus import router as bonus_router
+from app.routes import bonus_router, metrics_router, health_router
 from prometheus_fastapi_instrumentator import Instrumentator, metrics
 from prometheus_client import PROCESS_COLLECTOR, PLATFORM_COLLECTOR, REGISTRY, CollectorRegistry, multiprocess, generate_latest, CONTENT_TYPE_LATEST, Gauge
 import os
@@ -64,18 +64,6 @@ Instrumentator().add(
     metrics.latency(buckets=(0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10))
 ).instrument(app)
 
-@app.get("/metrics")
-async def metrics_endpoint():
-    if "PROMETHEUS_MULTIPROC_DIR" in os.environ:
-        registry = CollectorRegistry()
-        multiprocess.MultiProcessCollector(registry)
-        data = generate_latest(registry)
-    else:
-        data = generate_latest(REGISTRY)
-    return Response(content=data, media_type=CONTENT_TYPE_LATEST)
-
 app.include_router(bonus_router)
-
-@app.get("/health")
-async def health():
-    return {"status": "up"}
+app.include_router(metrics_router)
+app.include_router(health_router)
