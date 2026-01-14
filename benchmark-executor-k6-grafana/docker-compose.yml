@@ -44,7 +44,7 @@ services:
       - ./k6/reports:/reports
     working_dir: /scripts
     environment:
-      - TARGETS=host.docker.internal:3005,host.docker.internal:3006,host.docker.internal:3007,host.docker.internal:3008,host.docker.internal:3009,host.docker.internal:3011,host.docker.internal:3014,host.docker.internal:3016
+      - TARGETS=192.168.0.114:3005,192.168.0.114:3006,192.168.0.114:3007,192.168.0.114:3008,192.168.0.114:3009,192.168.0.114:3011,192.168.0.114:3014,192.168.0.114:3016
       - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write
       - K6_PROMETHEUS_RW_TREND_STATS=p(95),p(99),avg
 
