@@ -1,5 +1,9 @@
 # Benchmark Environment
 
+## Resultado do benchmark 
+
+- Disponível em `k6/reports/benchmark0a500rps6min`
+
 ## Start/Stop the Monitoring Stack
 
 Para limpar o histórico de métricas e os dados do banco antes de um novo benchmark:

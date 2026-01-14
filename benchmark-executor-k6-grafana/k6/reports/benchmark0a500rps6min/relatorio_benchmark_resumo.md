@@ -10,6 +10,10 @@ Este relatório apresenta uma análise técnica comparativa de performance de **
 **Endpoint Testado**: POST `/bonus`  
 **Pool de conexões - Max configurado**: +- 15 conexões para cada stack  
 
+## Informações
+- Métricas das aplicações durante o teste disponíveis em: `/relatorio_benchmark_grafana.md`
+- Metodologia/métricas usadas para benchmark disponível em: `/relatorio_benchmark_metodologia_calculo.md`
+- Relatórios de execução gerados pelo k6 disponível em: `/relatorios_execucao_k6`
 
 ### Escopo do Teste
 

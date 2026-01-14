@@ -9,6 +9,11 @@ Este relatório apresenta uma análise detalhada de performance de **8 stacks te
 **Carga Máxima**: 500 RPS  
 **Endpoint Testado**: POST `/bonus`
 
+## Informações
+- Métricas das aplicações durante o teste disponíveis em: `/relatorio_benchmark_grafana.md`
+- Metodologia/métricas usadas para benchmark disponível em: `/relatorio_benchmark_metodologia_calculo.md`
+- Relatórios de execução gerados pelo k6 disponível em: `/relatorios_execucao_k6`
+
 ---
 
 ## 🎯 Metodologia de Teste
