@@ -47,6 +47,19 @@ Este relatório apresenta uma análise detalhada de performance de 8 stacks tecn
 | **PHP Octane** | 3014 | 90,388 | 251.08 | 269 | 6.00 | 39.28 | - | 22.45 | 99.16% | 0.84% | ✅ PASS |
 | **Java MVC** | 3016 | 90,599 | 251.66 | 100 | 6.00 | 13.37 | - | 7.84 | 100% | 0% | ✅ PASS |
 
+### Quantidade de bônus inseridos no banco durante o teste
+
+Durante cada execução de teste, aproximadamente a seguinte quantidade de bônus foi inserida no banco de dados por stack:
+
+- **Node (NestJS)**: 90509 mil inserts  
+- **Java WebFlux**: 90599 mil inserts  
+- **Java MVC VT**: 90589 mil inserts  
+- **Java MVC**: 90599 mil inserts  
+- **Python (FastAPI)**: 90376 mil inserts  
+- **Laravel (CLI)**: 22642 mil inserts  
+- **Laravel FPM**: 87405 mil inserts  
+- **Laravel Octane**: 89630 mil inserts  
+
 ---
 
 ## 🔍 Análise Detalhada por Stack
