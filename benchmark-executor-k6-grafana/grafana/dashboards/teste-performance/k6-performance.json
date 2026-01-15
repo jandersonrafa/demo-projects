@@ -5,13 +5,13 @@
         "loadtest",
         "performance"
     ],
-        "schemaVersion": 39,
-        "version": 1,
-        "refresh": "5s",
-        "tooltip": {
-            "mode": "all"
-        },
-        "templating": {
+    "schemaVersion": 39,
+    "version": 1,
+    "refresh": "5s",
+    "tooltip": {
+        "mode": "all"
+    },
+    "templating": {
         "list": [
             {
                 "name": "scenario",
@@ -168,7 +168,7 @@
         },
         {
             "type": "timeseries",
-            "title": "HTTP Errors (4xx|5xx)",
+            "title": "K6 HTTP Errors (dropped interations)",
             "datasource": {
                 "type": "prometheus"
             },
@@ -186,12 +186,11 @@
             },
             "targets": [
                 {
-                    "expr": "sum by (scenario, tag_target) (  k6_http_req_failed_rate  *  rate(k6_http_reqs_total[1m])) * 60",
+                    "expr": "sum by (scenario) ( increase(k6_dropped_iterations_total[1m]))",
                     "legendFormat": "{{scenario}} errors"
                 }
             ]
-        }
-        ,
+        },
         {
             "type": "timeseries",
             "title": "Call Duration Average ms",
@@ -223,6 +222,31 @@
                 {
                     "expr": "sum by (url, scenario) (rate(k6_http_req_duration_sum{scenario=~\"$scenario\", url!~\"/actuator.*|/metrics\"}[1m])) / sum by (url, scenario) (rate(k6_http_req_duration_count{scenario=~\"$scenario\", url!~\"/actuator.*|/metrics\"}[1m])) * 1000",
                     "legendFormat": "{{scenario}} {{url}}"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "K6 Request Failed",
+            "datasource": {
+                "type": "prometheus"
+            },
+            "options": {
+                "tooltip": {
+                    "mode": "all",
+                    "sort": "desc"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 16
+            },
+            "targets": [
+                {
+                    "expr": "sum by (scenario, tag_target) (  k6_http_req_failed_rate  *  rate(k6_http_reqs_total[1m])) * 60",
+                    "legendFormat": "{{scenario}} errors"
                 }
             ]
         }
