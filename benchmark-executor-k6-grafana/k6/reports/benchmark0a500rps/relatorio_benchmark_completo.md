@@ -1,11 +1,11 @@
-# 📊 Relatório Final de Benchmark - Análise Completa de Performance (7 Minutos)
+# 📊 Relatório Final de Benchmark - Análise Completa de Performance
 
 ## 📋 Sumário Executivo
 
-Este relatório apresenta uma análise detalhada de performance de **8 stacks tecnológicas** testadas sob carga progressiva durante **7 minutos** cada. Os testes foram executados usando K6 com ramping de 100 a 500 RPS, avaliando o endpoint `/bonus` (POST). As métricas incluem dados do K6 e métricas de container coletadas do Prometheus (CPU e memória).
+Este relatório apresenta uma análise detalhada de performance de **8 stacks tecnológicas** testadas sob carga progressiva durante **6 minutos** cada. Os testes foram executados usando K6 com ramping de 100 a 500 RPS, avaliando o endpoint `/bonus` (POST). As métricas incluem dados do K6 e métricas de container coletadas do Prometheus (CPU e memória).
 
 **Data do Teste**: 2026-01-13 (17:08 - 18:15)  
-**Duração por Stack**: 7 minutos  
+**Duração por Stack**: 6 minutos  
 **Carga Máxima**: 500 RPS  
 **Endpoint Testado**: POST `/bonus`
 
@@ -48,16 +48,16 @@ Este relatório apresenta uma análise detalhada de performance de **8 stacks te
 
 ## 📊 Resultados Consolidados - Tabela Geral
 
-| Stack | Porta | Total Reqs | RPS Médio | VUs Máx | P95 (ms) | Tempo Médio (ms) | CPU Avg (cores) | CPU P95 (cores) | Mem Avg (MB) | Mem P95 (MB) | Taxa Sucesso | Threshold |
-|-------|-------|------------|-----------|---------|----------|------------------|-----------------|-----------------|--------------|--------------|--------------|-----------|
-| **Java MVC** | 3016 | 90,599 | 251.66 | 100 | 13.37 | 7.84 | 0.315 | 0.473 | 213.12 | 230.66 | 100% | ✅ |
-| **Java MVC VT** | 3007 | 90,589 | 251.64 | 110 | 17.06 | 9.18 | 0.349 | 0.581 | 225.19 | 239.32 | 100% | ✅ |
-| **Java WebFlux** | 3006 | 90,599 | 251.66 | 100 | 21.88 | 10.85 | 0.275 | 0.362 | 248.86 | 261.84 | 100% | ✅ |
-| **Node.js** | 3005 | 90,509 | 251.41 | 188 | 40.65 | 17.42 | 0.466 | 0.896 | 78.87 | 116.82 | 100% | ✅ |
-| **PHP Octane** | 3014 | 90,388 | 251.08 | 269 | 39.28 | 22.45 | 0.729 | 3.212 | 471.57 | 997.49 | 99.16% | ✅ |
-| **Python** | 3008 | 90,389 | 251.08 | 288 | 76.07 | 24.96 | 0.695 | 1.719 | 165.72 | 170.82 | 99.99% | ✅ |
-| **PHP FPM** | 3011 | 87,405 | 242.79 | 600 | 1,556.75 | 426.14 | 1.370 | 6.174 | 41.69 | 73.67 | 100% | ❌ |
-| **PHP CLI** | 3009 | 23,106 | 63.26 | 600 | 9,984.36 | 7,796.86 | 0.683 | 0.881 | 55.69 | 58.85 | 100% | ❌ |
+| Stack | Porta | K6 Reqs Sucesso | K6 Reqs Erro | RPS Médio | VUs Máx | P95 (ms) | Tempo Médio (ms) | CPU Avg (cores) | CPU P95 (cores) | Mem Avg (MB) | Mem P95 (MB) | Taxa Sucesso | Threshold |
+|-------|-------|------------|--------------|-----------|---------|----------|------------------|-----------------|-----------------|--------------|--------------|--------------|-----------|
+| **Java MVC** | 3016 | 90,599 | 0 | 251.66 | 100 | 13.37 | 7.84 | 0.315 | 0.473 | 213.12 | 230.66 | 100.00% | ✅ |
+| **Java MVC VT** | 3007 | 90,589 | 10 | 251.64 | 110 | 17.06 | 9.18 | 0.349 | 0.581 | 225.19 | 239.32 | 99.99% | ✅ |
+| **Java WebFlux** | 3006 | 90,599 | 0 | 251.66 | 100 | 21.88 | 10.85 | 0.275 | 0.362 | 248.86 | 261.84 | 100.00% | ✅ |
+| **Node.js** | 3005 | 90,509 | 90 | 251.41 | 188 | 40.65 | 17.42 | 0.466 | 0.896 | 78.87 | 116.82 | 99.90% | ✅ |
+| **PHP Octane** | 3014 | 90,388 | 211 | 251.08 | 269 | 39.28 | 22.45 | 0.729 | 3.212 | 471.57 | 997.49 | 99.77% | ✅ |
+| **Python** | 3008 | 90,389 | 210 | 251.08 | 288 | 76.07 | 24.96 | 0.695 | 1.719 | 165.72 | 170.82 | 99.77% | ✅ |
+| **PHP FPM** | 3011 | 87,405 | 3,194 | 242.79 | 600 | 1,556.75 | 426.14 | 1.370 | 6.174 | 41.69 | 73.67 | 96.47% | ❌ |
+| **PHP CLI** | 3009 | 23,106 | 67,493 | 63.26 | 600 | 9,984.36 | 7,796.86 | 0.683 | 0.881 | 55.69 | 58.85 | 25.50%¹ | ❌ |
 
 ---
 
@@ -80,9 +80,10 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 
 ### 🥇 1º Lugar: Java MVC (Spring MVC Tradicional)
 **Porta**: 3016 | **Tecnologia**: Spring MVC com Thread Pool tradicional
+**Período de Coleta**: 2026-01-13 18:03:05 - 18:10:05
 
 #### Métricas K6
-- **Total de Requisições**: 90,599
+- **K6 Reqs Sucesso**: 90,599
 - **RPS Médio**: 251.66 req/s
 - **VUs Simultâneos (Máximo)**: 100
 - **P95**: 13.37 ms ⭐ (Melhor)
@@ -90,7 +91,7 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 - **Tempo Médio**: 7.84 ms ⭐ (Melhor)
 - **Tempo Mediano**: 6.12 ms
 - **Taxa de Sucesso**: 100%
-- **Dropped Iterations**: 0
+- **K6 Reqs Erro**: 0
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.315 cores
@@ -112,15 +113,16 @@ Java MVC tradicional surpreendeu com a melhor performance geral. O modelo de thr
 
 ### 🥈 2º Lugar: Java MVC VT (Spring MVC + Virtual Threads)
 **Porta**: 3007 | **Tecnologia**: Spring MVC com Virtual Threads (Project Loom)
+**Período de Coleta**: 2026-01-13 17:17:24 - 17:24:24
 
 #### Métricas K6
-- **Total de Requisições**: 90,589
+- **K6 Reqs Sucesso**: 90,589
 - **RPS Médio**: 251.64 req/s
 - **VUs Simultâneos (Máximo)**: 110
 - **P95**: 17.06 ms
 - **Tempo Médio**: 9.18 ms
 - **Taxa de Sucesso**: 100%
-- **Dropped Iterations**: 10 (0.03%)
+- **K6 Reqs Erro**: 10 (0.03%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.349 cores
@@ -141,9 +143,10 @@ Virtual Threads demonstraram performance quase idêntica ao MVC tradicional, val
 
 ### 🥉 3º Lugar: Java WebFlux (Spring WebFlux Reactive)
 **Porta**: 3006 | **Tecnologia**: Spring WebFlux (Programação Reativa)
+**Período de Coleta**: 2026-01-13 17:08:54 - 17:15:54
 
 #### Métricas K6
-- **Total de Requisições**: 90,599
+- **K6 Reqs Sucesso**: 90,599
 - **RPS Médio**: 251.66 req/s
 - **VUs Simultâneos (Máximo)**: 100
 - **P95**: 21.88 ms
@@ -169,15 +172,16 @@ WebFlux apresentou excelente performance, mas com overhead de memória. O modelo
 
 ### 4º Lugar: Node.js (NestJS + TypeORM)
 **Porta**: 3005 | **Tecnologia**: NestJS com TypeORM (Event-driven)
+**Período de Coleta**: 2026-01-13 17:01:33 - 17:08:33
 
 #### Métricas K6
-- **Total de Requisições**: 90,509
+- **K6 Reqs Sucesso**: 90,509
 - **RPS Médio**: 251.41 req/s
 - **VUs Simultâneos (Máximo)**: 188
 - **P95**: 40.65 ms
 - **Tempo Médio**: 17.42 ms
-- **Taxa de Sucesso**: 100%
-- **Dropped Iterations**: 90 (0.10%)
+- **Taxa de Sucesso**: 99.90%
+- **K6 Reqs Erro**: 90 (0.10%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.466 cores
@@ -198,15 +202,16 @@ Node.js demonstrou excelente eficiência de memória e boa performance geral. A 
 
 ### 5º Lugar: Python (FastAPI + SQLAlchemy)
 **Porta**: 3008 | **Tecnologia**: FastAPI com SQLAlchemy Async + Uvicorn
+**Período de Coleta**: 2026-01-13 17:25:19 - 17:32:19
 
 #### Métricas K6
-- **Total de Requisições**: 90,389
+- **K6 Reqs Sucesso**: 90,389
 - **RPS Médio**: 251.08 req/s
 - **VUs Simultâneos (Máximo)**: 288
 - **P95**: 76.07 ms
 - **Tempo Médio**: 24.96 ms
-- **Taxa de Sucesso**: 99.99% (13 falhas)
-- **Dropped Iterations**: 210 (0.58%)
+- **Taxa de Sucesso**: 99.77%
+- **K6 Reqs Erro**: 210 (0.58%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.695 cores
@@ -228,15 +233,16 @@ FastAPI com async/await demonstrou performance razoável, mas Python tem limita�
 
 ### 6º Lugar: PHP Octane (Laravel Octane + Swoole)
 **Porta**: 3014 | **Tecnologia**: Laravel Octane com Swoole
+**Período de Coleta**: 2026-01-13 17:54:57 - 18:01:57
 
 #### Métricas K6
-- **Total de Requisições**: 90,388
+- **K6 Reqs Sucesso**: 90,388
 - **RPS Médio**: 251.08 req/s
 - **VUs Simultâneos (Máximo)**: 269
 - **P95**: 39.28 ms
 - **Tempo Médio**: 22.45 ms
-- **Taxa de Sucesso**: 99.16% (758 falhas) ⚠️
-- **Dropped Iterations**: 211 (0.59%)
+- **Taxa de Sucesso**: 99.77%
+- **K6 Reqs Erro**: 211 (0.59%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.729 cores
@@ -258,15 +264,16 @@ PHP Octane mostrou que PHP moderno pode ser performático, mas a taxa de erro de
 
 ### 7º Lugar: PHP FPM (Laravel + PHP-FPM + Nginx)
 **Porta**: 3011 | **Tecnologia**: Laravel com PHP-FPM e Nginx
+**Período de Coleta**: 2026-01-13 17:43:31 - 17:50:31
 
 #### Métricas K6
-- **Total de Requisições**: 87,405 (3.5% menos)
+- **K6 Reqs Sucesso**: 87,405 (3.5% menos)
 - **RPS Médio**: 242.79 req/s
 - **VUs Simultâneos (Máximo)**: 600 ⚠️ (Saturado)
 - **P95**: 1,556.75 ms ❌ (Falhou threshold)
 - **Tempo Médio**: 426.14 ms
 - **Taxa de Sucesso**: 100%
-- **Dropped Iterations**: 3,194 (8.87%) ❌
+- **K6 Reqs Erro**: 3,194 (8.87%) ❌
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 1.370 cores
@@ -288,15 +295,16 @@ PHP-FPM tradicional mostrou limitações significativas. O modelo de processos n
 
 ### 8º Lugar: PHP CLI (Laravel CLI Server)
 **Porta**: 3009 | **Tecnologia**: Laravel com servidor built-in do PHP
+**Período de Coleta**: 2026-01-13 17:34:40 - 17:41:40
 
 #### Métricas K6
-- **Total de Requisições**: 23,106 ❌ (74.5% menos)
+- **K6 Reqs Sucesso**: 23,106 ❌ (74.5% menos)
 - **RPS Médio**: 63.26 req/s ❌ (4x menor)
 - **VUs Simultâneos (Máximo)**: 600 ⚠️ (Saturado)
 - **P95**: 9,984.36 ms ❌ (9.98 segundos!)
 - **Tempo Médio**: 7,796.86 ms (7.8 segundos!)
-- **Taxa de Sucesso**: 100% (das que completaram)
-- **Dropped Iterations**: 67,493 ❌ (184.78 req/s)
+- **Taxa de Sucesso**: 25.50%
+- **K6 Reqs Erro**: 67,493 ❌ (184.78 req/s)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.683 cores
@@ -447,18 +455,18 @@ O servidor built-in do PHP **NÃO deve NUNCA ser usado em produção**. O servid
 ### Confiabilidade (Taxa de Sucesso)
 **Justificativa**: Confiabilidade é crítica. Uma stack rápida mas instável é inútil em produção.
 
-| Stack | Sucesso | Erro | Dropped | Confiabilidade |
+| Stack | Sucesso | Erro | K6 Reqs Erro | Confiabilidade |
 |-------|---------|------|---------|----------------|
-| Java MVC | 100% | 0% | 0 | ⭐⭐⭐⭐⭐ |
-| Java WebFlux | 100% | 0% | 0 | ⭐⭐⭐⭐⭐ |
-| Java MVC VT | 100% | 0% | 10 | ⭐⭐⭐⭐⭐ |
-| Node.js | 100% | 0% | 90 | ⭐⭐⭐⭐⭐ |
-| PHP FPM | 100% | 0% | 3,194 | ⭐⭐⭐ |
-| PHP CLI | 100% | 0% | 67,493 | ⭐ |
-| Python | 99.99% | 0.01% | 210 | ⭐⭐⭐⭐ |
-| PHP Octane | 99.16% | 0.84% | 211 | ⭐⭐⭐ |
+| Java WebFlux | 100% | 0 | 0 | ⭐⭐⭐⭐⭐ |
+| Java MVC | 100% | 0 | 0 | ⭐⭐⭐⭐⭐ |
+| Java MVC VT | 99.99% | 0 | 10 | ⭐⭐⭐⭐⭐ |
+| Node.js | 99.90% | 0 | 90 | ⭐⭐⭐⭐⭐ |
+| PHP Octane | 99.77% | 0.84% | 211 | ⭐⭐⭐ |
+| Python | 99.77% | 0.01% | 210 | ⭐⭐⭐⭐ |
+| PHP FPM | 96.47% | 0 | 3,194 | ⭐⭐⭐ |
+| PHP CLI | 25.50% | 0 | 67,493 | ⭐ |
 
-**Análise**: Java e Node.js têm 100% de sucesso. PHP Octane teve 758 falhas (0.84%). PHP CLI descartou 74.5% das requisições.
+**Análise**: Java continua líder. PHP FPM cai para 96.47% devido aos drops. PHP CLI processa apenas um quarto das requisições.
 
 ---
 
@@ -507,12 +515,12 @@ O servidor built-in do PHP **NÃO deve NUNCA ser usado em produção**. O servid
 ### Por Confiabilidade
 1. 🥇 **Java MVC** - 100%, 0 dropped
 2. 🥇 **Java WebFlux** - 100%, 0 dropped
-3. 🥈 **Java MVC VT** - 100%, 10 dropped
-4. 🥉 **Node.js** - 100%, 90 dropped
-5. **Python** - 99.99%, 210 dropped
-6. **PHP Octane** - 99.16%, 211 dropped
-7. **PHP FPM** - 100%, 3,194 dropped
-8. **PHP CLI** - 100%, 67,493 dropped ❌
+3. 🥈 **Java MVC VT** - 99.99%, 10 dropped
+4. 🥉 **Node.js** - 99.90%, 90 dropped
+5. **Python** - 99.77%, 210 dropped
+6. **PHP Octane** - 99.77%, 211 dropped
+7. **PHP FPM** - 96.47%, 3,194 dropped
+8. **PHP CLI** - 25.50%, 67,493 dropped ❌
 
 ### Ranking Geral (Ponderado)
 Considerando performance, eficiência, estabilidade e confiabilidade:

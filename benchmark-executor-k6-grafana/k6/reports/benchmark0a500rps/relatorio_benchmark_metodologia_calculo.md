@@ -21,24 +21,61 @@ Esses valores são salvos em `prometheus_metrics_results.json`.
 
 As colunas abaixo **não são calculadas** pelo `query_prometheus_metrics.py` e **não têm PromQL associada** neste repositório:
 
-- **Total Reqs**
+- **K6 Reqs Sucesso**
+- **K6 Reqs Erro**
 - **RPS Médio** (do teste)
 - **VUs Máx**
 - **P95 (ms)** (latência HTTP)
 - **Tempo Médio (ms)** (latência HTTP)
-- **Taxa Sucesso**
+- **Taxa Sucesso** ✅ **(calculada via K6)**
 - **Threshold**
 
 Motivo: essas são métricas típicas de **ferramenta de load test (K6)**. O script Prometheus aqui só coleta **recursos do container** e (opcionalmente) um contador de requests do gateway se existir (`http_requests_total`).
 
 ---
 
-## 🕒 Janela de tempo por stack (como o script escolhe o intervalo)
+## 📊 Como é Calculada a Taxa de Sucesso
 
-O script define uma janela fixa de **6 minutos (360s)** por stack:
+A **Taxa Sucesso** é calculada a partir dos relatórios do K6, **não do Prometheus**:
 
-- **start_ts**: timestamp ISO definido em `TEST_WINDOWS[stack].start`
-- **end_ts**: `start_ts + 360`
+### 📈 Fórmula:
+Taxa Sucesso (%) = (K6 Reqs Sucesso / (K6 Reqs Sucesso + K6 Reqs Erro)) × 100
+
+
+### 📋 Fonte dos Dados:
+- **K6 Reqs Sucesso**: Métrica `http_reqs.count` do relatório K6. Representa o total de requisições enviadas e que obtiveram resposta (independente se 200 ou 500).
+- **K6 Reqs Erro**: Métrica `dropped_iterations.count` do relatório K6. Representa requisições descartadas pelo K6 antes do envio devido à saturação de VUs ou timeout interno do gerador de carga.
+
+
+### 🎯 O que representa:
+- **Taxa de processamento**: Capacidade do sistema de aceitar e processar requisições
+- **Resiliência de carga**: Percentual de requisições que não foram descartadas por saturação
+
+### ⚠️ Importante:
+Esta métrica **mudou** em relação a versões anteriores. Agora ela representa a **capacidade de processamento** (Throughput Capacity) e ignora erros de aplicação (HTTP 500), focando em quantas requisições o servidor conseguiu responder vs quantas foram descartadas.
+
+---
+
+## � O que significa "Threshold" (Critérios de Aprovação)
+
+A coluna **Threshold** indica se a stack passou nos critérios de qualidade definidos para o teste de carga no K6.
+
+### ✅ Critérios para Aprovação:
+1.  **P95 de Latência < 1000ms**: 95% das requisições devem ser respondidas em menos de 1 segundo.
+2.  **Taxa de Erro < 1%**: Menos de 1% das requisições podem falhar (exceto dropped iterations, que são contabilizadas separadamente na capacidade).
+
+### ❌ Estados:
+- ✅ **Passou**: Atendeu a todos os critérios.
+- ❌ **Falhou**: Violou um ou mais critérios (geralmente latência altíssima ou saturação completa).
+
+---
+
+## �🕒 Janela de tempo por stack (como o script escolhe o intervalo)
+
+O script define uma janela fixa de **7 minutos (420s)** por stack:
+
+- **start_ts**: timestamp ISO definido em `TEST_WINDOWS[stack].start` (6m30s antes do fim do teste)
+- **end_ts**: `start_ts + 420`
 - **step**: `"15s"` (amostragem a cada 15 segundos)
 
 Trechos relevantes:
@@ -46,7 +83,7 @@ Trechos relevantes:
 ```15:66:benchmark-executor-k6-grafana/query_prometheus_metrics.py
 TEST_WINDOWS = {
     "node": {
-        "start": "2026-01-13T17:08:03-03:00",
+        "start": "2026-01-13T17:01:33-03:00",  # 6m30s antes do fim
         "port": 3005,
         "stack": "node",
         "name": "Node.js (NestJS)"
@@ -58,16 +95,33 @@ TEST_WINDOWS = {
 ```107:127:benchmark-executor-k6-grafana/query_prometheus_metrics.py
 def get_container_metrics(stack_key, test_info):
     start_ts = parse_timestamp(test_info["start"])
-    end_ts = start_ts + 360
+    end_ts = start_ts + 420
     stack_label = test_info["stack"]
     results = {
         "stack": test_info["name"],
         "stack_label": stack_label,
         "port": test_info["port"],
         "start_time": test_info["start"],
-        "duration_seconds": 360
+        "duration_seconds": 420
     }
 ```
+
+---
+
+## 📅 Janelas de Tempo Específicas por Stack (7 Minutos)
+
+| Stack | Início (UTC-3) | Fim (UTC-3) | Duração |
+|-------|----------------|-------------|---------|
+| **Node.js** | `2026-01-13T17:01:33` | `2026-01-13T17:08:33` | 7 min |
+| **Java WebFlux** | `2026-01-13T17:08:54` | `2026-01-13T17:15:54` | 7 min |
+| **Java MVC VT** | `2026-01-13T17:17:24` | `2026-01-13T17:24:24` | 7 min |
+| **Python** | `2026-01-13T17:25:19` | `2026-01-13T17:32:19` | 7 min |
+| **PHP CLI** | `2026-01-13T17:34:40` | `2026-01-13T17:41:40` | 7 min |
+| **PHP FPM** | `2026-01-13T17:43:31` | `2026-01-13T17:50:31` | 7 min |
+| **PHP Octane** | `2026-01-13T17:54:57` | `2026-01-13T18:01:57` | 7 min |
+| **Java MVC** | `2026-01-13T18:03:05` | `2026-01-13T18:10:05` | 7 min |
+
+**Observação**: Os timestamps de início foram ajustados para **6 minutos e 30 segundos antes** do fim original de cada teste, garantindo captura completa da janela de teste incluindo aquecimento e cooldown.
 
 ---
 
@@ -190,11 +244,13 @@ O `{stack_label}` vem do campo `TEST_WINDOWS[stack].stack`:
 - PHP Octane: `php-octane`
 - Java MVC: `java-mvc`
 
-Exemplo (CPU para PHP CLI):
+Exemplo (CPU para PHP CLI) com janela de 7 minutos:
 
 ```promql
 rate(container_cpu_usage_seconds_total{name=~".*php.*gateway.*"}[1m])
 ```
+
+**Período de coleta**: 17:34:40 → 17:41:40 (420 segundos total)
 
 ---
 
@@ -215,4 +271,5 @@ O script grava tudo em `prometheus_metrics_results.json`. É dali que saem (quan
   - ou não pegar nenhum se o label `name` do cAdvisor não contiver esses pedaços.
 - **P95 em Python**: é percentil sobre amostras; não é P95 “exato” sobre todos os eventos.
 - **Mistura de séries**: se a query retornar múltiplas séries, o script agrega tudo junto (não soma por timestamp nem faz `sum by(...)`).
-
+- **Janela fixa de 7 minutos**: Pode incluir períodos de aquecimento/cooldown que afetam as médias, mas garante cobertura completa do teste.
+- **Step de 15s**: Amostragem pode perder picos muito rápidos de CPU/memória.

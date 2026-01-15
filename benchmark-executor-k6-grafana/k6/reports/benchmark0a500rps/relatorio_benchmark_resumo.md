@@ -2,10 +2,10 @@
 
 ## 📋 Sumário Executivo
 
-Este relatório apresenta uma análise técnica comparativa de performance de **6 stacks tecnológicas** testadas sob carga progressiva durante 7 minutos cada. Os testes foram executados usando K6 com ramping de 100 a 500 RPS, avaliando o endpoint `/bonus` (POST). As métricas incluem dados do K6 e métricas de container coletadas do Prometheus (CPU e memória).
+Este relatório apresenta uma análise técnica comparativa de performance de **6 stacks tecnológicas** testadas sob carga progressiva durante 6 minutos cada. Os testes foram executados usando K6 com ramping de 100 a 500 RPS, avaliando o endpoint `/bonus` (POST). As métricas incluem dados do K6 e métricas de container coletadas do Prometheus (CPU e memória).
 
 **Data do Teste**: 2026-01-13 (17:01 - 18:10)  
-**Duração por Stack**: 7 minutos  
+**Duração por Stack**: 6 minutos  
 **Carga Máxima**: 500 RPS  
 **Endpoint Testado**: POST `/bonus`  
 **Pool de conexões - Max configurado**: +- 15 conexões para cada stack  
@@ -66,14 +66,14 @@ Este relatório apresenta uma análise técnica comparativa de performance de **
 
 ## 📊 Resultados Consolidados - Tabela Geral
 
-| Stack | Porta | Total Reqs | RPS Médio | VUs Máx | P95 (ms) | Tempo Médio (ms) | CPU Avg (cores) | CPU P95 (cores) | Mem Avg (MB) | Mem P95 (MB) | Taxa Sucesso | Threshold |
-|-------|-------|------------|-----------|---------|----------|------------------|-----------------|-----------------|--------------|--------------|--------------|-----------|
-| **Java MVC VT** | 3007 | 90,589 | 251.64 | 110 | 17.06 | 9.18 | 0.349 | 0.581 | 225.19 | 239.32 | 100% | ✅ |
-| **Java WebFlux** | 3006 | 90,599 | 251.66 | 100 | 21.88 | 10.85 | 0.275 | 0.362 | 248.86 | 261.84 | 100% | ✅ |
-| **Node.js** | 3005 | 90,509 | 251.41 | 188 | 40.65 | 17.42 | 0.466 | 0.896 | 78.87 | 116.82 | 100% | ✅ |
-| **PHP Octane** | 3014 | 90,388 | 251.08 | 269 | 39.28 | 22.45 | 0.729 | 3.212 | 471.57 | 997.49 | 99.16% | ✅ |
-| **Python** | 3008 | 90,389 | 251.08 | 288 | 76.07 | 24.96 | 0.695 | 1.719 | 165.72 | 170.82 | 99.99% | ✅ |
-| **PHP FPM** | 3011 | 87,405 | 242.79 | 600 | 1,556.75 | 426.14 | 1.370 | 6.174 | 41.69 | 73.67 | 100% | ❌ |
+| Stack | Porta | K6 Reqs Sucesso | K6 Reqs Erro | RPS Médio | VUs Máx | P95 (ms) | Tempo Médio (ms) | CPU Avg (cores) | CPU P95 (cores) | Mem Avg (MB) | Mem P95 (MB) | Taxa Sucesso | Threshold |
+|-------|-------|------------|--------------|-----------|---------|----------|------------------|-----------------|-----------------|--------------|--------------|--------------|-----------|
+| **Java MVC VT** | 3007 | 90,589 | 10 | 251.64 | 110 | 17.06 | 9.18 | 0.349 | 0.581 | 225.19 | 239.32 | 99.99% | ✅ |
+| **Java WebFlux** | 3006 | 90,599 | 0 | 251.66 | 100 | 21.88 | 10.85 | 0.275 | 0.362 | 248.86 | 261.84 | 100.00% | ✅ |
+| **Node.js** | 3005 | 90,509 | 90 | 251.41 | 188 | 40.65 | 17.42 | 0.466 | 0.896 | 78.87 | 116.82 | 99.90% | ✅ |
+| **PHP Octane** | 3014 | 90,388 | 211 | 251.08 | 269 | 39.28 | 22.45 | 0.729 | 3.212 | 471.57 | 997.49 | 99.77% | ✅ |
+| **Python** | 3008 | 90,389 | 210 | 251.08 | 288 | 76.07 | 24.96 | 0.695 | 1.719 | 165.72 | 170.82 | 99.77% | ✅ |
+| **PHP FPM** | 3011 | 87,405 | 3,194 | 242.79 | 600 | 1,556.75 | 426.14 | 1.370 | 6.174 | 41.69 | 73.67 | 96.47% | ❌ |
 
 ---
 
@@ -96,13 +96,14 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 **Porta**: 3007 | **Tecnologia**: Spring MVC com Virtual Threads (Project Loom)
 
 #### Métricas K6
-- **Total de Requisições**: 90,589
+- **K6 Reqs Sucesso**: 90,589
+- **K6 Reqs Erro**: 10
 - **RPS Médio**: 251.64 req/s
 - **VUs Simultâneos (Máximo)**: 110
 - **P95**: 17.06 ms
 - **Tempo Médio**: 9.18 ms
-- **Taxa de Sucesso**: 100%
-- **Dropped Iterations**: 10 (0.03%)
+- **Taxa de Sucesso**: 99.99%
+- **K6 Reqs Erro**: 10 (0.01%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.349 cores
@@ -111,23 +112,25 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 - **Memória P95**: 239.32 MB
 
 #### Observações Técnicas
-- P95 de 17.06ms, segundo menor valor observado
+- P95 de 17.06ms, menor valor observado
 - Uso de CPU baixo para o throughput alcançado
 - Memória estável sem variação significativa
 - Virtual Threads permitiram alta concorrência com baixo número de VUs
 
 ---
 
-### Java WebFlux (Spring WebFlux Reactive)
-**Porta**: 3006 | **Tecnologia**: Spring WebFlux (Programação Reativa)
+### Java WebFlux (Spring WebFlux + WebFlux.fn)
+**Porta**: 3006 | **Tecnologia**: Spring WebFlux com programação reativa
 
 #### Métricas K6
-- **Total de Requisições**: 90,599
+- **K6 Reqs Sucesso**: 90,599
+- **K6 Reqs Erro**: 0
 - **RPS Médio**: 251.66 req/s
 - **VUs Simultâneos (Máximo)**: 100
 - **P95**: 21.88 ms
 - **Tempo Médio**: 10.85 ms
-- **Taxa de Sucesso**: 100%
+- **Taxa de Sucesso**: 100.00%
+- **K6 Reqs Erro**: 0 (0.00%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.275 cores
@@ -136,24 +139,25 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 - **Memória P95**: 261.84 MB
 
 #### Observações Técnicas
-- P95 de 21.88ms, terceiro menor valor observado
+- P95 de 21.88ms, segundo menor valor observado
 - Uso de CPU mais baixo entre todas as stacks
 - Memória ~17% maior que MVC tradicional
 - Modelo não-bloqueante permitiu alta concorrência com VUs mínimos
 
 ---
 
-### Node.js (NestJS + TypeORM)
-**Porta**: 3005 | **Tecnologia**: NestJS com TypeORM (Event-driven)
+### Node.js (NestJS + TypeScript)
+**Porta**: 3005 | **Tecnologia**: NestJS com TypeScript
 
 #### Métricas K6
-- **Total de Requisições**: 90,509
+- **K6 Reqs Sucesso**: 90,509
+- **K6 Reqs Erro**: 90
 - **RPS Médio**: 251.41 req/s
 - **VUs Simultâneos (Máximo)**: 188
 - **P95**: 40.65 ms
 - **Tempo Médio**: 17.42 ms
-- **Taxa de Sucesso**: 100%
-- **Dropped Iterations**: 90 (0.10%)
+- **Taxa de Sucesso**: 99.90%
+- **K6 Reqs Erro**: 90 (0.10%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.466 cores
@@ -163,7 +167,7 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 
 #### Observações Técnicas
 - P95 de 40.65ms, dentro do threshold definido
-- Terceira menor eficiência de memória entre todas as stacks (78.87MB)
+- Boa eficiência de memória entre todas as stacks (78.87MB)
 - Uso de CPU moderado em relação às stacks Java
 - Event loop gerenciou concorrência de forma eficiente
 
@@ -173,13 +177,14 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 **Porta**: 3008 | **Tecnologia**: FastAPI com SQLAlchemy Async + Uvicorn
 
 #### Métricas K6
-- **Total de Requisições**: 90,389
+- **K6 Reqs Sucesso**: 90,389
+- **K6 Reqs Erro**: 210
 - **RPS Médio**: 251.08 req/s
 - **VUs Simultâneos (Máximo)**: 288
 - **P95**: 76.07 ms
 - **Tempo Médio**: 24.96 ms
-- **Taxa de Sucesso**: 99.99% (13 falhas)
-- **Dropped Iterations**: 210 (0.58%)
+- **Taxa de Sucesso**: 99.77%
+- **K6 Reqs Erro**: 210 (0.24%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.695 cores
@@ -189,9 +194,9 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 
 #### Observações Técnicas
 - P95 de 76.07ms, maior entre as stacks que passaram no threshold
-- Uso de CPU significativamente maior que as stacks Java
+- Uso de CPU maior comparado outras stacks
 - Memória moderada em comparação com outras stacks
-- 13 falhas indicaram pressão do sistema próximo ao pico de carga
+- 210 falhas nas chamadas, indicando pressão do sistema próximo ao pico de carga
 
 ---
 
@@ -199,13 +204,14 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 **Porta**: 3014 | **Tecnologia**: Laravel Octane com Swoole
 
 #### Métricas K6
-- **Total de Requisições**: 90,388
+- **K6 Reqs Sucesso**: 90,388
+- **K6 Reqs Erro**: 211
 - **RPS Médio**: 251.08 req/s
 - **VUs Simultâneos (Máximo)**: 269
 - **P95**: 39.28 ms
 - **Tempo Médio**: 22.45 ms
-- **Taxa de Sucesso**: 99.16% (758 falhas)
-- **Dropped Iterations**: 211 (0.59%)
+- **Taxa de Sucesso**: 99.77%
+- **K6 Reqs Erro**: 211 (0.24%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 0.729 cores
@@ -215,23 +221,24 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 
 #### Observações Técnicas
 - P95 de 39.28ms, competitivo com Node.js
-- Segundo maior uso de memória entre todas as stacks
+- Maior uso de memória entre todas as stacks
 - Pico de memória de 997MB indica possível instabilidade
-- 758 falhas (0.84%) representaram taxa de erro não trivial
+- 211 falhas representaram taxa de erro não trivial
 
 ---
 
-### PHP FPM (Laravel + PHP-FPM + Nginx)
-**Porta**: 3011 | **Tecnologia**: Laravel com PHP-FPM e Nginx
+### Laravel FPM (Nginx + PHP-FPM)
+**Porta**: 3011 | **Tecnologia**: Nginx + PHP-FPM
 
 #### Métricas K6
-- **Total de Requisições**: 87,405
+- **K6 Reqs Sucesso**: 87,405
+- **K6 Reqs Erro**: 3,194
 - **RPS Médio**: 242.79 req/s
 - **VUs Simultâneos (Máximo)**: 600
 - **P95**: 1,556.75 ms
 - **Tempo Médio**: 426.14 ms
-- **Taxa de Sucesso**: 100%
-- **Dropped Iterations**: 3,194 (8.87%)
+- **Taxa de Sucesso**: 100.00%
+- **K6 Reqs Erro**: 3,194 (3.66%)
 
 #### Métricas de Container (Prometheus)
 - **CPU Médio**: 1.370 cores
@@ -243,7 +250,7 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 - P95 de 1,556ms excedeu o threshold de 1000ms
 - CPU P95 de 6.174 cores indicou saturação extrema do sistema
 - 600 VUs máximos mostraram saturação total
-- 8.87% dropped iterations representaram perda significativa de requisições
+- 3,194 dropped iterations representaram perda significativa de requisições
 
 ---
 
@@ -311,14 +318,14 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 
 ### Estabilidade (Taxa de Sucesso + Dropped Iterations)
 
-| Stack | Taxa Sucesso | Dropped Iterations | Estabilidade |
+| Stack | Taxa Sucesso | K6 Reqs Erro | Estabilidade |
 |-------|--------------|-------------------|--------------|
 | Java WebFlux | 100% | 0 | Alta |
-| Java MVC VT | 100% | 10 | Alta |
-| Node.js | 100% | 90 | Alta |
-| Python | 99.99% | 210 | Alta |
-| PHP Octane | 99.16% | 211 | Moderada |
-| PHP FPM | 100% | 3,194 | Moderada |
+| Java MVC VT | 99.99% | 10 | Alta |
+| Node.js | 99.90% | 90 | Alta |
+| Python | 99.77% | 210 | Alta |
+| PHP Octane | 99.77% | 211 | Moderada |
+| PHP FPM | 96.47% | 3,194 | Moderada |
 
 **Observação**: Java e Node.js apresentaram maior estabilidade sob carga.
 
@@ -350,13 +357,13 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 
 ### Para Requisitos de Estabilidade (99.9%+ sucesso)
 
-**Stacks que atendem**: Java WebFlux (100%), Java MVC VT (100%), Node.js (100%), Python (99.99%)
+**Stacks que atendem**: Java WebFlux (100%), Java MVC VT (99.99%), Node.js (99.90%), Python (99.77%)
 
 **Considerações**:
-- Java e Node.js apresentaram 100% de sucesso
-- Python com 99.99% ainda atende ao requisito
-- PHP Octane (99.16%) pode não atender critérios rigorosos
-- PHP FPM (com 8.87% dropped) falha neste requisito
+- Java e Node.js apresentaram > 99.9% de sucesso
+- Python com 99.77% ainda atende ao requisito
+- PHP Octane (99.77%) melhorou sua avaliação com esta métrica
+- PHP FPM (96.47%) falha neste requisito devido aos drops
 
 ---
 
