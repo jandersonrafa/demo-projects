@@ -182,6 +182,10 @@
                 {
                     "expr": "sum by (job) (rate(http_requests_total{job=~\"$service\", handler!~\"/actuator.*|/metrics\", path!~\"/actuator.*|/metrics\"}[1m]))",
                     "legendFormat": "{{job}}"
+                },
+                {
+                    "expr": "sum by (job) (rate(http_server_requests_seconds_count{job=~\"$service\", uri!~\"/actuator.*|/metrics\"}[1m]))",
+                    "legendFormat": "{{job}}"
                 }
             ]
         },
