@@ -197,6 +197,7 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 - Uso de CPU maior comparado outras stacks
 - Memória moderada em comparação com outras stacks
 - 210 falhas nas chamadas, indicando pressão do sistema próximo ao pico de carga
+- Teste variando de 4 para 6 workers tem potencial de chegar proximo a p95 com 43ms
 
 ---
 
