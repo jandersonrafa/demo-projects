@@ -18,26 +18,21 @@ export const options = {
   scenarios: Object.fromEntries(
     targets.map((t) => [
       `load_${t.replace(/[^a-zA-Z0-9]/g, '_')}`,
-      {
+          {
         executor: 'ramping-arrival-rate',
-        startRate: 50,
+        startRate: 20,
         timeUnit: '1s',
         stages: [
-          { duration: '2m', target: 1000 },
-          { duration: '2m', target: 2000 }, 
-          { duration: '2m', target: 3000 }, 
-          { duration: '2m', target: 4000 }, 
-          { duration: '2m', target: 5000 }, 
-          { duration: '2m', target: 6000 }, 
-          { duration: '2m', target: 7000 }, 
-          { duration: '2m', target: 8000 }, 
-          { duration: '2m', target: 9000 }, 
-          { duration: '2m', target: 10000 },
-          { duration: '5m', target: 10000 },
-          { duration: '2m', target: 0 },
+          { duration: '1m', target: 100 },
+          { duration: '1m', target: 200 },
+          { duration: '1m', target: 300 },
+          { duration: '1m', target: 400 },
+          { duration: '1m', target: 500 }, // 🎯 pico
+          { duration: '4m', target: 500 }, // 🎯 estabilização
+          { duration: '1m', target: 0 },// sustentação
         ],
-        preAllocatedVUs: 2000,
-        maxVUs: 4000,
+        preAllocatedVUs: 400,
+        maxVUs: 800,
         exec: 'hit',
         env: { TARGET: t },
         tags: { target: t },
@@ -85,10 +80,14 @@ export function hit() {
 
 // ✅ RELATÓRIO AUTOMÁTICO (HTML + JSON)
 export function handleSummary(data) {
-  const timestamp = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '').replace(/:/g, '-');
+  // Data/hora no fuso do Brasil (Porto Alegre - UTC-3)
+  const now = new Date();
+  const brazilTime = new Date(now.getTime() - (3 * 60 * 60 * 1000));
+  const timestamp = brazilTime.toISOString().replace(/T/, '_').replace(/\..+/, '').replace(/:/g, '-');
+  
   // Extrai apenas as portas dos alvos (ex: 3005) e junta com '_'
   const ports = targets.map(t => t.split(':').pop()).join('_');
-  const reportName = ports ? `summary-${timestamp}-${ports}` : `summary-${timestamp}`;
+  const reportName = ports ? `summary-${timestamp}-BR-${ports}` : `summary-${timestamp}-BR`;
 
   return {
     [`/reports/${reportName}.html`]: htmlReport(data),
