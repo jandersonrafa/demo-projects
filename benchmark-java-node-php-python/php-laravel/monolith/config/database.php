@@ -89,7 +89,7 @@ return [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
             'host' => getenv('DB_HOST') ?: '127.0.0.1',
-            'port' => getenv('DB_PORT') ?: '5432',
+            'port' => getenv('DB_PORT') ?: '6432',
             'database' => getenv('DB_DATABASE') ?: 'laravel',
             'username' => getenv('DB_USERNAME') ?: 'root',
             'password' => getenv('DB_PASSWORD') ?: '',
@@ -153,7 +153,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

@@ -36,6 +36,25 @@ services:
         limits:
           memory: 4G
 
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    container_name: benchmark-pgbouncer
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/benchmark
+      - PGBOUNCER_CONFIG_FILE=/etc/pgbouncer/pgbouncer.ini
+    ports:
+      - "6432:6432"
+    volumes:
+      - ./pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+      - ./pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
+    depends_on:
+      postgres:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
   # Node NestJS
   node-gateway:
     build:
@@ -45,6 +64,7 @@ services:
     environment:
       MONOLITH_URL: http://node-monolith:3001
       PORT: 3000
+      UV_THREADPOOL_SIZE: 8
     deploy:
       resources:
         limits:
@@ -62,12 +82,13 @@ services:
       dockerfile: Dockerfile
     container_name: benchmark-node-monolith
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
       DB_USER: nodejs_user
       DB_PASSWORD: nodejs_pass
       DB_NAME: benchmark
       PORT: 3001
+      UV_THREADPOOL_SIZE: 12
     deploy:
       resources:
         limits:
@@ -76,8 +97,8 @@ services:
       - "3001:3001" # Exposed for Prometheus
     profiles: [ "node" ]
     depends_on:
-      postgres:
-        condition: service_healthy
+      pgbouncer:
+        condition: service_started
 
   # Java WebFlux
   java-webflux-gateway:
@@ -103,7 +124,8 @@ services:
       dockerfile: Dockerfile
     container_name: benchmark-java-webflux-monolith
     environment:
-      DB_HOST: postgres
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
       DB_USER: java_webflux_user
       DB_PASSWORD: java_webflux_pass
     deploy:
@@ -114,8 +136,8 @@ services:
       - "3002:3002" # Exposed for Prometheus
     profiles: [ "webflux" ]
     depends_on:
-      postgres:
-        condition: service_healthy
+      pgbouncer:
+        condition: service_started
 
   # Java MVC Virtual Threads
   java-mvc-vt-gateway:
@@ -141,7 +163,8 @@ services:
       dockerfile: Dockerfile
     container_name: benchmark-java-mvc-vt-monolith
     environment:
-      DB_HOST: postgres
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
       DB_USER: java_mvcvt_user
       DB_PASSWORD: java_mvcvt_pass
     deploy:
@@ -152,8 +175,8 @@ services:
       - "3003:3000" # Exposed for Prometheus mapping to internal 3000
     profiles: [ "mvc-vt" ]
     depends_on:
-      postgres:
-        condition: service_healthy
+      pgbouncer:
+        condition: service_started
 
   # Java MVC Traditional
   java-mvc-gateway:
@@ -179,7 +202,8 @@ services:
       dockerfile: Dockerfile
     container_name: benchmark-java-mvc-monolith
     environment:
-      DB_HOST: postgres
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
       DB_USER: java_mvc_user
       DB_PASSWORD: java_mvc_pass
     deploy:
@@ -190,8 +214,8 @@ services:
       - "3017:3000" # Exposed for Prometheus mapping to internal 3000
     profiles: [ "mvc" ]
     depends_on:
-      postgres:
-        condition: service_healthy
+      pgbouncer:
+        condition: service_started
 
   # Python FastAPI
   python-gateway:
@@ -218,7 +242,7 @@ services:
       dockerfile: Dockerfile
     container_name: benchmark-python-monolith
     environment:
-      DB_URL: postgresql+asyncpg://python_fastapi_user:python_fastapi_pass@postgres:5432/benchmark
+      DB_URL: postgresql+asyncpg://python_fastapi_user:python_fastapi_pass@pgbouncer:6432/benchmark
       PROMETHEUS_MULTIPROC_DIR: /tmp/prometheus_multiproc
     deploy:
       resources:
@@ -228,8 +252,8 @@ services:
       - "3004:8000" # Exposed for Prometheus mapping to internal 8000
     profiles: [ "python" ]
     depends_on:
-      postgres:
-        condition: service_healthy
+      pgbouncer:
+        condition: service_started
 
   # PHP Laravel
   php-gateway:
@@ -258,7 +282,8 @@ services:
     container_name: benchmark-php-monolith
     environment:
       DB_CONNECTION: pgsql
-      DB_HOST: postgres
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
       DB_DATABASE: benchmark
       DB_USERNAME: php_cli_user
       DB_PASSWORD: php_cli_pass
@@ -272,8 +297,8 @@ services:
       - "3010:8000" # Exposed for Prometheus mapping to internal 8000
     profiles: [ "php" ]
     depends_on:
-      postgres:
-        condition: service_healthy
+      pgbouncer:
+        condition: service_started
 
   # PHP Laravel FPM
   php-fpm-gateway-app:
@@ -289,7 +314,7 @@ services:
       APP_ENV: production
       APP_DEBUG: false
       LOG_CHANNEL: stderr
-      FPM_MAX_CHILDREN: 15
+      FPM_MAX_CHILDREN: 20
       DB_PERSISTENT: "true"
     deploy:
       resources:
@@ -323,7 +348,8 @@ services:
     image: benchmark-php-fpm-monolith-app
     environment:
       DB_CONNECTION: pgsql
-      DB_HOST: postgres
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
       DB_DATABASE: benchmark
       DB_USERNAME: php_fpm_user
       DB_PASSWORD: php_fpm_pass
@@ -332,7 +358,7 @@ services:
       APP_ENV: production
       APP_DEBUG: false
       LOG_CHANNEL: stderr
-      FPM_MAX_CHILDREN: 15
+      FPM_MAX_CHILDREN: 20
       DB_PERSISTENT: "true"
     deploy:
       resources:
@@ -342,8 +368,8 @@ services:
       - "3013:9000"
     profiles: [ "php-fpm" ]
     depends_on:
-      postgres:
-        condition: service_healthy
+      pgbouncer:
+        condition: service_started
 
   php-fpm-monolith-web:
     image: nginx:alpine
@@ -368,7 +394,8 @@ services:
     container_name: benchmark-php-octane-monolith-app
     environment:
       DB_CONNECTION: pgsql
-      DB_HOST: postgres
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
       DB_DATABASE: benchmark
       DB_USERNAME: php_octane_user
       DB_PASSWORD: php_octane_pass
@@ -385,8 +412,8 @@ services:
           memory: 2G
     profiles: [ "php-octane" ]
     depends_on:
-      postgres:
-        condition: service_healthy
+      pgbouncer:
+        condition: service_started
 
   php-octane-monolith-web:
     image: nginx:alpine
@@ -416,7 +443,7 @@ services:
       APP_ENV: production
       APP_DEBUG: false
       LOG_CHANNEL: stderr
-      OCTANE_WORKERS: 32
+      OCTANE_WORKERS: 15
       DB_PERSISTENT: "true"
     deploy:
       resources:

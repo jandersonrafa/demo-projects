@@ -1,18 +1,18 @@
 <?php
 try {
-    $dsn = "pgsql:host=pgbouncer;port=5432;dbname=benchmark;sslmode=prefer";
+    $dsn = "pgsql:host=pgbouncer;port=6432;dbname=benchmark;sslmode=prefer";
     $pdo = new PDO($dsn, "postgres", "postgres");
     echo "Connected.\n";
-    
+
     $pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
     echo "Set CASE_NATURAL.\n";
-    
+
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Set ERRMODE_EXCEPTION.\n";
-    
+
     $pdo->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_NATURAL);
     echo "Set NULL_NATURAL.\n";
-    
+
     $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
     echo "Set STRINGIFY_FETCHES.\n";
 
