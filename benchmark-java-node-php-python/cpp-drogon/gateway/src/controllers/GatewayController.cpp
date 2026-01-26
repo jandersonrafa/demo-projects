@@ -13,11 +13,10 @@ GatewayController::GatewayController() {
 void GatewayController::initializeSession() {
     monolithUrl_ = std::getenv("MONOLITH_URL") ? std::getenv("MONOLITH_URL") : "http://localhost:3000";
     
-    // Configure session with connection pooling
+    // Configure session
     session_.SetUrl(cpr::Url{monolithUrl_});
     session_.SetTimeout(cpr::Timeout{30000}); // 30 seconds
     session_.SetConnectTimeout(cpr::ConnectTimeout{10000}); // 10 seconds
-    session_.SetMaxRedirects(cpr::MaxRedirects{3});
 }
 
 void GatewayController::create(const drogon::HttpRequestPtr& req,
@@ -26,7 +25,7 @@ void GatewayController::create(const drogon::HttpRequestPtr& req,
     
     try {
         // Forward the request to monolith
-        std::string requestBody = req->getBody();
+        std::string requestBody(req->getBody());
         std::string fullUrl = monolithUrl_ + "/bonus";
         
         auto r = cpr::Post(cpr::Url{fullUrl},

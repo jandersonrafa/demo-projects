@@ -6,18 +6,24 @@ namespace repositories {
 
 std::shared_ptr<models::Client> ClientRepository::findById(const std::string& id) {
     auto client = config::DatabaseConfig::getClient();
-    auto mapper = std::make_shared<drogon::orm::Mapper<models::Client>>(client);
     
     try {
-        auto result = mapper->findFutureBy([&id](const drogon::orm::CriteriaBuilder& cb) {
-            return cb.Criteria("id", drogon::orm::CompareOperator::EQ, id);
-        }).get();
+        std::cerr << "Searching for client ID: " << id << std::endl;
+        auto f = client->execSqlAsyncFuture("SELECT * FROM clients WHERE id = $1", id);
+        auto result = f.get();
         
-        if (!result.empty()) {
-            return std::make_shared<models::Client>(result[0]);
+        if (result.size() == 0) {
+            std::cerr << "Client not found in DB" << std::endl;
+            return nullptr;
         }
+        
+        std::cerr << "Found client row, creating object" << std::endl;
+        return std::make_shared<models::Client>(result[0]);
+    } catch (const std::exception& e) {
+        std::cerr << "ClientRepository Error: " << e.what() << std::endl;
         return nullptr;
     } catch (...) {
+        std::cerr << "ClientRepository Unknown Error" << std::endl;
         return nullptr;
     }
 }

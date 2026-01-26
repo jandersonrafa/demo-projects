@@ -13,6 +13,8 @@ public:
     ADD_METHOD_TO(GatewayController::getOne, "/bonus/{1}", drogon::Get);
     METHOD_LIST_END
     
+    GatewayController();
+    
     void create(const drogon::HttpRequestPtr& req,
                 std::function<void(const drogon::HttpResponsePtr&)>&& callback);
                 

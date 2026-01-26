@@ -17,8 +17,7 @@ public:
     METHOD_LIST_END
     
     void create(const drogon::HttpRequestPtr& req,
-                std::function<void(const drogon::HttpResponsePtr&)>&& callback,
-                dto::BonusDTO&& dto);
+                std::function<void(const drogon::HttpResponsePtr&)>&& callback);
                 
     void getOne(const drogon::HttpRequestPtr& req,
                 std::function<void(const drogon::HttpResponsePtr&)>&& callback,

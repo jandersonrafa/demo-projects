@@ -9,11 +9,15 @@ RUN apt-get update && apt-get install -y \
     libpqxx-dev \
     pkg-config \
     git \
+    uuid-dev \
+    libssl-dev \
+    zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and build Drogon
 RUN git clone https://github.com/an-tao/drogon.git /tmp/drogon && \
     cd /tmp/drogon && \
+    git checkout v1.9.9 && \
     git submodule update --init --recursive && \
     mkdir build && \
     cd build && \
@@ -32,12 +36,18 @@ RUN mkdir build && \
     cmake .. -DCMAKE_BUILD_TYPE=Release && \
     make -j$(nproc)
 
-FROM debian:bullseye-slim
+FROM gcc:latest
 
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y \
     libpq5 \
-    libjsoncpp24 \
+    libjsoncpp26 \
+    libpqxx-dev \
+    libbrotli1 \
+    libuuid1 \
+    zlib1g \
+    libmariadb3 \
+    libsqlite3-0 \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 

@@ -10,4 +10,4 @@
 "golang_user" "golang_pass"
 "dotnet_user" "dotnet_pass"
 "rust_user" "rust_pass"
-"cpp_user" "cpp_pass"
+"cpp_drogon_user" "cpp_drogon_pass"

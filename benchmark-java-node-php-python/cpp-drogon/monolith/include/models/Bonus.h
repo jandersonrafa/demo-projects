@@ -40,9 +40,28 @@ public:
     void setCreatedAt(const std::chrono::system_clock::time_point& date) { createdAt_ = date; }
     
     // Static methods for ORM mapping
-    static constexpr const char* tableName() { return "bonus"; }
-    static constexpr const char* primaryKeyName() { return "id"; }
+    static constexpr const char tableName[] = "bonus";
+    static constexpr const char primaryKeyName[] = "id";
     using PrimaryKeyType = int64_t;
+
+    static std::string sqlForFindingByPrimaryKey() {
+        return "SELECT * FROM bonus WHERE id = $1";
+    }
+
+    static std::string sqlForDeletingByPrimaryKey() {
+        return "DELETE FROM bonus WHERE id = $1";
+    }
+
+    std::string sqlForUpdatingByPrimaryKey() const {
+        return "UPDATE bonus SET amount = $1, description = $2, client_id = $3, expiration_date = $4, created_at = $5 WHERE id = $6";
+    }
+
+    template<typename T>
+    void updateArgs(T& binder) const {
+        auto expTime = std::chrono::system_clock::to_time_t(expirationDate_);
+        auto createTime = std::chrono::system_clock::to_time_t(createdAt_);
+        binder << amount_ << description_ << clientId_ << expTime << createTime << id_;
+    }
     
     // Required ORM methods
     std::string sqlForInserting(bool& needSelection) const {
@@ -52,7 +71,9 @@ public:
     
     template<typename T>
     void outputArgs(T& binder) const {
-        binder << amount_ << description_ << clientId_ << expirationDate_ << createdAt_;
+        auto expTime = std::chrono::system_clock::to_time_t(expirationDate_);
+        auto createTime = std::chrono::system_clock::to_time_t(createdAt_);
+        binder << amount_ << description_ << clientId_ << expTime << createTime;
     }
     
     void updateId(int64_t id) {

@@ -4,6 +4,7 @@
 
 int main() {
     drogon::app().loadConfigFile("config.json");
+    drogon::app().addListener("0.0.0.0", 3000);
     
     // Initialize database
     config::DatabaseConfig::initialize();
@@ -23,6 +24,14 @@ int main() {
         },
         {drogon::Get});
     
-    drogon::app().run();
+    try {
+        drogon::app().run();
+    } catch (const std::exception& e) {
+        std::cerr << "CRITICAL ERROR: " << e.what() << std::endl;
+        return 1;
+    } catch (...) {
+        std::cerr << "CRITICAL ERROR: Unknown exception" << std::endl;
+        return 1;
+    }
     return 0;
 }

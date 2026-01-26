@@ -24,9 +24,26 @@ public:
     void setName(const std::string& name) { name_ = name; }
     
     // Static methods for ORM mapping
-    static constexpr const char* tableName() { return "clients"; }
-    static constexpr const char* primaryKeyName() { return "id"; }
+    static constexpr const char tableName[] = "clients";
+    static constexpr const char primaryKeyName[] = "id";
     using PrimaryKeyType = std::string;
+
+    static std::string sqlForFindingByPrimaryKey() {
+        return "SELECT * FROM clients WHERE id = $1";
+    }
+
+    static std::string sqlForDeletingByPrimaryKey() {
+        return "DELETE FROM clients WHERE id = $1";
+    }
+
+    std::string sqlForUpdatingByPrimaryKey() const {
+        return "UPDATE clients SET active = $1, name = $2 WHERE id = $3";
+    }
+
+    template<typename T>
+    void updateArgs(T& binder) const {
+        binder << active_ << name_ << id_;
+    }
     
     // Required ORM methods
     std::string sqlForInserting(bool& needSelection) const {
@@ -39,8 +56,8 @@ public:
         binder << id_ << active_ << name_;
     }
     
-    void updateId(int64_t id) {
-        id_ = std::to_string(id);
+    void updateId(uint64_t id) {
+        // For clients table, id is VARCHAR and provided manually.
     }
     
     std::string getPrimaryKey() const {

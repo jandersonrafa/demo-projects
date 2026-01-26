@@ -578,8 +578,8 @@ services:
       dockerfile: Dockerfile
     container_name: benchmark-cpp-drogon-monolith
     environment:
-      DB_HOST: pgbouncer
-      DB_PORT: 6432
+      DB_HOST: postgres
+      DB_PORT: 5432
       DB_USER: cpp_drogon_user
       DB_PASSWORD: cpp_drogon_pass
       DB_NAME: benchmark

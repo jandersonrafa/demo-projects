@@ -8,11 +8,16 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     git \
     curl \
+    uuid-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and build Drogon
 RUN git clone https://github.com/an-tao/drogon.git /tmp/drogon && \
     cd /tmp/drogon && \
+    git checkout v1.9.9 && \
     git submodule update --init --recursive && \
     mkdir build && \
     cd build && \
@@ -23,6 +28,7 @@ RUN git clone https://github.com/an-tao/drogon.git /tmp/drogon && \
 # Clone and build CPR
 RUN git clone https://github.com/libcpr/cpr.git /tmp/cpr && \
     cd /tmp/cpr && \
+    git checkout 1.10.5 && \
     mkdir build && \
     cd build && \
     cmake .. -DCMAKE_BUILD_TYPE=Release -DCPR_USE_SYSTEM_CURL=ON && \
@@ -40,12 +46,18 @@ RUN mkdir build && \
     cmake .. -DCMAKE_BUILD_TYPE=Release && \
     make -j$(nproc)
 
-FROM debian:bullseye-slim
+FROM gcc:latest
 
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y \
-    libjsoncpp24 \
+    libjsoncpp26 \
     libcurl4 \
+    libpq5 \
+    libbrotli1 \
+    libuuid1 \
+    zlib1g \
+    libmariadb3 \
+    libsqlite3-0 \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
