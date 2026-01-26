@@ -33,13 +33,25 @@ GRANT ALL PRIVILEGES ON DATABASE benchmark TO php_fpm_user;
 CREATE USER php_octane_user WITH PASSWORD 'php_octane_pass';
 GRANT ALL PRIVILEGES ON DATABASE benchmark TO php_octane_user;
 
+-- Go Stack
+CREATE USER golang_user WITH PASSWORD 'golang_pass';
+GRANT ALL PRIVILEGES ON DATABASE benchmark TO golang_user;
+
+-- .NET Stack
+CREATE USER dotnet_user WITH PASSWORD 'dotnet_pass';
+GRANT ALL PRIVILEGES ON DATABASE benchmark TO dotnet_user;
+
+-- C++ Drogon Stack
+CREATE USER cpp_drogon_user WITH PASSWORD 'cpp_drogon_pass';
+GRANT ALL PRIVILEGES ON DATABASE benchmark TO cpp_drogon_user;
+
 -- Connect to the benchmark database to grant schema-level privileges
 \c benchmark
 
 -- Grant privileges on all existing tables and sequences
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user;
 
 -- Grant default privileges for future tables and sequences
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user;

@@ -51,7 +51,7 @@ GROUP BY  split_part(description, '-', 1);
 
 # 📊 Available Stacks
 
-This project contains **8 different stacks** for performance benchmarking:
+This project contains **10 different stacks** for performance benchmarking:
 
 | Stack | Technology | Gateway Port | Monolith Port | Database User | Notes |
 |-------|-----------|--------------|---------------|---------------|-------|
@@ -63,6 +63,9 @@ This project contains **8 different stacks** for performance benchmarking:
 | **PHP CLI** | Laravel (CLI Server) | 3009 | 3010 | `php_cli_user` | Built-in PHP server |
 | **PHP FPM** | Laravel + PHP-FPM + Nginx | 3011 | 3012 | `php_fpm_user` | Production-ready FPM |
 | **PHP Octane** | Laravel Octane + Swoole | 3014 | 3015 | `php_octane_user` | High-performance async PHP |
+| **Golang Gin** | Gin + GORM (Postgres) | 3018 | 3019 | `golang_user` | High-performance compiled Go |
+| **.NET Core** | ASP.NET Core 8.0 | 3020 | 3021 | `dotnet_user` | ASP.NET Core with EF Core |
+| **Rust Axum** | Rust + Axum + SQLx | 3022 | 3023 | `rust_user` | High-performance compiled Rust |
 
 
 # Exemplo curl
@@ -83,6 +86,12 @@ curl -X POST http://localhost:3011/bonus -H "Content-Type: application/json" -d 
 curl -X POST http://localhost:3014/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
 
 curl -X POST http://localhost:3016/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+
+curl -X POST http://localhost:3018/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus Go", "clientId": "client_5"}';
+
+curl -X POST http://localhost:3020/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus .NET", "clientId": "client_5"}';
+
+curl -X POST http://localhost:3022/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus Rust", "clientId": "client_5"}';
 ```
 
 

@@ -7,3 +7,7 @@
 "php_fpm_user" "php_fpm_pass"
 "php_octane_user" "php_octane_pass"
 "postgres" "postgres"
+"golang_user" "golang_pass"
+"dotnet_user" "dotnet_pass"
+"rust_user" "rust_pass"
+"cpp_user" "cpp_pass"
