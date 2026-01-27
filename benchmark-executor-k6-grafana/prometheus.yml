@@ -137,6 +137,72 @@ scrape_configs:
           stack: java-mvc
           component: gateway
 
+  - job_name: 'golang-monolith'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.0.114:3019']
+        labels:
+          stack: golang
+          component: monolith
+
+  - job_name: 'golang-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.0.114:3018']
+        labels:
+          stack: golang
+          component: gateway
+
+
+  - job_name: 'dotnet-monolith'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.0.114:3021']
+        labels:
+          stack: dotnet
+          component: monolith
+
+  - job_name: 'dotnet-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.0.114:3020']
+        labels:
+          stack: dotnet
+          component: gateway
+
+
+  - job_name: 'cpp-monolith'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.0.114:3023']
+        labels:
+          stack: cpp
+          component: monolith
+
+  - job_name: 'cpp-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.0.114:3022']
+        labels:
+          stack: cpp
+          component: gateway
+
+  - job_name: 'rust-monolith'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.0.114:3025']
+        labels:
+          stack: rust
+          component: monolith
+
+  - job_name: 'rust-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['192.168.0.114:3024']
+        labels:
+          stack: rust
+          component: gateway
+
   - job_name: 'postgres'
     static_configs:
       - targets: ['postgres-exporter:9187']
