@@ -50,6 +50,30 @@ TEST_WINDOWS = {
         "port": 3006,
         "stack": "java-webflux",
         "name": "Java WebFlux"
+    },
+    "golang": {
+        "start": "2026-01-27T09:19:45-03:00",
+        "port": 3018,
+        "stack": "golang",
+        "name": "Golang"
+    },
+    "dotnet": {
+        "start": "2026-01-27T09:49:28-03:00",
+        "port": 3020,
+        "stack": "dotnet",
+        "name": "Dotnet"
+    },
+    "rust": {
+        "start": "2026-01-27T11:49:05-03:00",
+        "port": 3024,
+        "stack": "rust",
+        "name": "Rust"
+    },
+    "cpp": {
+        "start": "2026-01-27T12:01:19-03:00",
+        "port": 3022,
+        "stack": "cpp",
+        "name": "Cpp"
     }
 }
 

@@ -54,6 +54,10 @@ Este relatório apresenta uma análise técnica comparativa de performance de **
 | **Java MVC VT** | 3007 | 210,599 | 0 | 0 | 350.99 | 345.73 | 93 | 13.85 | 8.70 | 0.3343 | 0.4494 | 246.94 | 264.51 | 100.00% | ✅ |
 | **Java WebFlux** | 3006 | 210,599 | 0 | 0 | 350.99 | 337.60 | 75 | 14.36 | 9.56 | 0.3183 | 0.3786 | 248.19 | 257.93 | 100.00% | ✅ |
 | **Node.js** | 3005 | 210,599 | 0 | 4 | 350.99 | 345.92 | 400 | 24.98 | 16.42 | 0.6168 | 0.8770 | 102.39 | 128.38 | 99.99% | ✅ |
+| **Golang** | 3018 | 210,599 | 0 | 0 | 351.00 | N/A | 400 | 12.14 | 8.28 | 0.1244 | 0.1661 | 27.45 | 52.78 | 100.00% | ✅ |
+| **Dotnet** | 3020 | 210,599 | 0 | 0 | 351.00 | N/A | 400 | 12.44 | 9.18 | 0.3316 | 0.4488 | 115.17 | 177.14 | 100.00% | ✅ |
+| **Rust** | 3024 | 210,599 | 0 | 0 | 351.00 | N/A | 400 | 15.62 | 8.23 | 0.1069 | 0.1529 | 14.60 | 17.07 | 100.00% | ✅ |
+| **Cpp** | 3022 | 210,599 | 0 | 14,928 | 351.00 | N/A | 400 | 57.97 | 20.76 | 1.0141 | 1.8587 | 18.54 | 23.52 | 92.91% | ❌ |
 | **Python** | 3008 | 210,420 | 179 | 246 | 350.69 | 344.45 | 568 | 126.03 | 48.79 | 1.2136 | 2.0634 | 252.10 | 259.86 | 99.80% | ✅ |
 | **PHP Octane** | 3014 | 210,534 | 65 | 14,821 | 350.88 | 74.32 | 447 | 83.68 | 32.09 | 1.3649 | 4.5409 | 323.81 | 650.38 | 92.94% | ❌ |
 | **PHP FPM** | 3011 | 186,237 | 24,362 | 0 | 310.39 | 305.25 | 800 | 2,112.34 | 1,295.38 | 2.2719 | 6.7071 | 52.57 | 86.30 | 88.43% | ❌ |
@@ -243,31 +247,144 @@ Durante os testes de carga, cada stack processou requisições POST para o endpo
 
 ---
 
+### Golang
+**Porta**: 3018 | **Tecnologia**: Go (Standard Library ou Framework)
+
+#### Métricas K6
+- **K6 Reqs Sucesso**: 210,599
+- **K6 Reqs Erro (Drops)**: 0
+- **RPS Médio**: 351.00 req/s
+- **VUs Simultâneos (Máximo)**: 400
+- **P95**: 12.14 ms
+- **Tempo Médio**: 8.28 ms
+- **Taxa de Sucesso (Capacidade)**: 100.00%
+- **Erros HTTP (500)**: 0
+
+#### Métricas de Container (Prometheus)
+- **CPU Médio**: 0.1244 cores
+- **CPU P95**: 0.1661 cores
+- **Memória Média**: 27.45 MB
+- **Memória P95**: 52.78 MB
+
+#### Observações Técnicas
+- Desempenho excepcional de latência (8.28ms média).
+- Uso extremamente eficiente de CPU (0.12 cores) e Memória.
+- Estabilidade total (100% sucesso).
+
+---
+
+### Dotnet
+**Porta**: 3020 | **Tecnologia**: .NET 8/9
+
+#### Métricas K6
+- **K6 Reqs Sucesso**: 210,599
+- **K6 Reqs Erro (Drops)**: 0
+- **RPS Médio**: 351.00 req/s
+- **VUs Simultâneos (Máximo)**: 400
+- **P95**: 12.44 ms
+- **Tempo Médio**: 9.18 ms
+- **Taxa de Sucesso (Capacidade)**: 100.00%
+- **Erros HTTP (500)**: 0
+
+#### Métricas de Container (Prometheus)
+- **CPU Médio**: 0.3316 cores
+- **CPU P95**: 0.4488 cores
+- **Memória Média**: 115.17 MB
+- **Memória P95**: 177.14 MB
+
+#### Observações Técnicas
+- Latência muito baixa, comparável ao Java e Golang.
+- Consumo de recursos moderado e equilibrado.
+- Estabilidade total.
+
+---
+
+### Rust
+**Porta**: 3024 | **Tecnologia**: Rust (Actix/Axum)
+
+#### Métricas K6
+- **K6 Reqs Sucesso**: 210,599
+- **K6 Reqs Erro (Drops)**: 0
+- **RPS Médio**: 351.00 req/s
+- **VUs Simultâneos (Máximo)**: 400
+- **P95**: 15.62 ms
+- **Tempo Médio**: 8.23 ms
+- **Taxa de Sucesso (Capacidade)**: 100.00%
+- **Erros HTTP (500)**: 0
+
+#### Métricas de Container (Prometheus)
+- **CPU Médio**: 0.1069 cores
+- **CPU P95**: 0.1529 cores
+- **Memória Média**: 14.60 MB
+- **Memória P95**: 17.07 MB
+
+#### Observações Técnicas
+- Campeão em eficiência de recursos: MENOR uso de CPU (0.10 cores) e Memória (17 MB).
+- Latência excelente.
+- Estabilidade total.
+
+---
+
+### Cpp
+**Porta**: 3022 | **Tecnologia**: C++ (Drogon/Oat++)
+
+#### Métricas K6
+- **K6 Reqs Sucesso**: 210,599 (Total requests)
+- **K6 Reqs Erro (Drops)**: 0
+- **RPS Médio**: 351.00 req/s
+- **VUs Simultâneos (Máximo)**: 400
+- **P95**: 57.97 ms
+- **Tempo Médio**: 20.76 ms
+- **Taxa de Sucesso (Capacidade)**: 92.91%
+- **Erros HTTP (500)**: 14,928 (7.09%)
+
+#### Métricas de Container (Prometheus)
+- **CPU Médio**: 1.0141 cores
+- **CPU P95**: 1.8587 cores
+- **Memória Média**: 18.54 MB
+- **Memória P95**: 23.52 MB
+
+#### Observações Técnicas
+- **Reprovado**: Alta taxa de erros HTTP 500 (~7%).
+- Uso de memória muito baixo (comparável ao Rust).
+- CPU elevado comparado a outras linguagens compiladas (Rust/Go), indicando possíveis problemas na implementação ou framework.
+
+---
+
 ## 📈 Análise Comparativa de Métricas
 
 ### RPS (Requests Per Second)
 Java e Node entregaram ~351 RPS constantes (target). Python e Octane acompanharam. FPM colapsou para 310 RPS.
 
 ### P95 (Percentil 95 de Latência)
-1. **Java MVC VT**: 13.85 ms 🏆
-2. **Java WebFlux**: 14.36 ms
-3. **Node.js**: 24.98 ms
-4. **PHP Octane**: 83.68 ms
-5. **Python**: 126.03 ms
-6. **PHP FPM**: 2,112.34 ms 💀
+1. **Golang**: 12.14 ms 🏆
+2. **Dotnet**: 12.44 ms
+3. **Java MVC VT**: 13.85 ms
+4. **Java WebFlux**: 14.36 ms
+5. **Rust**: 15.62 ms
+6. **Node.js**: 24.98 ms
+7. **Cpp**: 57.97 ms
+8. **PHP Octane**: 83.68 ms
+9. **Python**: 126.03 ms
+10. **PHP FPM**: 2,112.34 ms 💀
 
 ### Uso de CPU (Cores Médias)
-1. **Java WebFlux**: 0.31 cores 🏆
-2. **Java MVC VT**: 0.33 cores
-3. **Node.js**: 0.61 cores
-4. **Python**: 1.21 cores
-5. **PHP Octane**: 1.36 cores
-6. **PHP FPM**: 2.27 cores
+1. **Rust**: 0.10 cores 🏆
+2. **Golang**: 0.12 cores
+3. **Java WebFlux**: 0.31 cores
+4. **Dotnet**: 0.33 cores
+5. **Java MVC VT**: 0.33 cores
+6. **Node.js**: 0.61 cores
+7. **Cpp**: 1.01 cores
+8. **Python**: 1.21 cores
+9. **PHP Octane**: 1.36 cores
+10. **PHP FPM**: 2.27 cores
 
 ### Estabilidade
-- **Java/Node**: Robustez total (100% sucesso, 0 drops).
+- **Golang/Dotnet/Rust/Java/Node**: Robustez total (100% sucesso, 0 drops).
 - **Python**: Estável, pequenos drops.
 - **PHP Octane**: Rápido mas propenso a erros (7% falhas).
+- **Cpp**: Alta taxa de erros (7% falhas).
 - **PHP FPM**: Inadequado para esta carga.
 
 ---
