@@ -1,5 +1,17 @@
+variable "datacenters" { type = list(string) }
+variable "region" { type = string }
+variable "postgres_image" { type = string }
+variable "traefik_image" { type = string }
+variable "monolith_image" { type = string }
+variable "gateway_image" { type = string }
+variable "monolith_nestjs_image" { type = string }
+variable "gateway_nestjs_image" { type = string }
+variable "db_user" { type = string }
+variable "db_password" { type = string }
+variable "db_name" { type = string }
+
 job "traefik" {
-  datacenters = ["dc1"]
+  datacenters = var.datacenters
   type        = "service"
 
   group "traefik" {
@@ -13,8 +25,17 @@ job "traefik" {
       port "api" {
         static = 8082
       }
-      port "monolith" {
+      port "java-gateway" {
         static = 8083
+      }
+      port "java-monolith" {
+        static = 8084
+      }
+      port "nestjs-gateway" {
+        static = 8085
+      }
+      port "nestjs-monolith" {
+        static = 8086
       }
     }
 
@@ -32,7 +53,7 @@ job "traefik" {
       driver = "docker"
 
       config {
-        image        = "traefik:v3.0"
+        image        = var.traefik_image
         network_mode = "host"
         volumes = [
           "local/traefik.yaml:/etc/traefik/traefik.yaml",
@@ -51,8 +72,14 @@ api:
 entryPoints:
   web:
     address: ":8081"
-  monolith:
+  java-gateway:
     address: ":8083"
+  java-monolith:
+    address: ":8084"
+  nestjs-gateway:
+    address: ":8085"
+  nestjs-monolith:
+    address: ":8086"
 
 providers:
   consulCatalog:
