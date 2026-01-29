@@ -20,6 +20,8 @@ services:
           - node.role == manager
 
   monolith:
+    build:
+      context: ../java-mvc-vt/monolith
     image: java-mvc-vt/monolith:latest
     environment:
       DB_HOST: postgres
@@ -40,6 +42,8 @@ services:
         condition: on-failure
 
   gateway:
+    build:
+      context: ../java-mvc-vt/gateway
     image: java-mvc-vt/gateway:latest
     environment:
       MONOLITH_URL: http://monolith:3000

@@ -1,14 +1,15 @@
 #!/bin/bash
 
-# Script para remover o job do Nomad
+echo "Stopping monolith job..."
+nomad job stop -purge monolith
 
-echo "Removendo job java-mvc-vt do Nomad..."
+echo "Stopping postgres job..."
+nomad job stop -purge postgres
 
-# Remover o job
-nomad job stop java-mvc-vt
+echo "Stopping gateway job..."
+nomad job stop -purge gateway
 
-# Limpar allocations
-echo "Limpando allocations..."
-nomad system gc
+echo "Stopping traefik job..."
+nomad job stop -purge traefik
 
-echo "Job java-mvc-vt removido com sucesso!"
+echo "Cleanup complete."

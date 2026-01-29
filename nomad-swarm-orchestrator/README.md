@@ -1,3 +1,4 @@
+
 # Deploy swarm
 
 1. **Iniciar o Docker Swarm (se ainda não estiver ativo):**
@@ -35,10 +36,15 @@ docker service update --image nova-imagem java-mvc-vt_gateway
 
 # Deploy nomad
 
+
 1. **Iniciar o Docker Swarm (se ainda não estiver ativo):**
    ```bash
    cd nomad
-   nomad agent 
+   
+   consul agent -dev -config-file=./consul/consul.hcl
+
+   nomad agent -dev -config=./nomad
+   
    ```
 
 2. **Fazer o deploy das aplicações:**

@@ -12,10 +12,10 @@ fi
 
 # Construir as imagens Docker
 echo "Construindo imagem do monolith..."
-docker build -t java-mvc-vt/monolith:latest ../monolith
+docker build -t java-mvc-vt/monolith:latest ../java-mvc-vt/monolith
 
 echo "Construindo imagem do gateway..."
-docker build -t java-mvc-vt/gateway:latest ../gateway
+docker build -t java-mvc-vt/gateway:latest ../java-mvc-vt/gateway
 
 # Criar rede overlay se não existir
 docker network create --driver overlay --attachable app-network 2>/dev/null || echo "Rede app-network já existe"
