@@ -3,12 +3,24 @@ variable "region" { type = string }
 variable "postgres_image" { type = string }
 variable "pgbouncer_image" { type = string }
 variable "traefik_image" { type = string }
-variable "monolith_mvc_image" { type = string }
-variable "gateway_mvc_image" { type = string }
 variable "monolith_mvc_vt_image" { type = string }
 variable "gateway_mvc_vt_image" { type = string }
 variable "monolith_webflux_image" { type = string }
 variable "gateway_webflux_image" { type = string }
+variable "monolith_dotnet_image" { type = string }
+variable "gateway_dotnet_image" { type = string }
+variable "monolith_golang_image" { type = string }
+variable "gateway_golang_image" { type = string }
+variable "monolith_nestjs_image" { type = string }
+variable "gateway_nestjs_image" { type = string }
+variable "monolith_fpm_image" { type = string }
+variable "gateway_fpm_image" { type = string }
+variable "monolith_octane_image" { type = string }
+variable "gateway_octane_image" { type = string }
+variable "monolith_python_image" { type = string }
+variable "gateway_python_image" { type = string }
+variable "monolith_rust_image" { type = string }
+variable "gateway_rust_image" { type = string }
 variable "db_user" { type = string }
 variable "db_password" { type = string }
 variable "db_name" { type = string }
@@ -76,12 +88,12 @@ job "postgres" {
       }
 
       template {
-        data        = file("../infra/postgres/init.sql")
+        data        = file("infra/postgres/init.sql")
         destination = "local/01-init.sql"
       }
 
       template {
-        data        = file("../infra/postgres/init-users.sql")
+        data        = file("infra/postgres/init-users.sql")
         destination = "local/02-init-users.sql"
       }
 

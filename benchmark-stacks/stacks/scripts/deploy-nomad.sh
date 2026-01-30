@@ -1,17 +1,32 @@
 #!/bin/bash
 
-# Navigate to script directory to ensure relative paths work
-cd "$(dirname "$0")"
+# Ensure we are in the project root
+cd "$(dirname "$0")/.." || exit 1
 
-echo "Starting Infrastructure..."
-nomad job run -var-file=../nomad/vars/common.hcl ../nomad/jobs/infra/postgres.nomad
-nomad job run -var-file=../nomad/vars/common.hcl ../nomad/jobs/infra/pgbouncer.nomad
-nomad job run -var-file=../nomad/vars/common.hcl ../nomad/jobs/infra/traefik.nomad
+# Deploy infrastructure
+echo "Deploying infrastructure..."
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/infra/postgres.nomad
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/infra/pgbouncer.nomad
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/infra/traefik.nomad
 
-echo "Starting Apps..."
-nomad job run -var-file=../nomad/vars/common.hcl ../nomad/jobs/apps/java-mvc.nomad
-nomad job run -var-file=../nomad/vars/common.hcl ../nomad/jobs/apps/java-mvc-vt.nomad
-nomad job run -var-file=../nomad/vars/common.hcl ../nomad/jobs/apps/java-webflux.nomad
+# Wait for infra to be ready
+echo "Waiting for infrastructure to be ready..."
+sleep 10
 
-echo "Jobs submitted."
+# Deploy applications in parallel
+echo "Deploying applications in parallel..."
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-mvc-vt.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-webflux.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/node-nestjs.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/dotnet.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/golang.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/php-laravel-fpm.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/php-laravel-octane.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/python-fastapi.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/rust.nomad &
+
+# Wait for all background deployments to finish
+wait
+
+echo "All jobs submitted in parallel!"
 nomad status

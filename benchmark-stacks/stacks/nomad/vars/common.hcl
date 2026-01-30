@@ -24,17 +24,30 @@ traefik_mem     = 1024
 traefik_count   = 1
 
 # --- Application Images ---
-monolith_mvc_image     = "benchmark-stacks/java-mvc-monolith:1.0"
-gateway_mvc_image      = "benchmark-stacks/java-mvc-gateway:1.0"
 monolith_mvc_vt_image  = "benchmark-stacks/java-mvc-vt-monolith:1.0"
 gateway_mvc_vt_image   = "benchmark-stacks/java-mvc-vt-gateway:1.0"
 monolith_webflux_image = "benchmark-stacks/java-webflux-monolith:1.0"
 gateway_webflux_image  = "benchmark-stacks/java-webflux-gateway:1.0"
 
+monolith_dotnet_image  = "benchmark-stacks/dotnet-monolith:1.0"
+gateway_dotnet_image   = "benchmark-stacks/dotnet-gateway:1.0"
+monolith_golang_image  = "benchmark-stacks/golang-monolith:1.0"
+gateway_golang_image   = "benchmark-stacks/golang-gateway:1.0"
+monolith_nestjs_image  = "benchmark-stacks/nestjs-monolith:1.0"
+gateway_nestjs_image   = "benchmark-stacks/nestjs-gateway:1.0"
+monolith_fpm_image     = "benchmark-stacks/php-laravel-fpm-monolith:1.0"
+gateway_fpm_image      = "benchmark-stacks/php-laravel-fpm-gateway:1.0"
+monolith_octane_image  = "benchmark-stacks/php-laravel-octane-monolith:1.0"
+gateway_octane_image   = "benchmark-stacks/php-laravel-octane-gateway:1.0"
+monolith_python_image  = "benchmark-stacks/python-fastapi-monolith:1.0"
+gateway_python_image   = "benchmark-stacks/python-fastapi-gateway:1.0"
+monolith_rust_image    = "benchmark-stacks/rust-monolith:1.0"
+gateway_rust_image     = "benchmark-stacks/rust-gateway:1.0"
+
 # --- Application Resource Limits (Standardized) ---
-app_monolith_cpu = 1000
-app_monolith_mem = 2048
-app_monolith_count = 2
-app_gateway_cpu  = 1000
-app_gateway_mem  = 2048
-app_gateway_count  = 2
+app_monolith_cpu = 512
+app_monolith_mem = 1024
+app_monolith_count = 1
+app_gateway_cpu  = 512
+app_gateway_mem  = 1024
+app_gateway_count  = 1
