@@ -1,0 +1,220 @@
+{
+    "title": "Performance Analysis",
+    "tags": [
+        "performance",
+        "k6",
+        "traefik",
+        "nomad"
+    ],
+    "schemaVersion": 39,
+    "version": 2,
+    "refresh": "5s",
+    "templating": {
+        "list": [
+            {
+                "name": "job",
+                "type": "query",
+                "datasource": "Prometheus",
+                "query": "label_values(traefik_entrypoint_requests_total, entrypoint)",
+                "refresh": 1
+            }
+        ]
+    },
+    "panels": [
+        {
+            "type": "row",
+            "title": "Client Side (k6)",
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "k6 Latency (p50/p90/p95/p99)",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 1
+            },
+            "targets": [
+                {
+                    "expr": "histogram_quantile(0.50, sum(rate(http_req_duration_seconds_bucket[1m])) by (le))",
+                    "legendFormat": "p50"
+                },
+                {
+                    "expr": "histogram_quantile(0.90, sum(rate(http_req_duration_seconds_bucket[1m])) by (le))",
+                    "legendFormat": "p90"
+                },
+                {
+                    "expr": "histogram_quantile(0.95, sum(rate(http_req_duration_seconds_bucket[1m])) by (le))",
+                    "legendFormat": "p95"
+                },
+                {
+                    "expr": "histogram_quantile(0.99, sum(rate(http_req_duration_seconds_bucket[1m])) by (le))",
+                    "legendFormat": "p99"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "s"
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "k6 Throughput (RPS)",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 1
+            },
+            "targets": [
+                {
+                    "expr": "sum(rate(http_reqs_total[1m]))",
+                    "legendFormat": "RPS"
+                }
+            ]
+        },
+        {
+            "type": "row",
+            "title": "Proxy Side (Traefik)",
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 9
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Traefik Latency (Router + App)",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 10
+            },
+            "targets": [
+                {
+                    "expr": "sum(rate(traefik_entrypoint_request_duration_seconds_sum[1m])) / sum(rate(traefik_entrypoint_request_duration_seconds_count[1m]))",
+                    "legendFormat": "{{entrypoint}}"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "s"
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Traefik Success (2xx/3xx)",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 10
+            },
+            "targets": [
+                {
+                    "expr": "sum(rate(traefik_entrypoint_requests_total{code=~\"2..|3..\"}[1m]))",
+                    "legendFormat": "Success - {{entrypoint}}"
+                }
+            ]
+        },
+        {
+            "type": "timeseries",
+            "title": "Traefik Errors (4xx/5xx)",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 18
+            },
+            "targets": [
+                {
+                    "expr": "sum(rate(traefik_entrypoint_requests_total{code=~\"4..\"}[1m]))",
+                    "legendFormat": "4xx - {{entrypoint}}"
+                },
+                {
+                    "expr": "sum(rate(traefik_entrypoint_requests_total{code=~\"5..\"}[1m]))",
+                    "legendFormat": "5xx - {{entrypoint}}"
+                }
+            ]
+        },
+        {
+            "type": "row",
+            "title": "Infrastructure (Nomad)",
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 26
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "CPU Core Usage",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 27
+            },
+            "targets": [
+                {
+                    "expr": "nomad_client_allocs_cpu_total_percent / 100",
+                    "legendFormat": "{{exported_job}} [{{alloc_id}}]"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "none",
+                    "decimals": 2
+                }
+            }
+        },
+        {
+            "type": "timeseries",
+            "title": "Memory Usage per Allocation",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 27
+            },
+            "targets": [
+                {
+                    "expr": "nomad_client_allocs_memory_usage / 1024 / 1024",
+                    "legendFormat": "{{exported_job}} [{{alloc_id}}]"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "mbytes"
+                }
+            }
+        },
+        {
+            "type": "stat",
+            "title": "Allocation Restarts",
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 0,
+                "y": 35
+            },
+            "targets": [
+                {
+                    "expr": "sum(nomad_client_allocs_restarts)",
+                    "legendFormat": "Restarts"
+                }
+            ]
+        }
+    ]
+}

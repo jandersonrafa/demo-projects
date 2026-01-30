@@ -56,3 +56,6 @@ curl -X POST http://localhost:8081/bonus \
   -H "Content-Type: application/json" \
   -d '{"clientId": "client_1", "amount": 200.00, "description": "Test Bonus"}'
 ```
+
+# Monitoramento
+Na pasta monitoring tem um grafana e prometheus que podem ser usados para monitorar o nomad.
