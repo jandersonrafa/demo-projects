@@ -25,12 +25,19 @@ variable "app_monolith_mem" { type = number }
 variable "app_gateway_cpu" { type = number }
 variable "app_gateway_mem" { type = number }
 
+# Count variables
+variable "postgres_count" { type = number }
+variable "pgbouncer_count" { type = number }
+variable "traefik_count" { type = number }
+variable "app_monolith_count" { type = number }
+variable "app_gateway_count" { type = number }
+
 job "postgres" {
   datacenters = var.datacenters
   type = "service"
 
   group "db" {
-    count = 1
+    count = var.postgres_count
 
     network {
       mode = "host"

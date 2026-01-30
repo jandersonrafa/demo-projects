@@ -25,12 +25,19 @@ variable "app_monolith_mem" { type = number }
 variable "app_gateway_cpu" { type = number }
 variable "app_gateway_mem" { type = number }
 
+# Count variables
+variable "postgres_count" { type = number }
+variable "pgbouncer_count" { type = number }
+variable "traefik_count" { type = number }
+variable "app_monolith_count" { type = number }
+variable "app_gateway_count" { type = number }
+
 job "traefik" {
   datacenters = var.datacenters
   type        = "service"
 
   group "traefik" {
-    count = 1
+    count = var.traefik_count
 
     network {
       mode = "host"
