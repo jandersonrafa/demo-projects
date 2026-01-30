@@ -6,9 +6,12 @@ variable "monolith_image" { type = string }
 variable "gateway_image" { type = string }
 variable "monolith_nestjs_image" { type = string }
 variable "gateway_nestjs_image" { type = string }
+variable "prometheus_image" { type = string }
+variable "grafana_image" { type = string }
 variable "db_user" { type = string }
 variable "db_password" { type = string }
 variable "db_name" { type = string }
+variable "monitoring_dir" { type = string }
 
 job "app-java-mvc-vt" {
   datacenters = var.datacenters

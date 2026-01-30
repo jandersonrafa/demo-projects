@@ -6,9 +6,12 @@ variable "monolith_image" { type = string }
 variable "gateway_image" { type = string }
 variable "monolith_nestjs_image" { type = string }
 variable "gateway_nestjs_image" { type = string }
+variable "prometheus_image" { type = string }
+variable "grafana_image" { type = string }
 variable "db_user" { type = string }
 variable "db_password" { type = string }
 variable "db_name" { type = string }
+variable "monitoring_dir" { type = string }
 
 job "traefik" {
   datacenters = var.datacenters
@@ -72,6 +75,8 @@ api:
 entryPoints:
   web:
     address: ":8081"
+  traefik:
+    address: ":8082"
   java-gateway:
     address: ":8083"
   java-monolith:
@@ -80,6 +85,11 @@ entryPoints:
     address: ":8085"
   nestjs-monolith:
     address: ":8086"
+
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addServicesLabels: true
 
 providers:
   consulCatalog:

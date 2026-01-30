@@ -12,6 +12,9 @@ nomad job run -var-file="$VAR_FILE" "$ROOT_DIR/jobs/infra/postgres.nomad"
 echo "Starting Infrastructure (traefik)..."
 nomad job run -var-file="$VAR_FILE" "$ROOT_DIR/jobs/infra/traefik.nomad"
 
+echo "Starting Monitoring (Prometheus + Grafana)..."
+nomad job run -var-file="$VAR_FILE" "$ROOT_DIR/jobs/infra/monitoring.nomad"
+
 echo "Starting App (Java Monolith + Gateway)..."
 nomad job run -var-file="$VAR_FILE" "$ROOT_DIR/jobs/apps/app-java-mvc-vt.nomad"
 
