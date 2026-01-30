@@ -41,4 +41,9 @@ docker build -t benchmark-stacks/python-fastapi-monolith:1.0 apps/python-fastapi
 docker build -t benchmark-stacks/rust-gateway:1.0 apps/rust/gateway
 docker build -t benchmark-stacks/rust-monolith:1.0 apps/rust/monolith
 
+# Quarkus
+docker build -t benchmark-stacks/java-quarkus-gateway:1.0 apps/java-quarkus/gateway
+docker build -t benchmark-stacks/java-quarkus-monolith:1.0 apps/java-quarkus/monolith
+
+
 echo "All images built successfully!"

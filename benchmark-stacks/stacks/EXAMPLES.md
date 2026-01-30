@@ -1,49 +1,9 @@
-# Examples of Calls for API Gateways
-
-This document contains examples of `curl` calls to test the different API Gateway implementations in the benchmark project.
-
-Each gateway exposes the same endpoints:
-- `POST /bonus` - Create a new bonus
-- `GET /bonus/{id}` - Retrieve a bonus by ID
-
-## 1. Node NestJS
-**Port:** 3005
+## 1. Java MVC Virtual Threads
+**Nomad Gateway Port:** 8101
 
 ### Create Bonus
 ```bash
-curl -X POST http://localhost:3005/bonus \
-  -H "Content-Type: application/json" \
-  -d '{
-    "amount": 100.50,
-    "description": "Node Bonus",
-    "clientId": "user-123"
-  }'
-```
-
----
-
-## 2. Java WebFlux
-**Port:** 3006
-
-### Create Bonus
-```bash
-curl -X POST http://localhost:3006/bonus \
-  -H "Content-Type: application/json" \
-  -d '{
-    "amount": 250.00,
-    "description": "WebFlux Bonus",
-    "clientId": "user-456"
-  }'
-```
-
----
-
-## 3. Java MVC Virtual Threads
-**Port:** 3007
-
-### Create Bonus
-```bash
-curl -X POST http://localhost:3007/bonus \
+curl -X POST http://localhost:8101/bonus \
   -H "Content-Type: application/json" \
   -d '{
     "amount": 500.00,
@@ -54,44 +14,76 @@ curl -X POST http://localhost:3007/bonus \
 
 ---
 
-## 4. Python FastAPI
-**Port:** 3008
+## 2. Java WebFlux
+**Nomad Gateway Port:** 8102
 
 ### Create Bonus
 ```bash
-curl -X POST http://localhost:3008/bonus \
+curl -X POST http://localhost:8102/bonus \
   -H "Content-Type: application/json" \
   -d '{
-    "amount": 75.00,
-    "description": "Python Bonus",
-    "clientId": "user-101"
+    "amount": 250.00,
+    "description": "WebFlux Bonus",
+    "clientId": "user-456"
   }'
 ```
 
 ---
 
-## 5. PHP Laravel (CLI)
-**Port:** 3009
+## 3. Node NestJS
+**Nomad Gateway Port:** 8103
 
 ### Create Bonus
 ```bash
-curl -X POST http://localhost:3009/bonus \
+curl -X POST http://localhost:8103/bonus \
   -H "Content-Type: application/json" \
   -d '{
-    "amount": 10.00,
-    "description": "PHP CLI Bonus",
-    "clientId": "user-202"
+    "amount": 100.50,
+    "description": "Node Bonus",
+    "clientId": "user-123"
+  }'
+```
+
+---
+
+## 4. .NET Core
+**Nomad Gateway Port:** 8104
+
+### Create Bonus
+```bash
+curl -X POST http://localhost:8104/bonus \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 500.00,
+    "description": ".NET Bonus",
+    "clientId": "user-707"
+  }'
+```
+
+---
+
+## 5. Golang Gin
+**Nomad Gateway Port:** 8105
+
+### Create Bonus
+```bash
+curl -X POST http://localhost:8105/bonus \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 400.00,
+    "description": "Golang Bonus",
+    "clientId": "user-606"
   }'
 ```
 
 ---
 
 ## 6. PHP Laravel FPM
-**Port:** 3011
+**Nomad Gateway Port:** 8106
 
 ### Create Bonus
 ```bash
-curl -X POST http://localhost:3011/bonus \
+curl -X POST http://localhost:8106/bonus \
   -H "Content-Type: application/json" \
   -d '{
     "amount": 150.00,
@@ -103,11 +95,11 @@ curl -X POST http://localhost:3011/bonus \
 ---
 
 ## 7. PHP Laravel Octane
-**Port:** 3014
+**Nomad Gateway Port:** 8107
 
 ### Create Bonus
 ```bash
-curl -X POST http://localhost:3014/bonus \
+curl -X POST http://localhost:8107/bonus \
   -H "Content-Type: application/json" \
   -d '{
     "amount": 200.00,
@@ -118,80 +110,48 @@ curl -X POST http://localhost:3014/bonus \
 
 ---
 
-## 8. Java MVC Traditional
-**Port:** 3016
+## 8. Python FastAPI
+**Nomad Gateway Port:** 8108
 
 ### Create Bonus
 ```bash
-curl -X POST http://localhost:3016/bonus \
+curl -X POST http://localhost:8108/bonus \
   -H "Content-Type: application/json" \
   -d '{
-    "amount": 300.00,
-    "description": "Java MVC Bonus",
-    "clientId": "user-505"
+    "amount": 75.00,
+    "description": "Python Bonus",
+    "clientId": "user-101"
   }'
 ```
 
 ---
 
-## 9. Golang Gin
-**Port:** 3018
+## 9. Rust Axum
+**Nomad Gateway Port:** 8109
 
 ### Create Bonus
 ```bash
-curl -X POST http://localhost:3018/bonus \
-  -H "Content-Type: application/json" \
-  -d '{
-    "amount": 400.00,
-    "description": "Golang Bonus",
-    "clientId": "user-606"
-  }'
-```
-
----
-
-## 10. .NET Core
-**Port:** 3020
-
-### Create Bonus
-```bash
-curl -X POST http://localhost:3020/bonus \
-  -H "Content-Type: application/json" \
-  -d '{
-    "amount": 500.00,
-    "description": ".NET Bonus",
-    "clientId": "user-707"
-  }'
-```
-
----
-
-## 11. C++ Drogon
-**Port:** 3022
-
-### Create Bonus
-```bash
-curl -X POST http://localhost:3022/bonus \
-  -H "Content-Type: application/json" \
-  -d '{
-    "amount": 600.00,
-    "description": "C++ Bonus",
-    "clientId": "user-808"
-  }'
-```
-
----
-
-## 12. Rust Axum
-**Port:** 3024
-
-### Create Bonus
-```bash
-curl -X POST http://localhost:3024/bonus \
+curl -X POST http://localhost:8109/bonus \
   -H "Content-Type: application/json" \
   -d '{
     "amount": 700.00,
     "description": "Rust Bonus",
     "clientId": "user-909"
+  }'
+```
+
+---
+
+## 10. Java Quarkus
+**Nomad Gateway Port:** 8110
+
+### Create Bonus
+```bash
+curl -X POST http://localhost:8110/bonus \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 800.00,
+    "description": "Quarkus Bonus",
+    "clientId": "client_1"
   }'
 ```

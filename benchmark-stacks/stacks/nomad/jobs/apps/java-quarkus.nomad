@@ -23,7 +23,6 @@ variable "monolith_rust_image" { type = string }
 variable "gateway_rust_image" { type = string }
 variable "monolith_quarkus_image" { type = string }
 variable "gateway_quarkus_image" { type = string }
-
 variable "db_user" { type = string }
 variable "db_password" { type = string }
 variable "db_name" { type = string }
@@ -47,55 +46,102 @@ variable "traefik_count" { type = number }
 variable "app_monolith_count" { type = number }
 variable "app_gateway_count" { type = number }
 
-job "pgbouncer" {
+job "java-quarkus" {
   datacenters = var.datacenters
-  type = "service"
+  type        = "service"
 
-  group "pgbouncer" {
-    count = var.pgbouncer_count
+  group "monolith" {
+    count = var.app_monolith_count
 
     network {
       mode = "host"
-      port "proxy" {
-        static = 6432
-      }
+      port "http" {}
     }
 
     service {
-      name = "pgbouncer"
-      port = "proxy"
+      name = "quarkus-monolith"
+      port = "http"
+      tags = [
+        "traefik.enable=true",
+        "traefik.http.routers.quarkus-monolith.rule=PathPrefix(`/`)",
+        "traefik.http.routers.quarkus-monolith.entrypoints=quarkus-monolith",
+      ]
+
+      check {
+        type     = "http"
+        path     = "/q/health"
+        interval = "10s"
+        timeout  = "2s"
+      }
     }
 
-    task "pgbouncer" {
+    task "monolith" {
       driver = "docker"
 
       config {
-        image        = var.pgbouncer_image
-        ports        = ["proxy"]
+        image        = var.monolith_quarkus_image
+        ports        = ["http"]
         network_mode = "host"
-        volumes = [
-          "local/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini",
-          "local/userlist.txt:/etc/pgbouncer/userlist.txt"
-        ]
-      }
-
-      template {
-        data        = file("infra/pgbouncer/pgbouncer.ini")
-        destination = "local/pgbouncer.ini"
-      }
-
-      template {
-        data        = file("infra/pgbouncer/userlist.txt")
-        destination = "local/userlist.txt"
+        force_pull   = false
       }
 
       env {
-        PGBOUNCER_LISTEN_PORT = "6432"
+        DB_USER     = "java_quarkus_user"
+        DB_PASSWORD = "java_quarkus_pass"
+        DB_URL      = "jdbc:postgresql://127.0.0.1:6432/${var.db_name}"
+        PORT        = "${NOMAD_PORT_http}"
       }
 
       resources {
-        cpu    = var.pgbouncer_cpu
-        memory = var.pgbouncer_mem
+        cpu    = var.app_monolith_cpu
+        memory = var.app_monolith_mem
+      }
+    }
+  }
+
+  group "gateway" {
+    count = var.app_gateway_count
+
+    network {
+      mode = "host"
+      port "http" {}
+    }
+
+    service {
+      name = "quarkus-gateway"
+      port = "http"
+      tags = [
+        "traefik.enable=true",
+        "traefik.http.routers.quarkus-gateway.rule=PathPrefix(`/`)",
+        "traefik.http.routers.quarkus-gateway.entrypoints=quarkus-gateway",
+      ]
+
+      check {
+        type     = "http"
+        path     = "/q/health"
+        interval = "10s"
+        timeout  = "2s"
+      }
+    }
+
+    task "gateway" {
+      driver = "docker"
+
+      config {
+        image        = var.gateway_quarkus_image
+        ports        = ["http"]
+        network_mode = "host"
+        force_pull   = false
+      }
+
+      env {
+        MONOLITH_URL = "http://127.0.0.1:9110"
+        PORT         = "${NOMAD_PORT_http}"
+      }
+
+      resources {
+        cpu    = var.app_gateway_cpu
+        memory = var.app_gateway_mem
       }
     }
   }

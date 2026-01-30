@@ -43,6 +43,9 @@ monolith_python_image  = "benchmark-stacks/python-fastapi-monolith:1.0"
 gateway_python_image   = "benchmark-stacks/python-fastapi-gateway:1.0"
 monolith_rust_image    = "benchmark-stacks/rust-monolith:1.0"
 gateway_rust_image     = "benchmark-stacks/rust-gateway:1.0"
+monolith_quarkus_image = "benchmark-stacks/java-quarkus-monolith:1.0"
+gateway_quarkus_image  = "benchmark-stacks/java-quarkus-gateway:1.0"
+
 
 # --- Application Resource Limits (Standardized) ---
 app_monolith_cpu = 512

@@ -24,6 +24,8 @@ nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/php-laravel-fpm.no
 nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/php-laravel-octane.nomad &
 nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/python-fastapi.nomad &
 nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/rust.nomad &
+nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-quarkus.nomad &
+
 
 # Wait for all background deployments to finish
 wait

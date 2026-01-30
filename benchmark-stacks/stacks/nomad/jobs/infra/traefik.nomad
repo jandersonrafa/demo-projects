@@ -21,6 +21,9 @@ variable "monolith_python_image" { type = string }
 variable "gateway_python_image" { type = string }
 variable "monolith_rust_image" { type = string }
 variable "gateway_rust_image" { type = string }
+variable "monolith_quarkus_image" { type = string }
+variable "gateway_quarkus_image" { type = string }
+
 variable "db_user" { type = string }
 variable "db_password" { type = string }
 variable "db_name" { type = string }
@@ -73,7 +76,10 @@ job "traefik" {
       port "python-monolith" { static = 9108 }
       port "rust-gateway" { static = 8109 }
       port "rust-monolith" { static = 9109 }
+      port "quarkus-gateway" { static = 8110 }
+      port "quarkus-monolith" { static = 9110 }
     }
+
 
     service {
       name = "traefik"
@@ -146,6 +152,11 @@ entryPoints:
     address: ":8109"
   rust-monolith:
     address: ":9109"
+  quarkus-gateway:
+    address: ":8110"
+  quarkus-monolith:
+    address: ":9110"
+
 
 metrics:
   prometheus:

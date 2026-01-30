@@ -11,3 +11,5 @@
 "dotnet_user" "dotnet_pass"
 "rust_user" "rust_pass"
 "cpp_drogon_user" "cpp_drogon_pass"
+"java_quarkus_user" "java_quarkus_pass"
+

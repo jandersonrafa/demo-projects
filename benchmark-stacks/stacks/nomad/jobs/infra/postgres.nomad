@@ -21,6 +21,9 @@ variable "monolith_python_image" { type = string }
 variable "gateway_python_image" { type = string }
 variable "monolith_rust_image" { type = string }
 variable "gateway_rust_image" { type = string }
+variable "monolith_quarkus_image" { type = string }
+variable "gateway_quarkus_image" { type = string }
+
 variable "db_user" { type = string }
 variable "db_password" { type = string }
 variable "db_name" { type = string }

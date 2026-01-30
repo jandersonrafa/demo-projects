@@ -53,24 +53,29 @@ GROUP BY  split_part(description, '-', 1);
 ```
 
 
+
 # 📊 Available Stacks
 
-This project contains **12 different stacks** for performance benchmarking:
+This project contains **12 different stacks** for performance benchmarking.
 
-| Stack | Technology | Gateway Port | Monolith Port | Database User | Notes |
-|-------|-----------|--------------|---------------|---------------|-------|
-| **Java WebFlux** | Spring WebFlux (Reactive) | 3006 | 3002 | `java_webflux_user` | Non-blocking reactive stack |
-| **Java MVC VT** | Spring MVC + Virtual Threads | 3007 | 3003 | `java_mvcvt_user` | Virtual threads enabled |
-| **Java MVC** | Spring MVC (Traditional) | 3016 | 3017 | `java_mvc_user` | Traditional thread pool |
-| **Node.js** | NestJS + TypeORM | 3005 | 3001 | `nodejs_user` | Event-driven architecture |
-| **Python** | FastAPI + SQLAlchemy | 3008 | 3004 | `python_fastapi_user` | Async Python with Uvicorn |
-| **PHP CLI** | Laravel (CLI Server) | 3009 | 3010 | `php_cli_user` | Built-in PHP server |
-| **PHP FPM** | Laravel + PHP-FPM + Nginx | 3011 | 3012 | `php_fpm_user` | Production-ready FPM |
-| **PHP Octane** | Laravel Octane + Swoole | 3014 | 3015 | `php_octane_user` | High-performance async PHP |
-| **Golang Gin** | Gin + GORM (Postgres) | 3018 | 3019 | `golang_user` | High-performance compiled Go |
-| **.NET Core** | ASP.NET Core 8.0 | 3020 | 3021 | `dotnet_user` | ASP.NET Core with EF Core |
-| **C++ Drogon** | Drogon Framework | 3022 | 3023 | `cpp_drogon_user` | High-performance C++ |
-| **Rust Axum** | Rust + Axum + SQLx | 3024 | 3025 | `rust_user` | High-performance compiled Rust |
+## Port Mapping
+
+| Stack | Technology | Docker Compose (Standard) | Nomad Gateway (Traefik) | Database User | Notes |
+|-------|-----------|---------------------------|-------------------------|---------------|-------|
+| **Java MVC VT** | Spring MVC + Virtual Threads | 3007 / 3003 | 8101 / 9101 | `java_mvcvt_user` | Virtual threads enabled |
+| **Java WebFlux** | Spring WebFlux (Reactive) | 3006 / 3002 | 8102 / 9102 | `java_webflux_user` | Non-blocking reactive stack |
+| **Node.js** | NestJS + TypeORM | 3005 / 3001 | 8103 / 9103 | `nodejs_user` | Event-driven architecture |
+| **.NET Core** | ASP.NET Core 8.0 | 3020 / 3021 | 8104 / 9104 | `dotnet_user` | ASP.NET Core with EF Core |
+| **Golang Gin** | Gin + GORM (Postgres) | 3018 / 3019 | 8105 / 9105 | `golang_user` | High-performance compiled Go |
+| **PHP FPM** | Laravel + PHP-FPM + Nginx | 3011 / 3012 | 8106 / 9106 | `php_fpm_user` | Production-ready FPM |
+| **PHP Octane** | Laravel Octane + Swoole | 3014 / 3015 | 8107 / 9107 | `php_octane_user` | High-performance async PHP |
+| **Python** | FastAPI + SQLAlchemy | 3008 / 3004 | 8108 / 9108 | `python_fastapi_user` | Async Python with Uvicorn |
+| **Rust Axum** | Rust + Axum + SQLx | 3024 / 3025 | 8109 / 9109 | `rust_user` | High-performance compiled Rust |
+| **Java Quarkus** | Quarkus (Reactive) | N/A | 8110 / 9110 | `java_quarkus_user` | Supersonic Subatomic Java |
+| **Java MVC** | Spring MVC (Traditional) | 3016 / 3017 | N/A | `java_mvc_user` | Traditional thread pool |
+| **PHP CLI** | Laravel (CLI Server) | 3009 / 3010 | N/A | `php_cli_user` | Built-in PHP server |
+| **C++ Drogon** | Drogon Framework | 3022 / 3023 | N/A | `cpp_drogon_user` | High-performance C++ |
+
 
 
 # Exemplo curl
