@@ -1,0 +1,638 @@
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: benchmark-cadvisor
+    ports:
+      - "8081:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+  postgres:
+    image: postgres:16-alpine
+    container_name: benchmark-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: benchmark
+    ports:
+      - "5432:5432"
+    command: [ "postgres", "-c", "max_connections=500" ]
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./postgres/init-users.sql:/docker-entrypoint-initdb.d/02-init-users.sql
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    container_name: benchmark-pgbouncer
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/benchmark
+      - PGBOUNCER_CONFIG_FILE=/etc/pgbouncer/pgbouncer.ini
+    ports:
+      - "6432:6432"
+    volumes:
+      - ./pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+      - ./pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
+    depends_on:
+      postgres:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  # Node NestJS
+  node-gateway:
+    build:
+      context: ./node-nestjs/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-node-gateway
+    environment:
+      MONOLITH_URL: http://node-monolith:3001
+      PORT: 3000
+      UV_THREADPOOL_SIZE: 8
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3005:3000"
+    profiles: [ "node" ]
+    depends_on:
+      node-monolith:
+        condition: service_started
+
+  node-monolith:
+    build:
+      context: ./node-nestjs/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-node-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: nodejs_user
+      DB_PASSWORD: nodejs_pass
+      DB_NAME: benchmark
+      PORT: 3001
+      UV_THREADPOOL_SIZE: 12
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3001:3001" # Exposed for Prometheus
+    profiles: [ "node" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # Java WebFlux
+  java-webflux-gateway:
+    build:
+      context: ./java-webflux/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-java-webflux-gateway
+    environment:
+      MONOLITH_URL: http://java-webflux-monolith:3002
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3006:8080"
+    profiles: [ "webflux" ]
+    depends_on:
+      - java-webflux-monolith
+
+  java-webflux-monolith:
+    build:
+      context: ./java-webflux/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-java-webflux-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: java_webflux_user
+      DB_PASSWORD: java_webflux_pass
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3002:3002" # Exposed for Prometheus
+    profiles: [ "webflux" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # Java MVC Virtual Threads
+  java-mvc-vt-gateway:
+    build:
+      context: ./java-mvc-vt/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-java-mvc-vt-gateway
+    environment:
+      MONOLITH_URL: http://java-mvc-vt-monolith:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3007:3000"
+    profiles: [ "mvc-vt" ]
+    depends_on:
+      - java-mvc-vt-monolith
+
+  java-mvc-vt-monolith:
+    build:
+      context: ./java-mvc-vt/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-java-mvc-vt-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: java_mvcvt_user
+      DB_PASSWORD: java_mvcvt_pass
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3003:3000" # Exposed for Prometheus mapping to internal 3000
+    profiles: [ "mvc-vt" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # Java MVC Traditional
+  java-mvc-gateway:
+    build:
+      context: ./java-mvc/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-java-mvc-gateway
+    environment:
+      MONOLITH_URL: http://java-mvc-monolith:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3016:3000"
+    profiles: [ "mvc" ]
+    depends_on:
+      - java-mvc-monolith
+
+  java-mvc-monolith:
+    build:
+      context: ./java-mvc/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-java-mvc-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: java_mvc_user
+      DB_PASSWORD: java_mvc_pass
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3017:3000" # Exposed for Prometheus mapping to internal 3000
+    profiles: [ "mvc" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # Python FastAPI
+  python-gateway:
+    build:
+      context: ./python-fastapi/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-python-gateway
+    environment:
+      MONOLITH_URL: http://python-monolith:8000
+      PROMETHEUS_MULTIPROC_DIR: /tmp/prometheus_multiproc
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3008:3000"
+    profiles: [ "python" ]
+    depends_on:
+      - python-monolith
+
+  python-monolith:
+    build:
+      context: ./python-fastapi/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-python-monolith
+    environment:
+      DB_URL: postgresql+asyncpg://python_fastapi_user:python_fastapi_pass@pgbouncer:6432/benchmark
+      PROMETHEUS_MULTIPROC_DIR: /tmp/prometheus_multiproc
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3004:8000" # Exposed for Prometheus mapping to internal 8000
+    profiles: [ "python" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # PHP Laravel
+  php-gateway:
+    build:
+      context: ./php-laravel/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-php-gateway
+    environment:
+      MONOLITH_URL: http://php-monolith:8000
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3009:8000"
+    profiles: [ "php" ]
+    depends_on:
+      - php-monolith
+
+  php-monolith:
+    build:
+      context: ./php-laravel/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-php-monolith
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_DATABASE: benchmark
+      DB_USERNAME: php_cli_user
+      DB_PASSWORD: php_cli_pass
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3010:8000" # Exposed for Prometheus mapping to internal 8000
+    profiles: [ "php" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # PHP Laravel FPM
+  php-fpm-gateway-app:
+    build:
+      context: ./php-laravel-fpm/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-php-fpm-gateway-app
+    image: benchmark-php-fpm-gateway-app
+    environment:
+      MONOLITH_URL: http://php-fpm-monolith-web
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: "false"
+      LOG_CHANNEL: stderr
+      FPM_MAX_CHILDREN: 20
+      DB_PERSISTENT: "true"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    profiles: [ "php-fpm" ]
+    depends_on:
+      - php-fpm-monolith-web
+
+  php-fpm-gateway-web:
+    image: nginx:alpine
+    container_name: benchmark-php-fpm-gateway-web
+    ports:
+      - "3011:80"
+    volumes:
+      - ./php-laravel-fpm/gateway:/var/www/html
+      - ./php-laravel-fpm/gateway/nginx/conf.d:/etc/nginx/conf.d
+    profiles: [ "php-fpm" ]
+    depends_on:
+      - php-fpm-gateway-app
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  php-fpm-monolith-app:
+    build:
+      context: ./php-laravel-fpm/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-php-fpm-monolith-app
+    image: benchmark-php-fpm-monolith-app
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_DATABASE: benchmark
+      DB_USERNAME: php_fpm_user
+      DB_PASSWORD: php_fpm_pass
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: "false"
+      LOG_CHANNEL: stderr
+      FPM_MAX_CHILDREN: 20
+      DB_PERSISTENT: "true"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3013:9000"
+    profiles: [ "php-fpm" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  php-fpm-monolith-web:
+    image: nginx:alpine
+    container_name: benchmark-php-fpm-monolith-web
+    ports:
+      - "3012:80"
+    volumes:
+      - ./php-laravel-fpm/monolith:/var/www/html
+      - ./php-laravel-fpm/monolith/nginx/conf.d:/etc/nginx/conf.d
+    profiles: [ "php-fpm" ]
+    depends_on:
+      - php-fpm-monolith-app
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  php-octane-monolith-app:
+    build:
+      context: ./php-laravel-octane/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-php-octane-monolith-app
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_DATABASE: benchmark
+      DB_USERNAME: php_octane_user
+      DB_PASSWORD: php_octane_pass
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: "false"
+      LOG_CHANNEL: stderr
+      OCTANE_WORKERS: 15
+      DB_PERSISTENT: "true"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    profiles: [ "php-octane" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  php-octane-monolith-web:
+    image: nginx:alpine
+    container_name: benchmark-php-octane-monolith-web
+    ports:
+      - "3015:80"
+    volumes:
+      - ./php-laravel-octane/monolith:/var/www/html
+      - ./php-laravel-octane/monolith/nginx/conf.d:/etc/nginx/conf.d
+    profiles: [ "php-octane" ]
+    depends_on:
+      - php-octane-monolith-app
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  php-octane-gateway-app:
+    build:
+      context: ./php-laravel-octane/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-php-octane-gateway-app
+    environment:
+      MONOLITH_URL: http://php-octane-monolith-web
+      APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: "false"
+      LOG_CHANNEL: stderr
+      OCTANE_WORKERS: 15
+      DB_PERSISTENT: "true"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    profiles: [ "php-octane" ]
+    depends_on:
+      - php-octane-monolith-web
+
+  php-octane-gateway-web:
+    image: nginx:alpine
+    container_name: benchmark-php-octane-gateway-web
+    ports:
+      - "3014:80"
+    volumes:
+      - ./php-laravel-octane/gateway:/var/www/html
+      - ./php-laravel-octane/gateway/nginx/conf.d:/etc/nginx/conf.d
+    profiles: [ "php-octane" ]
+    depends_on:
+      - php-octane-gateway-app
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  # Golang Gin
+  golang-gateway:
+    build:
+      context: ./golang/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-golang-gateway
+    environment:
+      MONOLITH_URL: http://golang-monolith:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3018:3000"
+    profiles: [ "golang" ]
+    depends_on:
+      - golang-monolith
+
+  golang-monolith:
+    build:
+      context: ./golang/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-golang-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: golang_user
+      DB_PASSWORD: golang_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3019:3000" # Exposed for Prometheus
+    profiles: [ "golang" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # .NET Core
+  dotnet-gateway:
+    build:
+      context: ./dotnet/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-dotnet-gateway
+    environment:
+      MONOLITH_URL: http://dotnet-monolith:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3020:3000"
+    profiles: [ "dotnet" ]
+    depends_on:
+      - dotnet-monolith
+
+  dotnet-monolith:
+    build:
+      context: ./dotnet/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-dotnet-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: dotnet_user
+      DB_PASSWORD: dotnet_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3021:3000" # Exposed for Prometheus
+    profiles: [ "dotnet" ]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      pgbouncer:
+        condition: service_started
+
+  # C++ Drogon
+  cpp-drogon-gateway:
+    build:
+      context: ./cpp-drogon/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-cpp-drogon-gateway
+    environment:
+      MONOLITH_URL: http://cpp-drogon-monolith:3000
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3022:3000"
+    profiles: [ "cpp-drogon" ]
+    depends_on:
+      - cpp-drogon-monolith
+
+  cpp-drogon-monolith:
+    build:
+      context: ./cpp-drogon/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-cpp-drogon-monolith
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: cpp_drogon_user
+      DB_PASSWORD: cpp_drogon_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3023:3000" # Exposed for Prometheus
+    profiles: [ "cpp-drogon" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # Rust Stack
+  rust-gateway:
+    build:
+      context: ./rust/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-rust-gateway
+    environment:
+      MONOLITH_URL: http://rust-monolith:3000
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3024:3000"
+    profiles: [ "rust" ]
+    depends_on:
+      - rust-monolith
+
+  rust-monolith:
+    build:
+      context: ./rust/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-rust-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: rust_user
+      DB_PASSWORD: rust_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3025:3000" # Exposed for Prometheus
+    profiles: [ "rust" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
