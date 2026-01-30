@@ -594,3 +594,45 @@ services:
     depends_on:
       pgbouncer:
         condition: service_started
+
+  # Rust Stack
+  rust-gateway:
+    build:
+      context: ./rust/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-rust-gateway
+    environment:
+      MONOLITH_URL: http://rust-monolith:3000
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3024:3000"
+    profiles: [ "rust" ]
+    depends_on:
+      - rust-monolith
+
+  rust-monolith:
+    build:
+      context: ./rust/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-rust-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: rust_user
+      DB_PASSWORD: rust_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3025:3000" # Exposed for Prometheus
+    profiles: [ "rust" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started

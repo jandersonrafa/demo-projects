@@ -59,8 +59,8 @@ This document lists the commands to start and stop each of the 10 benchmarking s
 - **Down**: `docker compose --profile rust down`
 
 ## 12. C++ Drogon
-- **Up**: `docker compose --profile cpp up -d`
-- **Down**: `docker compose --profile cpp down`
+- **Up**: `docker compose --profile cpp-drogon up -d`
+- **Down**: `docker compose --profile cpp-drogon down`
 
 ---
 

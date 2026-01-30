@@ -1,8 +1,12 @@
-## Start/Stop the Stack
+# Benchmark Stacks: Java, Node, PHP, Python, Go, .NET, Rust, C++
+
+Este projeto é um benchmark comparativo de performance entre diferentes stacks tecnológicas, utilizando uma arquitetura de Gateway e Monolito.
+
+## 🚀 Como Iniciar
 
 Para limpar o histórico de métricas e os dados do banco antes de um novo benchmark:
 
-Para subir por stack leiad COMMANDS.md;
+Para informações detalhadas de como subir cada stack individualmente, consulte o arquivo [COMMANDS.md](COMMANDS.md).
 
 ```bash
 # Subir stack docker compose
@@ -51,7 +55,7 @@ GROUP BY  split_part(description, '-', 1);
 
 # 📊 Available Stacks
 
-This project contains **10 different stacks** for performance benchmarking:
+This project contains **12 different stacks** for performance benchmarking:
 
 | Stack | Technology | Gateway Port | Monolith Port | Database User | Notes |
 |-------|-----------|--------------|---------------|---------------|-------|
@@ -65,33 +69,48 @@ This project contains **10 different stacks** for performance benchmarking:
 | **PHP Octane** | Laravel Octane + Swoole | 3014 | 3015 | `php_octane_user` | High-performance async PHP |
 | **Golang Gin** | Gin + GORM (Postgres) | 3018 | 3019 | `golang_user` | High-performance compiled Go |
 | **.NET Core** | ASP.NET Core 8.0 | 3020 | 3021 | `dotnet_user` | ASP.NET Core with EF Core |
-| **Rust Axum** | Rust + Axum + SQLx | 3022 | 3023 | `rust_user` | High-performance compiled Rust |
+| **C++ Drogon** | Drogon Framework | 3022 | 3023 | `cpp_drogon_user` | High-performance C++ |
+| **Rust Axum** | Rust + Axum + SQLx | 3024 | 3025 | `rust_user` | High-performance compiled Rust |
 
 
 # Exemplo curl
 
 ```bash
-curl -X POST http://localhost:3005/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+# Node.js
+curl -X POST http://localhost:3005/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus Node", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3006/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+# Java WebFlux
+curl -X POST http://localhost:3006/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus WebFlux", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3007/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+# Java MVC VT
+curl -X POST http://localhost:3007/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus MVC VT", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3008/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+# Python
+curl -X POST http://localhost:3008/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus Python", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3009/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+# PHP CLI
+curl -X POST http://localhost:3009/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP CLI", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3011/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+# PHP FPM
+curl -X POST http://localhost:3011/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP FPM", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3014/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+# PHP Octane
+curl -X POST http://localhost:3014/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP Octane", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3016/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus PHP", "clientId": "client_5"}';
+# Java MVC Traditional
+curl -X POST http://localhost:3016/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus MVC", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3018/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus Go", "clientId": "client_5"}';
+# Golang Gin
+curl -X POST http://localhost:3018/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus Go", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3020/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus .NET", "clientId": "client_5"}';
+# .NET Core
+curl -X POST http://localhost:3020/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus .NET", "clientId": "client_1"}';
 
-curl -X POST http://localhost:3022/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus Rust", "clientId": "client_5"}';
+# C++ Drogon
+curl -X POST http://localhost:3022/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus C++", "clientId": "client_1"}';
+
+# Rust Axum
+curl -X POST http://localhost:3024/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus Rust", "clientId": "client_1"}';
 ```
 
 
