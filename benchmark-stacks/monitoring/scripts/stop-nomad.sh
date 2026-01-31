@@ -8,7 +8,6 @@ cd "$(dirname "$0")/.." || exit 1
 echo "Stopping applications..."
 nomad job stop java-mvc-vt
 nomad job stop java-webflux
-nomad job stop java-quarkus
 nomad job stop node-nestjs
 nomad job stop dotnet
 nomad job stop golang
