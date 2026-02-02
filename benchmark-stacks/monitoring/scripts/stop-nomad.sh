@@ -3,24 +3,10 @@
 # Ensure we are in the project root
 cd "$(dirname "$0")/.." || exit 1
 
+# Stop monitoring infrastructure
+echo "Stopping monitoring infrastructure..."
+nomad job stop prometheus
+nomad job stop grafana
 
-# Stop applications
-echo "Stopping applications..."
-nomad job stop java-mvc-vt
-nomad job stop java-webflux
-nomad job stop node-nestjs
-nomad job stop dotnet
-nomad job stop golang
-nomad job stop php-laravel-fpm
-nomad job stop php-laravel-octane
-nomad job stop python-fastapi
-nomad job stop rust
-
-# Stop infrastructure
-echo "Stopping infrastructure..."
-nomad job stop traefik
-nomad job stop pgbouncer
-nomad job stop postgres
-
-echo "Cleanup finished!"
+echo "Stop finished!"
 nomad status
