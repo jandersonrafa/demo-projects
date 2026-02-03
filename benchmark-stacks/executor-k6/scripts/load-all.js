@@ -24,12 +24,12 @@ export const options = {
         timeUnit: '1s',
         stages: [
           { duration: '1m', target: 100 },
-          { duration: '1m', target: 200 },
-          { duration: '1m', target: 300 },
-          { duration: '1m', target: 400 },
-          { duration: '1m', target: 500 }, // 🎯 pico
-          { duration: '4m', target: 500 }, // 🎯 estabilização
-          { duration: '1m', target: 0 },// sustentação
+          // { duration: '1m', target: 200 },
+          // { duration: '1m', target: 300 },
+          // { duration: '1m', target: 400 },
+          // { duration: '1m', target: 500 }, // 🎯 pico
+          // { duration: '4m', target: 500 }, // 🎯 estabilização
+          // { duration: '1m', target: 0 },// sustentação
         ],
         preAllocatedVUs: 400,
         maxVUs: 800,
@@ -90,8 +90,8 @@ export function handleSummary(data) {
   const reportName = ports ? `summary-${timestamp}-BR-${ports}` : `summary-${timestamp}-BR`;
 
   return {
-    [`./k6/reports/${reportName}.html`]: htmlReport(data),
-    [`./k6/reports/${reportName}.json`]: JSON.stringify(data, null, 2),
+    [`/reports/${reportName}.html`]: htmlReport(data),
+    [`/reports/${reportName}.json`]: JSON.stringify(data, null, 2),
   };
 }
 

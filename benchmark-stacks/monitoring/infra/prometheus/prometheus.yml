@@ -7,13 +7,13 @@ scrape_configs:
     params:
       format: ['prometheus']
     static_configs:
-      - targets: ['localhost:4646']
+      - targets: ['192.168.0.114:4646']
         labels:
           env: 'local'
 
   - job_name: 'traefik'
     static_configs:
-      - targets: ['localhost:8082']
+      - targets: ['192.168.0.114:8082']
         labels:
           env: 'local'
 

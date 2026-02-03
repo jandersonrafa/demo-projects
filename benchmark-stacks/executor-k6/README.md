@@ -15,12 +15,15 @@ export K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9091/api/v1/write
 TARGETS="localhost:3007" k6 run -o experimental-prometheus-rw k6/scripts/load-all.js
 
 
+Executar dentro nivel acima de scripts 
+
 docker run --rm \
   --name benchmark-k6 \
   --network="host" \
-  -v $(pwd)/k6/scripts:/scripts \
+  -v $(pwd)/scripts:/scripts \
+  -v $(pwd)/reports:/reports \
   -w /scripts \
-  -e TARGETS="192.168.100.48:8101,192.168.100.48:8102" \
+  -e TARGETS="192.168.0.114:8101,192.168.0.114:8102" \
   -e K6_PROMETHEUS_RW_SERVER_URL="http://localhost:9091/api/v1/write" \
   -e K6_PROMETHEUS_RW_TREND_STATS="p(95),p(99),avg" \
   grafana/k6:latest run \

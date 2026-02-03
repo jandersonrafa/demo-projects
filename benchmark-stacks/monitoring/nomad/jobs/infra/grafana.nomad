@@ -56,15 +56,6 @@ job "grafana" {
 
       # Provisioning key dashboards
 
-
-
-      template {
-        data            = file("${var.monitoring_dir}/infra/grafana/dashboards/teste-performance/apps-performance.json")
-        destination     = "local/grafana/dashboards/teste-performance/apps-performance.json"
-        left_delimiter  = "[["
-        right_delimiter = "]]"
-      }
-
       template {
         data            = file("${var.monitoring_dir}/infra/grafana/dashboards/teste-performance/k6-performance.json")
         destination     = "local/grafana/dashboards/teste-performance/k6-performance.json"
@@ -73,8 +64,8 @@ job "grafana" {
       }
 
       template {
-        data            = file("${var.monitoring_dir}/infra/grafana/dashboards/nomad/overview.json")
-        destination     = "local/grafana/dashboards/nomad/overview.json"
+        data            = file("${var.monitoring_dir}/infra/grafana/dashboards/teste-performance/traefik-performance.json")
+        destination     = "local/grafana/dashboards/teste-performance/traefik-performance.json"
         left_delimiter  = "[["
         right_delimiter = "]]"
       }
@@ -87,19 +78,12 @@ job "grafana" {
       }
 
       template {
-        data            = file("${var.monitoring_dir}/infra/grafana/dashboards/traefik/official_traefik.json")
-        destination     = "local/grafana/dashboards/traefik/official_traefik.json"
+        data            = file("${var.monitoring_dir}/infra/grafana/dashboards/teste-performance/nomad-performance.json")
+        destination     = "local/grafana/dashboards/teste-performance/nomad-performance.json"
         left_delimiter  = "[["
         right_delimiter = "]]"
       }
 
-      template {
-        data            = file("${var.monitoring_dir}/infra/grafana/dashboards/teste-performance/performance-analysis.json")
-        destination     = "local/grafana/dashboards/teste-performance/performance-analysis.json"
-        left_delimiter  = "[["
-        right_delimiter = "]]"
-      }
-      
       resources {
         cpu    = 500
         memory = 512
