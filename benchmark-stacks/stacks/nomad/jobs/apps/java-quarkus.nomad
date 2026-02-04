@@ -83,6 +83,8 @@ job "java-quarkus" {
         ports        = ["http"]
         network_mode = "host"
         force_pull   = false
+        memory_hard_limit = var.app_monolith_mem
+        cpu_hard_limit    = true
       }
 
       env {
@@ -132,6 +134,8 @@ job "java-quarkus" {
         ports        = ["http"]
         network_mode = "host"
         force_pull   = false
+        memory_hard_limit = var.app_gateway_mem
+        cpu_hard_limit    = true
       }
 
       env {

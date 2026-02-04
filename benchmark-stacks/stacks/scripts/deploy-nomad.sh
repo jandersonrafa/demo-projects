@@ -16,7 +16,7 @@ sleep 10
 # Deploy applications in parallel
 echo "Deploying applications in parallel..."
 nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-mvc-vt.nomad &
-nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-webflux.nomad &
+# nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-webflux.nomad &
 # nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/node-nestjs.nomad &
 # nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/dotnet.nomad &
 # nomad job run -var-file=nomad/vars/common.hcl nomad/jobs/apps/golang.nomad &

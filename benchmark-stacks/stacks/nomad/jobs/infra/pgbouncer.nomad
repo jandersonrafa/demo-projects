@@ -77,6 +77,8 @@ job "pgbouncer" {
           "local/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini",
           "local/userlist.txt:/etc/pgbouncer/userlist.txt"
         ]
+        memory_hard_limit = var.pgbouncer_mem
+        cpu_hard_limit    = true
       }
 
       template {

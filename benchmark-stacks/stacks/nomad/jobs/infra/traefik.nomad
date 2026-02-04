@@ -100,6 +100,8 @@ job "traefik" {
         volumes = [
           "local/traefik.yaml:/etc/traefik/traefik.yaml",
         ]
+        memory_hard_limit = var.traefik_mem
+        cpu_hard_limit    = true
       }
 
       template {
@@ -162,6 +164,22 @@ metrics:
   prometheus:
     addEntryPointsLabels: true
     addServicesLabels: true
+    buckets:
+      - 0.0001
+      - 0.001
+      - 0.005
+      - 0.01
+      - 0.025
+      - 0.05
+      - 0.075
+      - 0.1
+      - 0.25
+      - 0.5
+      - 0.75
+      - 1
+      - 2.5
+      - 5
+      - 10
 
 providers:
   consulCatalog:

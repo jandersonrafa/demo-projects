@@ -19,8 +19,8 @@ postgres_count  = 1
 pgbouncer_cpu   = 1000
 pgbouncer_mem   = 1024
 pgbouncer_count = 1
-traefik_cpu     = 1000
-traefik_mem     = 1024
+traefik_cpu     = 2000
+traefik_mem     = 2048
 traefik_count   = 1
 
 # --- Application Images ---
@@ -48,9 +48,9 @@ gateway_quarkus_image  = "benchmark-stacks/java-quarkus-gateway:1.0"
 
 
 # --- Application Resource Limits (Standardized) ---
-app_monolith_cpu = 512
-app_monolith_mem = 1024
-app_monolith_count = 1
-app_gateway_cpu  = 512
-app_gateway_mem  = 1024
-app_gateway_count  = 1
+app_monolith_cpu = 1024
+app_monolith_mem = 2048
+app_monolith_count = 2
+app_gateway_cpu  = 1024
+app_gateway_mem  = 2048
+app_gateway_count  = 2

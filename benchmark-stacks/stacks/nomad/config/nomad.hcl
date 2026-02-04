@@ -12,4 +12,16 @@ telemetry {
   prometheus_metrics = true
   publish_allocation_metrics = true
   publish_node_metrics = true
-}       
+}
+
+addresses {
+  http = "0.0.0.0"
+  rpc  = "0.0.0.0"
+  serf = "0.0.0.0"
+}
+
+advertise {
+  http = "localhost"
+  rpc  = "localhost"
+  serf = "localhost"
+}

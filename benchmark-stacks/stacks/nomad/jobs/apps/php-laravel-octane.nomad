@@ -76,6 +76,8 @@ job "php-laravel-octane" {
         network_mode = "host"
         command      = "php"
         args         = ["artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=${NOMAD_PORT_octane}", "--workers=15"]
+        memory_hard_limit = var.app_monolith_mem
+        cpu_hard_limit    = true
       }
       env {
         DB_CONNECTION = "pgsql"
@@ -160,6 +162,8 @@ EOF
         network_mode = "host"
         command      = "php"
         args         = ["artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=${NOMAD_PORT_octane}", "--workers=15"]
+        memory_hard_limit = var.app_gateway_mem
+        cpu_hard_limit    = true
       }
       env {
         MONOLITH_URL = "http://127.0.0.1:9107"

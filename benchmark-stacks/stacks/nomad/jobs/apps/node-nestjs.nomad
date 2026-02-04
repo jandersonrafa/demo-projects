@@ -75,6 +75,8 @@ job "node-nestjs" {
         image        = var.monolith_nestjs_image
         ports        = ["http"]
         network_mode = "host"
+        memory_hard_limit = var.app_monolith_mem
+        cpu_hard_limit    = true
       }
 
       env {
@@ -118,6 +120,8 @@ job "node-nestjs" {
         image        = var.gateway_nestjs_image
         ports        = ["http"]
         network_mode = "host"
+        memory_hard_limit = var.app_gateway_mem
+        cpu_hard_limit    = true
       }
 
       env {
