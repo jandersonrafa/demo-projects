@@ -1,57 +1,27 @@
 variable "datacenters" { type = list(string) }
 variable "region" { type = string }
-variable "postgres_image" { type = string }
-variable "pgbouncer_image" { type = string }
-variable "traefik_image" { type = string }
-variable "monolith_mvc_vt_image" { type = string }
-variable "gateway_mvc_vt_image" { type = string }
-variable "monolith_webflux_image" { type = string }
-variable "gateway_webflux_image" { type = string }
-variable "monolith_dotnet_image" { type = string }
-variable "gateway_dotnet_image" { type = string }
-variable "monolith_golang_image" { type = string }
-variable "gateway_golang_image" { type = string }
-variable "monolith_nestjs_image" { type = string }
-variable "gateway_nestjs_image" { type = string }
 variable "monolith_fpm_image" { type = string }
 variable "gateway_fpm_image" { type = string }
-variable "monolith_octane_image" { type = string }
-variable "gateway_octane_image" { type = string }
-variable "monolith_python_image" { type = string }
-variable "gateway_python_image" { type = string }
-variable "monolith_rust_image" { type = string }
-variable "gateway_rust_image" { type = string }
-variable "monolith_quarkus_image" { type = string }
-variable "gateway_quarkus_image" { type = string }
 variable "db_user" { type = string }
 variable "db_password" { type = string }
 variable "db_name" { type = string }
 
 # Resource variables
-variable "postgres_cpu" { type = number }
-variable "postgres_mem" { type = number }
-variable "pgbouncer_cpu" { type = number }
-variable "pgbouncer_mem" { type = number }
-variable "traefik_cpu" { type = number }
-variable "traefik_mem" { type = number }
-variable "app_monolith_cpu" { type = number }
-variable "app_monolith_mem" { type = number }
-variable "app_gateway_cpu" { type = number }
-variable "app_gateway_mem" { type = number }
+variable "php_laravel_fpm_monolith_cpu" { type = number }
+variable "php_laravel_fpm_monolith_mem" { type = number }
+variable "php_laravel_fpm_gateway_cpu" { type = number }
+variable "php_laravel_fpm_gateway_mem" { type = number }
 
 # Count variables
-variable "postgres_count" { type = number }
-variable "pgbouncer_count" { type = number }
-variable "traefik_count" { type = number }
-variable "app_monolith_count" { type = number }
-variable "app_gateway_count" { type = number }
+variable "php_laravel_fpm_monolith_count" { type = number }
+variable "php_laravel_fpm_gateway_count" { type = number }
 
 job "php-laravel-fpm" {
   datacenters = var.datacenters
   type        = "service"
 
   group "monolith" {
-    count = var.app_monolith_count
+    count = var.php_laravel_fpm_monolith_count
 
     network {
       mode = "host"
@@ -77,7 +47,7 @@ job "php-laravel-fpm" {
         # Overwrite the listen port in the entrypoint by appending to config
         command = "sh"
         args    = ["-c", "echo 'listen = 0.0.0.0:${NOMAD_PORT_fpm}' >> /usr/local/etc/php-fpm.d/zz-nomad.conf && php-fpm"]
-        memory_hard_limit = var.app_monolith_mem
+        memory_hard_limit = var.php_laravel_fpm_monolith_mem
         cpu_hard_limit    = true
       }
       env {
@@ -94,8 +64,8 @@ job "php-laravel-fpm" {
         FPM_MAX_CHILDREN = 20
       }
       resources {
-        cpu    = var.app_monolith_cpu
-        memory = var.app_monolith_mem
+        cpu    = var.php_laravel_fpm_monolith_cpu
+        memory = var.php_laravel_fpm_monolith_mem
       }
     }
 
@@ -135,7 +105,7 @@ EOF
   }
 
   group "gateway" {
-    count = var.app_gateway_count
+    count = var.php_laravel_fpm_gateway_count
 
     network {
       mode = "host"
@@ -160,7 +130,7 @@ EOF
         network_mode = "host"
         command = "sh"
         args    = ["-c", "echo 'listen = 0.0.0.0:${NOMAD_PORT_fpm}' >> /usr/local/etc/php-fpm.d/zz-nomad.conf && php-fpm"]
-        memory_hard_limit = var.app_gateway_mem
+        memory_hard_limit = var.php_laravel_fpm_gateway_mem
         cpu_hard_limit    = true
       }
       env {
@@ -172,8 +142,8 @@ EOF
         FPM_MAX_CHILDREN = 20
       }
       resources {
-        cpu    = var.app_gateway_cpu
-        memory = var.app_gateway_mem
+        cpu    = var.php_laravel_fpm_gateway_cpu
+        memory = var.php_laravel_fpm_gateway_mem
       }
     }
 
