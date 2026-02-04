@@ -84,6 +84,14 @@ job "grafana" {
         right_delimiter = "]]"
       }
 
+
+      template {
+        data            = file("${var.monitoring_dir}/infra/grafana/dashboards/teste-performance/general-performance.json")
+        destination     = "local/grafana/dashboards/teste-performance/general-performance.json"
+        left_delimiter  = "[["
+        right_delimiter = "]]"
+      }
+
       resources {
         cpu    = 500
         memory = 512

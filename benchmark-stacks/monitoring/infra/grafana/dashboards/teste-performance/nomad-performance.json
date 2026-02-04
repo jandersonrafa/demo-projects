@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
+  "id": 5,
   "links": [],
   "panels": [
     {
@@ -31,7 +31,7 @@
       },
       "id": 52,
       "panels": [],
-      "title": "Allocations",
+      "title": "Resources by task",
       "type": "row"
     },
     {
@@ -80,7 +80,7 @@
             "properties": [
               {
                 "id": "unit",
-                "value": "rothz"
+                "value": "hertz"
               },
               {
                 "id": "custom.width",
@@ -119,11 +119,83 @@
                 "value": 90
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alloc_id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 340
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "job"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 148
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "group"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 162
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "task"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 210
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "namespace"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 222
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "client"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 211
+              }
+            ]
           }
         ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 24,
         "x": 0,
         "y": 1
@@ -202,6 +274,7 @@
               "Value #A": 6,
               "Value #B": 7,
               "Value #C": 8,
+              "Value #D": 9,
               "alloc_id": 5,
               "exported_job 1": 0,
               "instance 1": 4,
@@ -213,6 +286,7 @@
               "Value #A": "CPU",
               "Value #B": "Memory",
               "Value #C": "M. max",
+              "Value #D": "CPU max",
               "alloc_id": "alloc_id",
               "exported_job 1": "job",
               "instance 1": "client",
@@ -235,6 +309,266 @@
         }
       ],
       "type": "table"
+    },
+    {
+      "datasource": {
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "rotmhz"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 7
+      },
+      "id": 76,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max_over_time(\n  nomad_client_allocs_cpu_total_ticks{exported_job=~\"$job\"}[$__range]\n)",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": " {{exported_job}} - {{task}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Cpu Max",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "rotmhz"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 7
+      },
+      "id": 77,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg_over_time(\n  nomad_client_allocs_cpu_total_ticks{exported_job=~\"$job\"}[$__range]\n)",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": " {{exported_job}} - {{task}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Cpu Average",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 11
+      },
+      "id": 78,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max_over_time(\n  nomad_client_allocs_memory_usage{exported_job=~\"$job\"}[$__range]\n)",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": " {{exported_job}} - {{task}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Memory Max",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "id": 79,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg_over_time(\n  nomad_client_allocs_memory_usage{exported_job=~\"$job\"}[$__range]\n)",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": " {{exported_job}} - {{task}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Memory Average",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -304,7 +638,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 9
+        "y": 15
       },
       "id": 55,
       "options": {
@@ -406,13 +740,38 @@
           },
           "unit": "rothz"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "java-mvc-vt - monolith - monolith - 192.168.0.114:4646 - a3ab0d67-c811-e488-814a-8ace9919c2fb Mhz"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": true,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 9
+        "y": 15
       },
       "id": 65,
       "options": {
@@ -520,7 +879,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 19
+        "y": 25
       },
       "id": 56,
       "options": {
@@ -627,7 +986,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 19
+        "y": 25
       },
       "id": 66,
       "options": {
@@ -673,11 +1032,11 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 35
       },
       "id": 70,
       "panels": [],
-      "title": "Allocacoes Agregadas",
+      "title": "Resources by Job",
       "type": "row"
     },
     {
@@ -771,10 +1130,10 @@
         ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 36
       },
       "id": 71,
       "options": {
@@ -859,6 +1218,266 @@
     },
     {
       "datasource": {
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "rotmhz"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 42
+      },
+      "id": 80,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (exported_job) (max_over_time(  nomad_client_allocs_cpu_total_ticks{exported_job=~\"$job\"}[$__range]) )",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{exported_job}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Cpu Max",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "rotmhz"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 42
+      },
+      "id": 81,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (exported_job) (avg_over_time(  nomad_client_allocs_cpu_total_ticks{exported_job=~\"$job\"}[$__range]) )",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": " {{exported_job}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Cpu Average",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 46
+      },
+      "id": 82,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (exported_job) (max_over_time(  nomad_client_allocs_memory_usage{exported_job=~\"$job\"}[$__range]) )",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": " {{exported_job}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Memory Max",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 46
+      },
+      "id": 83,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (exported_job) (avg_over_time(  nomad_client_allocs_memory_usage{exported_job=~\"$job\"}[$__range]) )",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": " {{exported_job}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Memory Average",
+      "type": "stat"
+    },
+    {
+      "datasource": {
         "type": "prometheus",
         "uid": "Prometheus"
       },
@@ -929,7 +1548,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 38
+        "y": 50
       },
       "id": 72,
       "options": {
@@ -969,6 +1588,116 @@
         }
       ],
       "title": "CPU % Agregado por Job",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Prometheus"
+      },
+      "description": "CPU Total (MHz) agregado por job",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "rothz"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 50
+      },
+      "id": 74,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (exported_job) (nomad_client_allocs_cpu_total_ticks{exported_job=~\"$job\"} * 1000000)",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{ exported_job }}",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Total (MHz) Agregado por Job",
       "type": "timeseries"
     },
     {
@@ -1042,8 +1771,8 @@
       "gridPos": {
         "h": 10,
         "w": 12,
-        "x": 12,
-        "y": 38
+        "x": 0,
+        "y": 60
       },
       "id": 73,
       "options": {
@@ -1083,116 +1812,6 @@
         }
       ],
       "title": "Memory % Agregado por Job",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Prometheus"
-      },
-      "description": "CPU Total (MHz) agregado por job",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "showValues": false,
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "rothz"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 48
-      },
-      "id": 74,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "last"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.3.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "sum by (exported_job) (nomad_client_allocs_cpu_total_ticks{exported_job=~\"$job\"} * 1000000)",
-          "format": "time_series",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "{{ exported_job }}",
-          "refId": "A"
-        }
-      ],
-      "title": "CPU Total (MHz) Agregado por Job",
       "type": "timeseries"
     },
     {
@@ -1263,7 +1882,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 60
       },
       "id": 75,
       "options": {
@@ -1318,9 +1937,13 @@
     "list": [
       {
         "current": {
-          "text": "All",
+          "text": [
+            "java-mvc-vt",
+            "pgbouncer"
+          ],
           "value": [
-            "$__all"
+            "java-mvc-vt",
+            "pgbouncer"
           ]
         },
         "datasource": "Prometheus",
@@ -1341,8 +1964,8 @@
     ]
   },
   "time": {
-    "from": "now-1h",
-    "to": "now"
+    "from": "2026-02-04T13:02:05.218Z",
+    "to": "2026-02-04T13:05:13.613Z"
   },
   "timepicker": {},
   "timezone": "",

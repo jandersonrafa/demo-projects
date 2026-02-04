@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { check, sleep } from 'k6';
+import { sleep, check } from 'k6';
 
 // 👉 IMPORT DO HTML REPORTER
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
@@ -8,31 +8,18 @@ import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporte
 const targetsEnv = __ENV.TARGETS || '';
 const targets = targetsEnv.split(',').filter(Boolean);
 
-// { duration: '1m', target: 20 },
-// { duration: '1m', target: 80 },
-// { duration: '1m', target: 120 }, // 🎯 pico
-// { duration: '2m', target: 120 }, // sustentação
-// { duration: '1m', target: 0 },
-// Build scenarios: one per target (20 RPS cada)
 export const options = {
   scenarios: Object.fromEntries(
     targets.map((t) => [
       `load_${t.replace(/[^a-zA-Z0-9]/g, '_')}`,
       {
-        executor: 'ramping-arrival-rate',
-        startRate: 20,
-        timeUnit: '1s',
+        executor: 'ramping-vus',
+
         stages: [
-          { duration: '1m', target: 100 },
-          // { duration: '1m', target: 200 },
-          // { duration: '1m', target: 300 },
-          // { duration: '1m', target: 400 },
-          // { duration: '1m', target: 500 }, // 🎯 pico
-          // { duration: '4m', target: 500 }, // 🎯 estabilização
-          // { duration: '1m', target: 0 },// sustentação
+          { duration: '1m', target: 500 }, // sobe até 500 VUs
+          { duration: '2m', target: 500 }, // mantém 500 VUs
+          { duration: '1m', target: 0 },   // desce para 0 VUs
         ],
-        preAllocatedVUs: 400,
-        maxVUs: 800,
         exec: 'hit',
         env: { TARGET: t },
         tags: { target: t },
@@ -50,48 +37,43 @@ export function hit() {
   const target = __ENV.TARGET;
   const base = `http://${target}`;
 
-  // POST /bonus para cadastro (todos os gateways devem ter)
   const payload = JSON.stringify({
     amount: 150.00,
     description: `Load Test ${Date.now()}`,
-    clientId: `client_${Math.floor(Math.random() * 100) + 1}`
+    clientId: `client_${Math.floor(Math.random() * 100) + 1}`,
   });
+
   const params = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
   };
+
   const res = http.post(`${base}/bonus`, payload, params);
 
-
   check(res, {
-    'http_success': (r) => r.status >= 200 && r.status < 400,
+    http_success: (r) => r.status >= 200 && r.status < 400,
   });
 
-  // if (res.status >= 400) {
-  //   console.error(
-  //     `[ERROR] target=${target} ` +
-  //     `status=${res.status} ` +
-  //     `body=${res.body?.substring(0, 200)}`
-  //   );
-  // }
-  // sleep(1);
+  sleep(1); // 1 segundo entre requisições
+
 }
 
 // ✅ RELATÓRIO AUTOMÁTICO (HTML + JSON)
 export function handleSummary(data) {
-  // Data/hora no fuso do Brasil (Porto Alegre - UTC-3)
   const now = new Date();
-  const brazilTime = new Date(now.getTime() - (3 * 60 * 60 * 1000));
-  const timestamp = brazilTime.toISOString().replace(/T/, '_').replace(/\..+/, '').replace(/:/g, '-');
+  const brazilTime = new Date(now.getTime() - 3 * 60 * 60 * 1000);
+  const timestamp = brazilTime
+    .toISOString()
+    .replace(/T/, '_')
+    .replace(/\..+/, '')
+    .replace(/:/g, '-');
 
-  // Extrai apenas as portas dos alvos (ex: 3005) e junta com '_'
   const ports = targets.map(t => t.split(':').pop()).join('_');
-  const reportName = ports ? `summary-${timestamp}-BR-${ports}` : `summary-${timestamp}-BR`;
+  const reportName = ports
+    ? `summary-${timestamp}-BR-${ports}`
+    : `summary-${timestamp}-BR`;
 
   return {
     [`/reports/${reportName}.html`]: htmlReport(data),
     [`/reports/${reportName}.json`]: JSON.stringify(data, null, 2),
   };
 }
-
