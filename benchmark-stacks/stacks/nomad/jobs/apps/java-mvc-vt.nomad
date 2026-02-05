@@ -53,8 +53,6 @@ job "java-mvc-vt" {
         ports        = ["http"]
         network_mode = "host"
         force_pull   = false
-        memory_hard_limit = var.java_mvc_vt_monolith_mem
-        cpu_hard_limit    = true
       }
 
       env {
@@ -99,8 +97,6 @@ job "java-mvc-vt" {
         ports        = ["http"]
         network_mode = "host"
         force_pull   = false
-        memory_hard_limit = var.java_mvc_vt_gateway_mem
-        cpu_hard_limit    = true
       }
 
       env {

@@ -9,4 +9,6 @@ connect {
 
 ports {
   grpc = 8502
+  dns = 8600
+  http = 8500
 }
