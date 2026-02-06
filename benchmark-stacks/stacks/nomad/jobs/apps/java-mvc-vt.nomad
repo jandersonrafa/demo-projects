@@ -41,7 +41,10 @@ job "java-mvc-vt" {
         type     = "http"
         path     = "/actuator/health"
         interval = "10s"
-        timeout  = "2s"
+        timeout  = "5s"
+        check_restart {
+          grace           = "120s"
+        }
       }
     }
 
@@ -53,6 +56,7 @@ job "java-mvc-vt" {
         ports        = ["http"]
         network_mode = "host"
         force_pull   = false
+        cpu_hard_limit    = true
       }
 
       env {
@@ -87,6 +91,15 @@ job "java-mvc-vt" {
         "traefik.http.routers.mvc-vt-gateway.rule=PathPrefix(`/`)",
         "traefik.http.routers.mvc-vt-gateway.entrypoints=mvc-vt-gateway",
       ]
+      check {
+        type     = "http"
+        path     = "/actuator/health"
+        interval = "10s"
+        timeout  = "5s"
+        check_restart {
+          grace           = "120s"
+        }
+      }
     }
 
     task "gateway" {
@@ -97,6 +110,7 @@ job "java-mvc-vt" {
         ports        = ["http"]
         network_mode = "host"
         force_pull   = false
+        cpu_hard_limit    = true
       }
 
       env {

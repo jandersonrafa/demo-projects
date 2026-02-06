@@ -54,7 +54,6 @@ job "postgres" {
           "local/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql",
           "local/02-init-users.sql:/docker-entrypoint-initdb.d/02-init-users.sql"
         ]
-        memory_hard_limit = var.postgres_mem
         cpu_hard_limit    = true
       }
 

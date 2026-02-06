@@ -14,13 +14,13 @@ traefik_image   = "traefik:v3.0"
 
 # --- Infrastructure Resource Limits ---
 postgres_cpu    = 2000
-postgres_mem    = 4096
+postgres_mem    = 2048
 postgres_count  = 1
 pgbouncer_cpu   = 1000
 pgbouncer_mem   = 1024
 pgbouncer_count = 1
 traefik_cpu     = 2000
-traefik_mem     = 2048
+traefik_mem     = 1024
 traefik_count   = 1
 
 # --- Application Images ---
@@ -51,11 +51,11 @@ gateway_quarkus_image  = "benchmark-stacks/java-quarkus-gateway:1.0"
 
 # Java MVC VT
 java_mvc_vt_monolith_cpu   = 1024
-java_mvc_vt_monolith_mem   = 1024
+java_mvc_vt_monolith_mem   = 768
 java_mvc_vt_monolith_count = 3
 java_mvc_vt_gateway_cpu    = 1024
-java_mvc_vt_gateway_mem    = 1024
-java_mvc_vt_gateway_count  = 1
+java_mvc_vt_gateway_mem    = 768
+java_mvc_vt_gateway_count  = 2
 
 # Java Quarkus
 java_quarkus_monolith_cpu   = 1024
@@ -98,20 +98,20 @@ node_nestjs_gateway_mem    = 2048
 node_nestjs_gateway_count  = 2
 
 # PHP Laravel FPM
-php_laravel_fpm_monolith_cpu   = 1024
-php_laravel_fpm_monolith_mem   = 2048
-php_laravel_fpm_monolith_count = 2
-php_laravel_fpm_gateway_cpu    = 1024
-php_laravel_fpm_gateway_mem    = 2048
-php_laravel_fpm_gateway_count  = 2
+php_laravel_fpm_monolith_cpu   = 4096
+php_laravel_fpm_monolith_mem   = 512
+php_laravel_fpm_monolith_count = 4
+php_laravel_fpm_gateway_cpu    = 4096
+php_laravel_fpm_gateway_mem    = 512
+php_laravel_fpm_gateway_count  = 4
 
 # PHP Laravel Octane
-php_laravel_octane_monolith_cpu   = 1024
-php_laravel_octane_monolith_mem   = 2048
-php_laravel_octane_monolith_count = 2
-php_laravel_octane_gateway_cpu    = 1024
-php_laravel_octane_gateway_mem    = 2048
-php_laravel_octane_gateway_count  = 2
+php_laravel_octane_monolith_cpu   = 2048
+php_laravel_octane_monolith_mem   = 1024
+php_laravel_octane_monolith_count = 3
+php_laravel_octane_gateway_cpu    = 1536
+php_laravel_octane_gateway_mem    = 1024
+php_laravel_octane_gateway_count  = 3
 
 # Python FastAPI
 python_fastapi_monolith_cpu   = 1024

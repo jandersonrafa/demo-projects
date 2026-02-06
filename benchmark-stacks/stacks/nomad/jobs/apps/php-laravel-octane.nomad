@@ -46,7 +46,6 @@ job "php-laravel-octane" {
         network_mode = "host"
         command      = "php"
         args         = ["artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=${NOMAD_PORT_octane}", "--workers=15"]
-        memory_hard_limit = var.php_laravel_octane_monolith_mem
         cpu_hard_limit    = true
       }
       env {
@@ -100,8 +99,8 @@ EOF
         destination = "local/default.conf"
       }
       resources {
-        cpu    = 200
-        memory = 256
+        cpu    = 512  
+        memory = 512
       }
     }
   }
@@ -132,7 +131,6 @@ EOF
         network_mode = "host"
         command      = "php"
         args         = ["artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=${NOMAD_PORT_octane}", "--workers=15"]
-        memory_hard_limit = var.php_laravel_octane_gateway_mem
         cpu_hard_limit    = true
       }
       env {
@@ -181,8 +179,8 @@ EOF
         destination = "local/default.conf"
       }
       resources {
-        cpu    = 200
-        memory = 256
+        cpu    = 512
+        memory = 512
       }
     }
   }
