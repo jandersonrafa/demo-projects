@@ -10,6 +10,13 @@ job "prometheus" {
   group "prometheus" {
     count = 1
 
+    # Configure host volume for persistent data
+    volume "prometheus-data" {
+      type      = "host"
+      source    = "prometheus-data"
+      read_only = false
+    }
+
     network {
       mode = "host"
       port "prometheus" {
@@ -31,12 +38,19 @@ job "prometheus" {
     task "prometheus" {
       driver = "docker"
 
+      # Mount the persistent volume
+      volume_mount {
+        volume      = "prometheus-data"
+        destination = "/prometheus"
+        read_only   = false
+      }
+
       config {
         image        = var.prometheus_image
         network_mode = "host"
         args = [
           "--config.file=/local/prometheus.yml",
-          "--storage.tsdb.path=/local/data",
+          "--storage.tsdb.path=/prometheus",
           "--web.enable-remote-write-receiver",
           "--storage.tsdb.retention.time=30d",
           "--web.listen-address=:9091"

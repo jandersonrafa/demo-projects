@@ -13,13 +13,22 @@ export const options = {
     targets.map((t) => [
       `load_${t.replace(/[^a-zA-Z0-9]/g, '_')}`,
       {
-        executor: 'ramping-vus',
+        executor: 'ramping-arrival-rate',
+
+        timeUnit: '1s',
+        startRate: 50,
 
         stages: [
-          { duration: '1m', target: 500 }, // sobe até 500 VUs
-          { duration: '2m', target: 500 }, // mantém 500 VUs
-          { duration: '1m', target: 0 },   // desce para 0 VUs
+          { duration: '30s', target: 50 },
+          { duration: '30s', target: 100 },
+          { duration: '30s', target: 150 },
+          { duration: '30s', target: 200 }, // 🔥 warm-up completo (2 min)
+          { duration: '2m', target: 200 }, // 🎯 carga real
         ],
+
+        preAllocatedVUs: 300,
+        maxVUs: 600,
+
         exec: 'hit',
         env: { TARGET: t },
         tags: { target: t },
@@ -28,8 +37,16 @@ export const options = {
   ),
 
   thresholds: {
-    http_req_duration: ['p(95)<1000'],
+    http_req_duration: ['p(95)<200'],
     http_req_failed: ['rate<0.01'],
+  },
+
+  ext: {
+    prometheus: {
+      buckets: [
+        0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.2, 0.3, 0.4, 0.6, 0.8, 1.2, 2.0, 3.0
+      ],
+    },
   },
 };
 
@@ -53,7 +70,7 @@ export function hit() {
     http_success: (r) => r.status >= 200 && r.status < 400,
   });
 
-  sleep(1); // 1 segundo entre requisições
+  // sleep(1); // 1 segundo entre requisições
 
 }
 

@@ -1,0 +1,18 @@
+{
+	"ulid": "01KGT56N1V1X26TBTZDTAS72SP",
+	"minTime": 1770393600000,
+	"maxTime": 1770400800000,
+	"stats": {
+		"numSamples": 1547281,
+		"numFloatSamples": 1547281,
+		"numSeries": 5457,
+		"numChunks": 15279
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01KGT56N1V1X26TBTZDTAS72SP"
+		]
+	},
+	"version": 1
+}

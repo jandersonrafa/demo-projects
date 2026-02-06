@@ -10,6 +10,13 @@ job "grafana" {
   group "grafana" {
     count = 1
 
+    # Configure host volume for persistent data
+    volume "grafana-data" {
+      type      = "host"
+      source    = "grafana-data"
+      read_only = false
+    }
+
     network {
       mode = "host"
       port "grafana" {
@@ -31,6 +38,13 @@ job "grafana" {
     task "grafana" {
       driver = "docker"
 
+      # Mount the persistent volume
+      volume_mount {
+        volume      = "grafana-data"
+        destination = "/var/lib/grafana"
+        read_only   = false
+      }
+
       config {
         image        = var.grafana_image
         network_mode = "host"
@@ -42,6 +56,7 @@ job "grafana" {
 
       env {
         GF_SECURITY_ADMIN_PASSWORD = "admin"
+        GF_PATHS_DATA              = "/var/lib/grafana"
       }
 
       template {
