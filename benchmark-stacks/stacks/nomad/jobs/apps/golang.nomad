@@ -45,7 +45,6 @@ job "golang" {
         image        = var.monolith_golang_image
         ports        = ["http"]
         network_mode = "host"
-        memory_hard_limit = var.golang_monolith_mem
         cpu_hard_limit    = true
       }
 
@@ -90,7 +89,6 @@ job "golang" {
         image        = var.gateway_golang_image
         ports        = ["http"]
         network_mode = "host"
-        memory_hard_limit = var.golang_gateway_mem
         cpu_hard_limit    = true
       }
 

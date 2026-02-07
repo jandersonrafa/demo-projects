@@ -35,4 +35,15 @@ class BonusController extends Controller
 
         return response()->json($result['data']);
     }
+
+    public function recents()
+    {
+        $result = $this->service->getRecents();
+
+        if (isset($result['error'])) {
+            return response()->json(['message' => $result['error']], $result['status']);
+        }
+
+        return response()->json($result['data']);
+    }
 }

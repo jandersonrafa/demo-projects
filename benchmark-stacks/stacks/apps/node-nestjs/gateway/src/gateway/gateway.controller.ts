@@ -16,6 +16,14 @@ export class GatewayController {
         return response.data;
     }
 
+    @Get('recents')
+    async getRecents() {
+        const response = await firstValueFrom(
+            this.httpService.get(`${this.monolithUrl}/bonus/recents`),
+        );
+        return response.data;
+    }
+
     @Get(':id')
     async getBonus(@Param('id') id: string) {
         const response = await firstValueFrom(

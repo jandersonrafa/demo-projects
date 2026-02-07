@@ -32,3 +32,13 @@ pub async fn get_bonus(
         Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, Json(serde_json::json!({ "error": e }))).into_response(),
     }
 }
+
+pub async fn get_recents(
+    State(service): State<Arc<Service>>,
+) -> impl IntoResponse {
+    metrics::counter!("http_requests_total", "method" => "GET", "path" => "/bonus/recents").increment(1);
+    match service.get_recents().await {
+        Ok(bonuses) => (StatusCode::OK, Json(bonuses)).into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, Json(serde_json::json!({ "error": e }))).into_response(),
+    }
+}

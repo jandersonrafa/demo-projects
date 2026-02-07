@@ -27,6 +27,7 @@ func main() {
 
 	// Proxy routes
 	r.POST("/bonus", proxyHandler.ProxyPost)
+	r.GET("/bonus/recents", proxyHandler.ProxyRecents)
 	r.GET("/bonus/:id", proxyHandler.ProxyGet)
 
 	port := os.Getenv("PORT")

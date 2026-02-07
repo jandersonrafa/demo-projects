@@ -9,6 +9,7 @@ namespace Monolith.Services
     {
         Task<Bonus> CreateBonusAsync(BonusDTO dto);
         Task<Bonus?> GetBonusAsync(int id);
+        Task<List<Bonus>> GetRecentsAsync();
     }
 
     public class BonusService : IBonusService
@@ -50,6 +51,21 @@ namespace Monolith.Services
         public async Task<Bonus?> GetBonusAsync(int id)
         {
             return await _context.Bonuses.FindAsync(id);
+        }
+
+        public async Task<List<Bonus>> GetRecentsAsync()
+        {
+            // Fetch top 100 bonuses ordered by ID ascending
+            var bonuses = await _context.Bonuses
+                .OrderBy(b => b.Id)
+                .Take(100)
+                .ToListAsync();
+
+            // Then sort in memory by CreatedAt descending to stress memory
+            return bonuses
+                .OrderByDescending(b => b.CreatedAt)
+                .Take(10)
+                .ToList();
         }
     }
 }

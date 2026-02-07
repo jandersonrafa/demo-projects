@@ -31,6 +31,7 @@ func main() {
 	bonusGroup := r.Group("/bonus")
 	{
 		bonusGroup.POST("", bonusHandler.Create)
+		bonusGroup.GET("/recents", bonusHandler.GetRecents)
 		bonusGroup.GET("/:id", bonusHandler.GetOne)
 	}
 

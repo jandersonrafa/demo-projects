@@ -39,4 +39,12 @@ impl Repository {
         .fetch_optional(&self.pool)
         .await
     }
+
+    pub async fn find_top_100_bonus_by_id_asc(&self) -> Result<Vec<Bonus>, sqlx::Error> {
+        sqlx::query_as::<_, Bonus>(
+            "SELECT id, amount, description, client_id, expiration_date, created_at FROM bonus ORDER BY id ASC LIMIT 100"
+        )
+        .fetch_all(&self.pool)
+        .await
+    }
 }

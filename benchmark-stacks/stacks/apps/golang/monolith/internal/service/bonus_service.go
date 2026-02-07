@@ -5,6 +5,7 @@ import (
 	"monolith/internal/domain"
 	"monolith/internal/dto"
 	"monolith/internal/repository"
+	"sort"
 	"time"
 
 	"gorm.io/gorm"
@@ -13,6 +14,7 @@ import (
 type BonusService interface {
 	CreateBonus(dto dto.BonusDTO) (*domain.Bonus, error)
 	GetBonus(id string) (*domain.Bonus, error)
+	GetRecents() ([]domain.Bonus, error)
 }
 
 type bonusService struct {
@@ -66,4 +68,22 @@ func (s *bonusService) GetBonus(id string) (*domain.Bonus, error) {
 		return nil, err
 	}
 	return bonus, nil
+}
+
+func (s *bonusService) GetRecents() ([]domain.Bonus, error) {
+	// Fetch top 100 bonuses ordered by ID ascending
+	bonuses, err := s.bonusRepo.FindTop100()
+	if err != nil {
+		return nil, err
+	}
+
+	// Then sort in memory by createdAt descending to stress memory
+	sort.Slice(bonuses, func(i, j int) bool {
+		return bonuses[i].CreatedAt.After(bonuses[j].CreatedAt)
+	})
+
+	if len(bonuses) > 10 {
+		return bonuses[:10], nil
+	}
+	return bonuses, nil
 }

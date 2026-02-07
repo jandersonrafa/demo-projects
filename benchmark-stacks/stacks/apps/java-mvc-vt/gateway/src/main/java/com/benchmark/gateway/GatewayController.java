@@ -42,4 +42,9 @@ public class GatewayController {
         return restTemplate.getForObject("/bonus/" + id, Object.class);
     }
 
+    @GetMapping("/recents")
+    public Object recents() {
+        return restTemplate.getForObject("/bonus/recents", Object.class);
+    }
+
 }

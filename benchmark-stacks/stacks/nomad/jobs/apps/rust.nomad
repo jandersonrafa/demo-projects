@@ -45,7 +45,6 @@ job "rust" {
         image        = var.monolith_rust_image
         ports        = ["http"]
         network_mode = "host"
-        memory_hard_limit = var.rust_monolith_mem
         cpu_hard_limit    = true
       }
 
@@ -90,7 +89,6 @@ job "rust" {
         image        = var.gateway_rust_image
         ports        = ["http"]
         network_mode = "host"
-        memory_hard_limit = var.rust_gateway_mem
         cpu_hard_limit    = true
       }
 

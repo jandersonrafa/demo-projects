@@ -17,7 +17,7 @@ pub async fn proxy_post(
         Ok(resp) => {
             let status = StatusCode::from_u16(resp.status().as_u16()).unwrap_or(StatusCode::INTERNAL_SERVER_ERROR);
             let body = resp.bytes().await.unwrap_or_default();
-            (status, body).into_response()
+            (status, [("content-type", "application/json")], body).into_response()
         }
         Err(_) => (StatusCode::BAD_GATEWAY, "Failed to connect to monolith").into_response(),
     }
@@ -33,7 +33,22 @@ pub async fn proxy_get(
         Ok(resp) => {
             let status = StatusCode::from_u16(resp.status().as_u16()).unwrap_or(StatusCode::INTERNAL_SERVER_ERROR);
             let body = resp.bytes().await.unwrap_or_default();
-            (status, body).into_response()
+            (status, [("content-type", "application/json")], body).into_response()
+        }
+        Err(_) => (StatusCode::BAD_GATEWAY, "Failed to connect to monolith").into_response(),
+    }
+}
+
+pub async fn proxy_recents(
+    State(state): State<Arc<AppState>>,
+) -> impl IntoResponse {
+    metrics::counter!("http_requests_total", "method" => "GET", "path" => "/bonus/recents").increment(1);
+    let url = format!("{}/bonus/recents", state.monolith_url);
+    match state.client.get(url).send().await {
+        Ok(resp) => {
+            let status = StatusCode::from_u16(resp.status().as_u16()).unwrap_or(StatusCode::INTERNAL_SERVER_ERROR);
+            let body = resp.bytes().await.unwrap_or_default();
+            (status, [("content-type", "application/json")], body).into_response()
         }
         Err(_) => (StatusCode::BAD_GATEWAY, "Failed to connect to monolith").into_response(),
     }

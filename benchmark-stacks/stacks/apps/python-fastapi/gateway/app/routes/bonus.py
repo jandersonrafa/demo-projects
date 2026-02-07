@@ -5,11 +5,14 @@ from ..config import MONOLITH_URL
 router = APIRouter()
 
 @router.api_route("/bonus", methods=["POST"], tags=["Bonus"])
+@router.get("/bonus/recents", tags=["Bonus"])
 @router.api_route("/bonus/{id}", methods=["GET"], tags=["Bonus"])
 async def proxy(request: Request, id: str = None):
     url = f"{MONOLITH_URL}/bonus"
     if id:
         url += f"/{id}"
+    elif request.url.path.endswith("/recents"):
+        url += "/recents"
     
     client = request.app.state.client
     method = request.method

@@ -45,7 +45,6 @@ job "dotnet" {
         image        = var.monolith_dotnet_image
         ports        = ["http"]
         network_mode = "host"
-        memory_hard_limit = var.dotnet_monolith_mem
         cpu_hard_limit    = true
       }
 
@@ -90,7 +89,6 @@ job "dotnet" {
         image        = var.gateway_dotnet_image
         ports        = ["http"]
         network_mode = "host"
-        memory_hard_limit = var.dotnet_gateway_mem
         cpu_hard_limit    = true
       }
 

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +46,13 @@ public class BonusService {
 
     public Bonus getBonus(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public List<Bonus> getRecents() {
+        // Executa ordenação na aplicação justamente para estressar memória
+        return repository.findTop100ByOrderByIdAsc().stream()
+                .sorted(Comparator.comparing(Bonus::getCreatedAt).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
     }
 }

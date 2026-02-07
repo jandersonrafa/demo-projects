@@ -53,7 +53,6 @@ job "java-webflux" {
         ports        = ["http"]
         network_mode = "host"
         force_pull   = false
-        memory_hard_limit = var.java_webflux_monolith_mem
         cpu_hard_limit    = true
       }
 
@@ -99,7 +98,6 @@ job "java-webflux" {
         ports        = ["http"]
         network_mode = "host"
         force_pull   = false
-        memory_hard_limit = var.java_webflux_gateway_mem
         cpu_hard_limit    = true
       }
 

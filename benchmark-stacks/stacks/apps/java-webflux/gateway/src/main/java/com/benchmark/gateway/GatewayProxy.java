@@ -19,13 +19,20 @@ public class GatewayProxy {
 
     @Bean
     public RouterFunction<ServerResponse> proxyRoutes(WebClient webClient) {
-        return route(POST("/bonus"), request -> request.bodyToMono(Object.class)
-                .flatMap(body -> webClient.post().uri("/bonus").bodyValue(body).retrieve().toEntity(Object.class))
-                .flatMap(response -> ServerResponse.status(response.getStatusCode()).bodyValue(response.getBody())))
-                .andRoute(GET("/bonus/{id}"),
-                        request -> webClient.get().uri("/bonus/" + request.pathVariable("id")).retrieve()
-                                .toEntity(Object.class)
-                                .flatMap(response -> ServerResponse.status(response.getStatusCode())
-                                        .bodyValue(response.getBody())));
+        return route()
+                .POST("/bonus", request -> request.bodyToMono(Object.class)
+                        .flatMap(body -> webClient.post().uri("/bonus").bodyValue(body).retrieve()
+                                .toEntity(Object.class))
+                        .flatMap(response -> ServerResponse.status(response.getStatusCode())
+                                .bodyValue(response.getBody())))
+                .GET("/bonus/recents", request -> webClient.get().uri("/bonus/recents").retrieve()
+                        .toEntity(Object.class)
+                        .flatMap(response -> ServerResponse.status(response.getStatusCode())
+                                .bodyValue(response.getBody())))
+                .GET("/bonus/{id}", request -> webClient.get().uri("/bonus/" + request.pathVariable("id")).retrieve()
+                        .toEntity(Object.class)
+                        .flatMap(response -> ServerResponse.status(response.getStatusCode())
+                                .bodyValue(response.getBody())))
+                .build();
     }
 }

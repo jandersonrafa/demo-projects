@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, asc
 from fastapi import HTTPException
+from typing import List
 from decimal import Decimal
 from datetime import datetime, timedelta
 from app.models.bonus import Bonus
@@ -47,3 +48,16 @@ class BonusService:
         if db_bonus is None:
             raise HTTPException(status_code=404, detail="Bonus not found")
         return db_bonus
+
+    @staticmethod
+    async def get_recents(session: AsyncSession) -> List[Bonus]:
+        # Fetch top 100 bonuses ordered by ID ascending
+        result = await session.execute(select(Bonus).order_by(asc(Bonus.id)).limit(100))
+        bonuses = result.scalars().all()
+        
+        # Then sort in memory by createdAt descending to stress memory
+        # Note: SQLAlchemy models might not have getCreatedAt, typically mapped from camelCase in schemas or underscored in DB
+        # I need to check the model definition
+        bonuses.sort(key=lambda x: x.createdAt if hasattr(x, 'createdAt') else x.created_at, reverse=True)
+        
+        return bonuses[:10]

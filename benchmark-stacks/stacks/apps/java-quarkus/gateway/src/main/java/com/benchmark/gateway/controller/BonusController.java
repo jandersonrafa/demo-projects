@@ -3,6 +3,7 @@ package com.benchmark.gateway.controller;
 import com.benchmark.gateway.client.MonolithClient;
 import com.benchmark.gateway.dto.BonusRequest;
 import com.benchmark.gateway.dto.BonusResponse;
+import java.util.List;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,6 +22,13 @@ public class BonusController {
     @POST
     public Response createBonus(BonusRequest request) {
         BonusResponse response = monolithClient.createBonus(request);
+        return Response.ok(response).build();
+    }
+
+    @GET
+    @Path("/recents")
+    public Response getRecents() {
+        List<BonusResponse> response = monolithClient.getRecents();
         return Response.ok(response).build();
     }
 

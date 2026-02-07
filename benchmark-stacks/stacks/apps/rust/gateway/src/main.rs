@@ -33,6 +33,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/bonus", post(handlers::proxy_post))
+        .route("/bonus/recents", get(handlers::proxy_recents))
         .route("/bonus/:id", get(handlers::proxy_get))
         .route("/metrics", get(handlers::metrics))
         .with_state(state);

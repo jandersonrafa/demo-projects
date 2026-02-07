@@ -8,6 +8,7 @@ import (
 type BonusRepository interface {
 	Create(bonus *domain.Bonus) error
 	FindByID(id string) (*domain.Bonus, error)
+	FindTop100() ([]domain.Bonus, error)
 }
 
 type bonusRepository struct {
@@ -28,4 +29,12 @@ func (r *bonusRepository) FindByID(id string) (*domain.Bonus, error) {
 		return nil, err
 	}
 	return &bonus, nil
+}
+
+func (r *bonusRepository) FindTop100() ([]domain.Bonus, error) {
+	var bonuses []domain.Bonus
+	if err := r.db.Order("id asc").Limit(100).Find(&bonuses).Error; err != nil {
+		return nil, err
+	}
+	return bonuses, nil
 }

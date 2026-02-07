@@ -45,7 +45,6 @@ job "python-fastapi" {
         image        = var.monolith_python_image
         ports        = ["http"]
         network_mode = "host"
-        memory_hard_limit = var.python_fastapi_monolith_mem
         cpu_hard_limit    = true
       }
 
@@ -87,7 +86,6 @@ job "python-fastapi" {
         image        = var.gateway_python_image
         ports        = ["http"]
         network_mode = "host"
-        memory_hard_limit = var.python_fastapi_gateway_mem
         cpu_hard_limit    = true
       }
 

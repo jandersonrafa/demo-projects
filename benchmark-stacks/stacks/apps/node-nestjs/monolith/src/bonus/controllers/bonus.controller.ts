@@ -13,6 +13,11 @@ export class BonusController {
         return this.bonusService.create(bonusData);
     }
 
+    @Get('recents')
+    getRecents(): Promise<Bonus[]> {
+        return this.bonusService.getRecents();
+    }
+
     @Get(':id')
     findOne(@Param('id') id: string): Promise<Bonus | null> {
         return this.bonusService.findOne(+id);

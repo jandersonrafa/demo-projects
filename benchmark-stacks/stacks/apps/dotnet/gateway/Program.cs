@@ -34,6 +34,17 @@ app.MapPost("/bonus", async (HttpContext context, IHttpClientFactory clientFacto
     await context.Response.Body.WriteAsync(responseBody);
 });
 
+app.MapGet("/bonus/recents", async (IHttpClientFactory clientFactory, HttpContext context) =>
+{
+    var client = clientFactory.CreateClient("Monolith");
+    var response = await client.GetAsync("/bonus/recents");
+    var responseBody = await response.Content.ReadAsByteArrayAsync();
+
+    context.Response.StatusCode = (int)response.StatusCode;
+    context.Response.ContentType = "application/json";
+    await context.Response.Body.WriteAsync(responseBody);
+});
+
 app.MapGet("/bonus/{id}", async (string id, IHttpClientFactory clientFactory, HttpContext context) =>
 {
     var client = clientFactory.CreateClient("Monolith");

@@ -47,7 +47,6 @@ job "php-laravel-fpm" {
         # Overwrite the listen port in the entrypoint by appending to config
         command = "sh"
         args    = ["-c", "echo 'listen = 0.0.0.0:${NOMAD_PORT_fpm}' >> /usr/local/etc/php-fpm.d/zz-nomad.conf && php-fpm"]
-        memory_hard_limit = var.php_laravel_fpm_monolith_mem
         cpu_hard_limit    = true
       }
       env {
@@ -130,7 +129,6 @@ EOF
         network_mode = "host"
         command = "sh"
         args    = ["-c", "echo 'listen = 0.0.0.0:${NOMAD_PORT_fpm}' >> /usr/local/etc/php-fpm.d/zz-nomad.conf && php-fpm"]
-        memory_hard_limit = var.php_laravel_fpm_gateway_mem
         cpu_hard_limit    = true
       }
       env {

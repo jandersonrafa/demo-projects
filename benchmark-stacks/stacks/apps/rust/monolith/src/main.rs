@@ -39,6 +39,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/bonus", post(handlers::create_bonus))
+        .route("/bonus/recents", get(handlers::get_recents))
         .route("/bonus/:id", get(handlers::get_bonus))
         .route("/metrics", get(move || async move { handle.render() }))
         .with_state(service);

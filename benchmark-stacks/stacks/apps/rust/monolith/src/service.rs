@@ -49,4 +49,17 @@ impl Service {
     pub async fn get_bonus(&self, id: i32) -> Result<Option<Bonus>, String> {
         self.repo.find_bonus_by_id(id).await.map_err(|e| e.to_string())
     }
+
+    pub async fn get_recents(&self) -> Result<Vec<Bonus>, String> {
+        // Fetch top 100 bonuses ordered by ID ascending
+        let mut bonuses = self.repo.find_top_100_bonus_by_id_asc()
+            .await
+            .map_err(|e| e.to_string())?;
+
+        // Then sort in memory by created_at descending to stress memory
+        bonuses.sort_by(|a, b| b.created_at.cmp(&a.created_at));
+        bonuses.truncate(10);
+
+        Ok(bonuses)
+    }
 }

@@ -2,6 +2,7 @@ package com.benchmark.monolith.controller;
 
 import com.benchmark.monolith.entity.Bonus;
 import com.benchmark.monolith.service.BonusService;
+import java.util.List;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -19,6 +20,13 @@ public class BonusController {
     public Response createBonus(Bonus bonus) {
         Bonus createdBonus = bonusService.createBonus(bonus);
         return Response.ok(createdBonus).build();
+    }
+
+    @GET
+    @Path("/recents")
+    public Response getRecents() {
+        List<Bonus> recents = bonusService.getRecents();
+        return Response.ok(recents).build();
     }
 
     @GET

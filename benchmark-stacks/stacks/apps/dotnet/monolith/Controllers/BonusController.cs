@@ -38,6 +38,13 @@ namespace Monolith.Controllers
             }
         }
 
+        [HttpGet("recents")]
+        public async Task<ActionResult<List<Bonus>>> GetRecents()
+        {
+            var bonuses = await _service.GetRecentsAsync();
+            return Ok(bonuses);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Bonus>> Get(int id)
         {

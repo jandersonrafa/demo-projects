@@ -31,6 +31,12 @@ class GatewayController extends Controller
         return response()->json(json_decode($response->getBody(), true), $response->getStatusCode());
     }
 
+    public function recents()
+    {
+        $response = $this->httpClient->get('/bonus/recents');
+        return response()->json(json_decode($response->getBody(), true), $response->getStatusCode());
+    }
+
     public function proxy(Request $request)
     {
         return $this->gatewayService->proxy($request);

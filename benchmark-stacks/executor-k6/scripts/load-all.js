@@ -37,7 +37,8 @@ export const options = {
   ),
 
   thresholds: {
-    http_req_duration: ['p(95)<200'],
+    'http_req_duration{method:POST}': ['p(95)<200'],
+    'http_req_duration{method:GET}': ['p(95)<200'],
     http_req_failed: ['rate<0.01'],
   },
 
@@ -67,7 +68,13 @@ export function hit() {
   const res = http.post(`${base}/bonus`, payload, params);
 
   check(res, {
-    http_success: (r) => r.status >= 200 && r.status < 400,
+    'POST /bonus success': (r) => r.status >= 200 && r.status < 400,
+  });
+
+  const resRecents = http.get(`${base}/bonus/recents`);
+
+  check(resRecents, {
+    'GET /bonus/recents success': (r) => r.status >= 200 && r.status < 400,
   });
 
   // sleep(1); // 1 segundo entre requisições

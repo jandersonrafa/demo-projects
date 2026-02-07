@@ -50,4 +50,18 @@ class BonusService
         }
         return ['data' => $bonus, 'status' => 200];
     }
+
+    public function getRecents()
+    {
+        // Fetch top 100 bonuses ordered by ID ascending
+        // Then sort in memory by created_at descending to stress memory
+        $bonuses = Bonus::orderBy('id', 'asc')
+            ->limit(100)
+            ->get()
+            ->sortByDesc('created_at')
+            ->take(10)
+            ->values();
+
+        return ['data' => $bonuses, 'status' => 200];
+    }
 }

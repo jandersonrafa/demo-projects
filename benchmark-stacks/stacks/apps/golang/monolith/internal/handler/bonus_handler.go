@@ -40,6 +40,16 @@ func (h *BonusHandler) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, bonus)
 }
 
+func (h *BonusHandler) GetRecents(c *gin.Context) {
+	bonuses, err := h.service.GetRecents()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	c.JSON(http.StatusOK, bonuses)
+}
+
 func (h *BonusHandler) GetOne(c *gin.Context) {
 	id := c.Param("id")
 	bonus, err := h.service.GetBonus(id)

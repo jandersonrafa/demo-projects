@@ -47,4 +47,17 @@ export class BonusService {
     findOne(id: number): Promise<Bonus | null> {
         return this.bonusRepository.findOneBy({ id });
     }
+
+    async getRecents(): Promise<Bonus[]> {
+        // Fetch top 100 bonuses ordered by ID ascending
+        const bonuses = await this.bonusRepository.find({
+            order: { id: 'ASC' } as any,
+            take: 100
+        });
+
+        // Then sort in memory by createdAt descending to stress memory
+        return bonuses
+            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+            .slice(0, 10);
+    }
 }
