@@ -24,8 +24,13 @@ async fn main() {
 
     let database_url = format!("postgres://{}:{}@{}:{}/{}", db_user, db_pass, db_host, db_port, db_name);
 
+    let max_pool_size = env::var("DB_MAX_POOL_SIZE")
+        .ok()
+        .and_then(|s| s.parse::<u32>().ok())
+        .unwrap_or(15);
+
     let pool = PgPoolOptions::new()
-        .max_connections(50)
+        .max_connections(max_pool_size)
         .connect(&database_url)
         .await
         .expect("Failed to create pool");

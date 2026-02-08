@@ -16,7 +16,10 @@ import { PrometheusModule } from '@willsoto/nestjs-prometheus';
       autoLoadEntities: true,
       synchronize: false, // For benchmark purposes
       // Pool configuration: pass 'extra' to underlying pg driver
-      extra: { max: 15, application_name: 'node-nest' },
+      extra: {
+        max: parseInt(process.env.DB_MAX_POOL_SIZE ?? '15'),
+        application_name: 'node-nest'
+      },
     }),
     BonusModule,
   ],

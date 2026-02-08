@@ -27,5 +27,18 @@ func InitDB() *gorm.DB {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatalf("failed to get sql.DB: %v", err)
+	}
+
+	sqlDB.SetMaxOpenConns(15)
+	if maxPoolSize := os.Getenv("DB_MAX_POOL_SIZE"); maxPoolSize != "" {
+		var n int
+		if _, err := fmt.Sscanf(maxPoolSize, "%d", &n); err == nil {
+			sqlDB.SetMaxOpenConns(n)
+		}
+	}
+
 	return db
 }

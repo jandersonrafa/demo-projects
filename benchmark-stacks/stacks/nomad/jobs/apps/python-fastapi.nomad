@@ -15,6 +15,7 @@ variable "python_fastapi_gateway_mem" { type = number }
 # Count variables
 variable "python_fastapi_monolith_count" { type = number }
 variable "python_fastapi_gateway_count" { type = number }
+variable "python_fastapi_max_pool_size" { type = number }
 
 job "python-fastapi" {
   datacenters = var.datacenters
@@ -49,8 +50,11 @@ job "python-fastapi" {
       }
 
       env {
-        DB_URL     = "postgresql+asyncpg://python_fastapi_user:python_fastapi_pass@127.0.0.1:6432/${var.db_name}"
-        PORT       = "${NOMAD_PORT_http}"
+        DB_URL     = "postgresql+asyncpg://${var.db_user}:${var.db_password}@127.0.0.1:6432/${var.db_name}"
+        DB_PASSWORD = var.db_password
+        DB_NAME     = var.db_name
+        DB_MAX_POOL_SIZE = var.python_fastapi_max_pool_size
+        PORT        = "${NOMAD_PORT_http}"
         PROMETHEUS_MULTIPROC_DIR = "/tmp/prometheus_multiproc"
       }
 

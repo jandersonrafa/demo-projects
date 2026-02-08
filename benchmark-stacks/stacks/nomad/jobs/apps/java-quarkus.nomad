@@ -15,6 +15,7 @@ variable "java_quarkus_gateway_mem" { type = number }
 # Count variables
 variable "java_quarkus_monolith_count" { type = number }
 variable "java_quarkus_gateway_count" { type = number }
+variable "java_quarkus_max_pool_size" { type = number }
 
 job "java-quarkus" {
   datacenters = var.datacenters
@@ -59,7 +60,9 @@ job "java-quarkus" {
       env {
         DB_USER     = "java_quarkus_user"
         DB_PASSWORD = "java_quarkus_pass"
-        DB_URL      = "jdbc:postgresql://127.0.0.1:6432/${var.db_name}"
+        DB_NAME     = var.db_name
+        DB_MAX_POOL_SIZE = var.java_quarkus_max_pool_size
+        QUARKUS_HTTP_PORT = "${NOMAD_PORT_http}"
         PORT        = "${NOMAD_PORT_http}"
       }
 

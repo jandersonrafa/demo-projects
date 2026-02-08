@@ -15,6 +15,7 @@ variable "php_laravel_fpm_gateway_mem" { type = number }
 # Count variables
 variable "php_laravel_fpm_monolith_count" { type = number }
 variable "php_laravel_fpm_gateway_count" { type = number }
+variable "php_laravel_fpm_max_children" { type = number }
 
 job "php-laravel-fpm" {
   datacenters = var.datacenters
@@ -56,11 +57,13 @@ job "php-laravel-fpm" {
         DB_DATABASE   = var.db_name
         DB_USERNAME   = "php_fpm_user"
         DB_PASSWORD   = "php_fpm_pass"
+        DB_NAME       = var.db_name # Added
+        PORT          = "${NOMAD_PORT_http}" # Added
         APP_KEY       = "base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4="
         SESSION_DRIVER = "array"
         APP_ENV       = "production"
         APP_DEBUG     = "false"
-        FPM_MAX_CHILDREN = 20
+        FPM_MAX_CHILDREN = var.php_laravel_fpm_max_children
       }
       resources {
         cpu    = var.php_laravel_fpm_monolith_cpu

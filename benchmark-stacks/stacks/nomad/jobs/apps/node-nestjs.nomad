@@ -15,6 +15,7 @@ variable "node_nestjs_gateway_mem" { type = number }
 # Count variables
 variable "node_nestjs_monolith_count" { type = number }
 variable "node_nestjs_gateway_count" { type = number }
+variable "node_nestjs_max_pool_size" { type = number }
 
 job "node-nestjs" {
   datacenters = var.datacenters
@@ -54,6 +55,7 @@ job "node-nestjs" {
         DB_USER     = "nodejs_user"
         DB_PASSWORD = "nodejs_pass"
         DB_NAME     = var.db_name
+        DB_MAX_POOL_SIZE = var.node_nestjs_max_pool_size
         PORT        = "${NOMAD_PORT_http}"
       }
 

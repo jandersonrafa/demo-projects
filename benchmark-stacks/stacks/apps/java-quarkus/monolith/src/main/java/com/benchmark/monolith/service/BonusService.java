@@ -2,6 +2,8 @@ package com.benchmark.monolith.service;
 
 import com.benchmark.monolith.entity.Bonus;
 import com.benchmark.monolith.repository.BonusRepository;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -18,6 +20,15 @@ public class BonusService {
 
     @Transactional
     public Bonus createBonus(Bonus bonus) {
+        BigDecimal amount = bonus.getAmount();
+        if (amount != null && amount.compareTo(new BigDecimal("100")) > 0) {
+            bonus.setAmount(amount.multiply(new BigDecimal("1.1")));
+        }
+
+        bonus.setDescription("JAVAQUARKUS - " + bonus.getDescription());
+        bonus.setCreatedAt(LocalDateTime.now());
+        bonus.setExpirationDate(LocalDateTime.now().plusDays(30));
+
         bonusRepository.persist(bonus);
         return bonus;
     }

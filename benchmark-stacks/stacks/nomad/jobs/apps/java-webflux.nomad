@@ -15,6 +15,7 @@ variable "java_webflux_gateway_mem" { type = number }
 # Count variables
 variable "java_webflux_monolith_count" { type = number }
 variable "java_webflux_gateway_count" { type = number }
+variable "java_webflux_max_pool_size" { type = number }
 
 job "java-webflux" {
   datacenters = var.datacenters
@@ -62,6 +63,7 @@ job "java-webflux" {
         DB_USER     = "java_webflux_user"
         DB_PASSWORD = "java_webflux_pass"
         DB_NAME     = var.db_name
+        DB_MAX_POOL_SIZE = var.java_webflux_max_pool_size
         SERVER_PORT = "${NOMAD_PORT_http}"
       }
 

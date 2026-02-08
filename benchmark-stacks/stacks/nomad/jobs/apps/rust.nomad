@@ -15,6 +15,7 @@ variable "rust_gateway_mem" { type = number }
 # Count variables
 variable "rust_monolith_count" { type = number }
 variable "rust_gateway_count" { type = number }
+variable "rust_max_pool_size" { type = number }
 
 job "rust" {
   datacenters = var.datacenters
@@ -54,6 +55,7 @@ job "rust" {
         DB_USER     = "rust_user"
         DB_PASSWORD = "rust_pass"
         DB_NAME     = var.db_name
+        DB_MAX_POOL_SIZE = var.rust_max_pool_size
         PORT        = "${NOMAD_PORT_http}"
       }
 

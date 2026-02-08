@@ -15,6 +15,7 @@ variable "golang_gateway_mem" { type = number }
 # Count variables
 variable "golang_monolith_count" { type = number }
 variable "golang_gateway_count" { type = number }
+variable "golang_max_pool_size" { type = number }
 
 job "golang" {
   datacenters = var.datacenters
@@ -54,6 +55,7 @@ job "golang" {
         DB_USER     = "golang_user"
         DB_PASSWORD = "golang_pass"
         DB_NAME     = var.db_name
+        DB_MAX_POOL_SIZE = var.golang_max_pool_size
         PORT        = "${NOMAD_PORT_http}"
       }
 

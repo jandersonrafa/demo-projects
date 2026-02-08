@@ -15,6 +15,7 @@ variable "dotnet_gateway_mem" { type = number }
 # Count variables
 variable "dotnet_monolith_count" { type = number }
 variable "dotnet_gateway_count" { type = number }
+variable "dotnet_max_pool_size" { type = number }
 
 job "dotnet" {
   datacenters = var.datacenters
@@ -54,6 +55,7 @@ job "dotnet" {
         DB_USER     = "dotnet_user"
         DB_PASSWORD = "dotnet_pass"
         DB_NAME     = var.db_name
+        DB_MAX_POOL_SIZE = var.dotnet_max_pool_size
         PORT        = "${NOMAD_PORT_http}"
       }
 

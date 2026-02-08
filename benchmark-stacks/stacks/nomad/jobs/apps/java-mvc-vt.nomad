@@ -15,6 +15,7 @@ variable "java_mvc_vt_gateway_mem" { type = number }
 # Count variables
 variable "java_mvc_vt_monolith_count" { type = number }
 variable "java_mvc_vt_gateway_count" { type = number }
+variable "java_mvc_vt_max_pool_size" { type = number }
 
 job "java-mvc-vt" {
   datacenters = var.datacenters
@@ -65,6 +66,7 @@ job "java-mvc-vt" {
         DB_USER     = "java_mvcvt_user"
         DB_PASSWORD = "java_mvcvt_pass"
         DB_NAME     = var.db_name
+        DB_MAX_POOL_SIZE = var.java_mvc_vt_max_pool_size
         SERVER_PORT = "${NOMAD_PORT_http}"
       }
 

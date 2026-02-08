@@ -15,6 +15,7 @@ variable "php_laravel_octane_gateway_mem" { type = number }
 # Count variables
 variable "php_laravel_octane_monolith_count" { type = number }
 variable "php_laravel_octane_gateway_count" { type = number }
+variable "php_laravel_octane_workers" { type = number }
 
 job "php-laravel-octane" {
   datacenters = var.datacenters
@@ -139,7 +140,7 @@ EOF
         SESSION_DRIVER = "array"
         APP_ENV      = "production"
         APP_DEBUG    = "false"
-        OCTANE_WORKERS = 15
+        OCTANE_WORKERS = var.php_laravel_octane_workers
         PORT           = "${NOMAD_PORT_octane}"
       }
       resources {

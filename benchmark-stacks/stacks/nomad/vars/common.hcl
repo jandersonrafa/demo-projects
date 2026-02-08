@@ -50,12 +50,13 @@ gateway_quarkus_image  = "benchmark-stacks/java-quarkus-gateway:1.0"
 # --- Application Resource Limits (Specific per Stack) ---
 
 # Java MVC VT
-java_mvc_vt_monolith_cpu   = 2048
-java_mvc_vt_monolith_mem   = 2048
-java_mvc_vt_monolith_count = 1
-java_mvc_vt_gateway_cpu    = 2048
-java_mvc_vt_gateway_mem    = 2048
-java_mvc_vt_gateway_count  = 1
+java_mvc_vt_monolith_cpu   = 1024
+java_mvc_vt_monolith_mem   = 1024
+java_mvc_vt_monolith_count = 2
+java_mvc_vt_gateway_cpu    = 1024
+java_mvc_vt_gateway_mem    = 1024
+java_mvc_vt_gateway_count  = 2
+java_mvc_vt_max_pool_size  = 15
 
 #java_mvc_vt_monolith_cpu   = 1536
 #java_mvc_vt_monolith_mem   = 768
@@ -63,82 +64,93 @@ java_mvc_vt_gateway_count  = 1
 #java_mvc_vt_gateway_cpu    = 1536
 #java_mvc_vt_gateway_mem    = 768
 #java_mvc_vt_gateway_count  = 2
+#java_mvc_vt_max_pool_size  = 15
 
 # Java Quarkus
 java_quarkus_monolith_cpu   = 1024
-java_quarkus_monolith_mem   = 2048
-java_quarkus_monolith_count = 1
+java_quarkus_monolith_mem   = 1024
+java_quarkus_monolith_count = 2
 java_quarkus_gateway_cpu    = 1024
-java_quarkus_gateway_mem    = 2048
-java_quarkus_gateway_count  = 1
+java_quarkus_gateway_mem    = 1024
+java_quarkus_gateway_count  = 2
+java_quarkus_max_pool_size  = 15
 
 # Java WebFlux
 java_webflux_monolith_cpu   = 1024
-java_webflux_monolith_mem   = 2048
-java_webflux_monolith_count = 1
+java_webflux_monolith_mem   = 1024
+java_webflux_monolith_count = 2
 java_webflux_gateway_cpu    = 1024
-java_webflux_gateway_mem    = 2048
-java_webflux_gateway_count  = 1
+java_webflux_gateway_mem    = 1024
+java_webflux_gateway_count  = 2
+java_webflux_max_pool_size  = 15
 
 # DotNet
 dotnet_monolith_cpu   = 1024
-dotnet_monolith_mem   = 2048
-dotnet_monolith_count = 1
+dotnet_monolith_mem   = 1024
+dotnet_monolith_count = 2
 dotnet_gateway_cpu    = 1024
-dotnet_gateway_mem    = 2048
-dotnet_gateway_count  = 1
+dotnet_gateway_mem    = 1024
+dotnet_gateway_count  = 2
+dotnet_max_pool_size  = 15
 
 # Golang
 golang_monolith_cpu   = 1024
-golang_monolith_mem   = 2048
-golang_monolith_count = 1
+golang_monolith_mem   = 1024
+golang_monolith_count = 2
 golang_gateway_cpu    = 1024
-golang_gateway_mem    = 2048
-golang_gateway_count  = 1
+golang_gateway_mem    = 1024
+golang_gateway_count  = 2
+golang_max_pool_size  = 15
 
 # Node NestJS
 node_nestjs_monolith_cpu   = 1024
-node_nestjs_monolith_mem   = 2048
-node_nestjs_monolith_count = 1
+node_nestjs_monolith_mem   = 1024
+node_nestjs_monolith_count = 2
 node_nestjs_gateway_cpu    = 1024
-node_nestjs_gateway_mem    = 2048
-node_nestjs_gateway_count  = 1
+node_nestjs_gateway_mem    = 1024
+node_nestjs_gateway_count  = 2
+node_nestjs_max_pool_size  = 15
 
 # PHP Laravel FPM
-php_laravel_fpm_monolith_cpu   = 4096
-php_laravel_fpm_monolith_mem   = 512
-php_laravel_fpm_monolith_count = 1
-php_laravel_fpm_gateway_cpu    = 4096
-php_laravel_fpm_gateway_mem    = 512
-php_laravel_fpm_gateway_count  = 1
+php_laravel_fpm_monolith_cpu   = 1024
+php_laravel_fpm_monolith_mem   = 1024
+php_laravel_fpm_monolith_count = 2
+php_laravel_fpm_gateway_cpu    = 1024
+php_laravel_fpm_gateway_mem    = 1024
+php_laravel_fpm_gateway_count  = 2
+php_laravel_fpm_max_children  = 15
 
 # PHP Laravel Octane
-php_laravel_octane_monolith_cpu   = 2048
-php_laravel_octane_monolith_mem   = 2048    
-php_laravel_octane_monolith_count = 1
-php_laravel_octane_gateway_cpu    = 2048
-php_laravel_octane_gateway_mem    = 2048
-php_laravel_octane_gateway_count  = 1
+php_laravel_octane_monolith_cpu   = 1024
+php_laravel_octane_monolith_mem   = 1024
+php_laravel_octane_monolith_count = 2
+php_laravel_octane_gateway_cpu    = 1024
+php_laravel_octane_gateway_mem    = 1024
+php_laravel_octane_gateway_count  = 2
+php_laravel_octane_workers  = 15
 
-# php_laravel_octane_monolith_cpu   = 2048
-# php_laravel_octane_monolith_mem   = 1024
-# php_laravel_octane_monolith_count = 3
-# php_laravel_octane_gateway_cpu    = 1536
-# php_laravel_octane_gateway_mem    = 1024
-# php_laravel_octane_gateway_count  = 3
+#php_laravel_octane_monolith_cpu   = 2048
+#php_laravel_octane_monolith_mem   = 1024
+#php_laravel_octane_monolith_count = 3
+#php_laravel_octane_gateway_cpu    = 1536
+#php_laravel_octane_gateway_mem    = 1024
+#php_laravel_octane_gateway_count  = 3
+#php_laravel_octane_workers  = 15
 
 # Python FastAPI
 python_fastapi_monolith_cpu   = 1024
-python_fastapi_monolith_mem   = 2048
-python_fastapi_monolith_count = 1
+python_fastapi_monolith_mem   = 1024
+python_fastapi_monolith_count = 2
 python_fastapi_gateway_cpu    = 1024
-python_fastapi_gateway_mem    = 2048
-python_fastapi_gateway_count  = 1
+python_fastapi_gateway_mem    = 1024
+python_fastapi_gateway_count  = 2
+python_fastapi_max_pool_size  = 15
 
 # Rust
 rust_monolith_cpu   = 1024
-rust_monolith_mem   = 2048
-rust_monolith_count = 1
+rust_monolith_mem   = 1024
+rust_monolith_count = 2
 rust_gateway_cpu    = 1024
-rust_gateway_mem    = 2048
-rust_gateway_count  = 1
+rust_gateway_mem    = 1024
+rust_gateway_count  = 2
+rust_max_pool_size  = 15
