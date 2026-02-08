@@ -55,9 +55,18 @@ export function hit() {
   const target = __ENV.TARGET;
   const base = `http://${target}`;
 
+  const FIXED_TEXT = `
+Este texto fixo foi criado para simular um payload realista de aproximadamente
+1 KB em testes de carga de APIs REST. Ele representa descrições ou observações
+comuns em sistemas de produção, permitindo avaliar parsing de JSON, alocação
+de memória, serialização e persistência de dados sem exagerar no tamanho.
+O uso de conteúdo estável garante reprodutibilidade e comparações confiáveis
+entre diferentes execuções e stacks de aplicação.
+`;
+
   const payload = JSON.stringify({
     amount: 150.00,
-    description: `Load Test ${Date.now()}`,
+    description: `Load Test ${Date.now()} - ${FIXED_TEXT}`,
     clientId: `client_${Math.floor(Math.random() * 100) + 1}`,
   });
 
