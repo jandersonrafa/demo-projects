@@ -19,11 +19,11 @@ export const options = {
         startRate: 50,
 
         stages: [
+          { duration: '130s', target: 2500 },
           { duration: '30s', target: 50 },
-          { duration: '30s', target: 100 },
-          { duration: '30s', target: 150 },
-          { duration: '30s', target: 200 }, // 🔥 warm-up completo (2 min)
-          { duration: '2m', target: 200 }, // 🎯 carga real
+          { duration: '30s', target: 75 },
+          { duration: '30s', target: 100 }, // 🔥 warm-up completo (2 min)
+          { duration: '2m', target: 100 }, // 🎯 carga real
         ],
 
         preAllocatedVUs: 300,
