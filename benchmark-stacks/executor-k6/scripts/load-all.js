@@ -56,12 +56,9 @@ export function hit() {
   const base = `http://${target}`;
 
   const FIXED_TEXT = `
-Este texto fixo foi criado para simular um payload realista de aproximadamente
-1 KB em testes de carga de APIs REST. Ele representa descrições ou observações
-comuns em sistemas de produção, permitindo avaliar parsing de JSON, alocação
-de memória, serialização e persistência de dados sem exagerar no tamanho.
-O uso de conteúdo estável garante reprodutibilidade e comparações confiáveis
-entre diferentes execuções e stacks de aplicação.
+Este texto simula um payload realista para testes de carga em APIs REST,
+permitindo avaliar parsing de JSON, uso de memória e serialização de dados
+em forma controlada e reprodutível. 
 `;
 
   const payload = JSON.stringify({
