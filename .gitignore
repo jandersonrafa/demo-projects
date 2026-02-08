@@ -44,3 +44,5 @@ mysql-replication/**/performance_schema/
 mysql-replication/**/sys/
 mysql-replication/**/data/
 
+benchmark-stacks/monitoring/infra/grafana/data/**
+benchmark-stacks/monitoring/infra/prometheus/data/**
