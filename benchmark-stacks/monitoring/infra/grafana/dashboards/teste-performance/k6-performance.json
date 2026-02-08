@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 9,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -381,7 +381,7 @@
             "type": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(increase(k6_http_reqs_total{scenario=~\"$scenario\"}[$__range]))",
+          "expr": "sum by (scenario) (increase(k6_http_reqs_total{scenario=~\"$scenario\"}[$__range]))",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -392,7 +392,7 @@
             "type": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(increase(k6_http_reqs_total{scenario=~\"$scenario\", expected_response=\"false\"}[$__range]))",
+          "expr": "sum by (scenario) (increase(k6_http_reqs_total{scenario=~\"$scenario\", expected_response=\"false\"}[$__range]))",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -403,7 +403,7 @@
             "type": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(k6_threshold_trend_total{scenario=~\"$scenario\"})",
+          "expr": "sum by (scenario) (k6_threshold_trend_total{scenario=~\"$scenario\"})",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -414,7 +414,7 @@
             "type": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(k6_check_failures_total{scenario=~\"$scenario\"})",
+          "expr": "sum by (scenario) (k6_check_failures_total{scenario=~\"$scenario\"})",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1133,9 +1133,7 @@
       {
         "current": {
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": "$__all"
         },
         "datasource": {
           "type": "prometheus"
@@ -1155,7 +1153,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},

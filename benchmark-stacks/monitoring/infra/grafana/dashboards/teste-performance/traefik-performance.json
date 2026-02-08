@@ -364,7 +364,7 @@
             "type": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(increase(traefik_service_requests_total{service=~\"$service\",code=~\"[45]..\"}[$__range]))",
+          "expr": "sum by (service) (increase(traefik_service_requests_total{service=~\"$service\",code=~\"[45]..\"}[$__range]))",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -375,7 +375,7 @@
             "type": "prometheus"
           },
           "editorMode": "code",
-          "expr": "(sum(rate(traefik_service_requests_total{service=~\"$service\",code=~\"[45]..\"}[$__range])) / (sum(rate(traefik_service_requests_total{service=~\"$service\"}[$__range])) or vector(1))) * 100",
+          "expr": "(\n  sum by (service) (\n    rate(traefik_service_requests_total{service=~\"$service\", code=~\"[45]..\"}[$__range])\n  )\n  /\n  (\n    sum by (service) (\n      rate(traefik_service_requests_total{service=~\"$service\"}[$__range])\n    )\n    or vector(1)\n  )\n) * 100\n",
           "format": "table",
           "hide": false,
           "instant": true,
