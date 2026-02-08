@@ -22,7 +22,7 @@ echo "Stopping infrastructure..."
 # nomad job stop traefik-private
 # nomad job stop traefik-public
 # nomad job stop pgbouncer
-# nomad job stop postgres
+nomad job stop postgres
 
 echo "Cleanup finished!"
 nomad status
