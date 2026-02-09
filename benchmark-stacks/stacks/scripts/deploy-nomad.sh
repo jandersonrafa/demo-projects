@@ -16,13 +16,13 @@ sleep 10
 
 # Deploy applications in parallel
 echo "Deploying applications in parallel..."
-nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-mvc-vt.nomad &
+# nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-mvc-vt.nomad &
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-webflux.nomad &
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/node-nestjs.nomad &
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/dotnet.nomad &
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/golang.nomad &
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/php-laravel-fpm.nomad &
-# nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/php-laravel-octane.nomad &
+nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/php-laravel-octane.nomad &
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/python-fastapi.nomad &
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/rust.nomad &
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/apps/java-quarkus.nomad &
