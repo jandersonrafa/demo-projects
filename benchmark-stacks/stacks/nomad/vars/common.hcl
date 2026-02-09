@@ -104,14 +104,15 @@ node_nestjs_gateway_count  = 1
 node_nestjs_max_pool_size  = 15
 
 # PHP Laravel FPM
-php_laravel_fpm_monolith_cpu   = 1024
-php_laravel_fpm_monolith_mem   = 1024
-php_laravel_fpm_monolith_count = 1
-php_laravel_fpm_monolith_max_children  = 20
-php_laravel_fpm_gateway_cpu    = 1024
-php_laravel_fpm_gateway_mem    = 1024
-php_laravel_fpm_gateway_count  = 1
-php_laravel_fpm_gateway_max_children  = 20
+# Nao tem hardware suficiente na maquina para atender, atende a no máximo 100 rps
+php_laravel_fpm_monolith_cpu   = 2560
+php_laravel_fpm_monolith_mem   = 2560
+php_laravel_fpm_monolith_count = 3
+php_laravel_fpm_monolith_max_children  = 2
+php_laravel_fpm_gateway_cpu    = 2560
+php_laravel_fpm_gateway_mem    = 2560
+php_laravel_fpm_gateway_count  = 2
+php_laravel_fpm_gateway_max_children  = 3
 php_laravel_fpm_nginx_cpu      = 256
 php_laravel_fpm_nginx_mem      = 256
 
