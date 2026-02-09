@@ -13,14 +13,14 @@ pgbouncer_image = "edoburu/pgbouncer:latest"
 traefik_image   = "traefik:v3.0"
 
 # --- Infrastructure Resource Limits ---
-postgres_cpu    = 2000
-postgres_mem    = 2048
+postgres_cpu    = 1024
+postgres_mem    = 1024
 postgres_count  = 1
-pgbouncer_cpu   = 1000
-pgbouncer_mem   = 1024
+pgbouncer_cpu   = 512
+pgbouncer_mem   = 512
 pgbouncer_count = 1
-traefik_cpu     = 2000
-traefik_mem     = 1024
+traefik_cpu     = 1024
+traefik_mem     = 512
 traefik_count   = 1
 
 # --- Application Images ---
@@ -57,14 +57,6 @@ java_mvc_vt_gateway_cpu    = 2048
 java_mvc_vt_gateway_mem    = 1024
 java_mvc_vt_gateway_count  = 1
 java_mvc_vt_max_pool_size  = 30
-
-#java_mvc_vt_monolith_cpu   = 1536
-#java_mvc_vt_monolith_mem   = 768
-#java_mvc_vt_monolith_count = 3
-#java_mvc_vt_gateway_cpu    = 1536
-#java_mvc_vt_gateway_mem    = 768
-#java_mvc_vt_gateway_count  = 2
-#java_mvc_vt_max_pool_size  = 15
 
 # Java Quarkus
 java_quarkus_monolith_cpu   = 1024
