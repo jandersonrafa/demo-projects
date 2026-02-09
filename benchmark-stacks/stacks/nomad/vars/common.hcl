@@ -50,12 +50,12 @@ gateway_quarkus_image  = "benchmark-stacks/java-quarkus-gateway:1.0"
 # --- Application Resource Limits (Specific per Stack) ---
 
 # Java MVC VT
-java_mvc_vt_monolith_cpu   = 1024
-java_mvc_vt_monolith_mem   = 1024
-java_mvc_vt_monolith_count = 1
-java_mvc_vt_gateway_cpu    = 1024
-java_mvc_vt_gateway_mem    = 1024
-java_mvc_vt_gateway_count  = 1
+java_mvc_vt_monolith_cpu   = 1536
+java_mvc_vt_monolith_mem   = 768
+java_mvc_vt_monolith_count = 3
+java_mvc_vt_gateway_cpu    = 1536
+java_mvc_vt_gateway_mem    = 768
+java_mvc_vt_gateway_count  = 2
 java_mvc_vt_max_pool_size  = 15
 
 #java_mvc_vt_monolith_cpu   = 1536
@@ -115,27 +115,25 @@ node_nestjs_max_pool_size  = 15
 php_laravel_fpm_monolith_cpu   = 1024
 php_laravel_fpm_monolith_mem   = 1024
 php_laravel_fpm_monolith_count = 1
+php_laravel_fpm_monolith_max_children  = 20
 php_laravel_fpm_gateway_cpu    = 1024
 php_laravel_fpm_gateway_mem    = 1024
 php_laravel_fpm_gateway_count  = 1
-php_laravel_fpm_max_children  = 15
+php_laravel_fpm_gateway_max_children  = 20
+php_laravel_fpm_nginx_cpu      = 256
+php_laravel_fpm_nginx_mem      = 256
 
 # PHP Laravel Octane
-php_laravel_octane_monolith_cpu   = 1024
-php_laravel_octane_monolith_mem   = 1024
-php_laravel_octane_monolith_count = 1
-php_laravel_octane_gateway_cpu    = 1024
+php_laravel_octane_monolith_cpu   = 2048
+php_laravel_octane_monolith_mem   = 1536
+php_laravel_octane_monolith_count = 3
+php_laravel_octane_monolith_workers  = 15
+php_laravel_octane_gateway_cpu    = 1536
 php_laravel_octane_gateway_mem    = 1024
-php_laravel_octane_gateway_count  = 1
-php_laravel_octane_workers  = 20
-
-#php_laravel_octane_monolith_cpu   = 2048
-#php_laravel_octane_monolith_mem   = 1024
-#php_laravel_octane_monolith_count = 3
-#php_laravel_octane_gateway_cpu    = 1536
-#php_laravel_octane_gateway_mem    = 1024
-#php_laravel_octane_gateway_count  = 3
-#php_laravel_octane_workers  = 15
+php_laravel_octane_gateway_count  = 3
+php_laravel_octane_gateway_workers  = 20
+php_laravel_octane_nginx_cpu      = 256
+php_laravel_octane_nginx_mem      = 256
 
 # Python FastAPI
 python_fastapi_monolith_cpu   = 1024
@@ -145,6 +143,8 @@ python_fastapi_gateway_cpu    = 1024
 python_fastapi_gateway_mem    = 1024
 python_fastapi_gateway_count  = 1
 python_fastapi_max_pool_size  = 15
+python_fastapi_monolith_workers = 6
+python_fastapi_gateway_workers  = 6
 
 # Rust
 rust_monolith_cpu   = 1024

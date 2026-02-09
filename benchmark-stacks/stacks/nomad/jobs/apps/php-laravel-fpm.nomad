@@ -15,7 +15,10 @@ variable "php_laravel_fpm_gateway_mem" { type = number }
 # Count variables
 variable "php_laravel_fpm_monolith_count" { type = number }
 variable "php_laravel_fpm_gateway_count" { type = number }
-variable "php_laravel_fpm_max_children" { type = number }
+variable "php_laravel_fpm_monolith_max_children" { type = number }
+variable "php_laravel_fpm_gateway_max_children" { type = number }
+variable "php_laravel_fpm_nginx_cpu" { type = number }
+variable "php_laravel_fpm_nginx_mem" { type = number }
 
 job "php-laravel-fpm" {
   datacenters = var.datacenters
@@ -63,7 +66,7 @@ job "php-laravel-fpm" {
         SESSION_DRIVER = "array"
         APP_ENV       = "production"
         APP_DEBUG     = "false"
-        FPM_MAX_CHILDREN = var.php_laravel_fpm_max_children
+        FPM_MAX_CHILDREN = var.php_laravel_fpm_monolith_max_children
       }
       resources {
         cpu    = var.php_laravel_fpm_monolith_cpu
@@ -100,8 +103,8 @@ EOF
         destination = "local/default.conf"
       }
       resources {
-        cpu    = 200
-        memory = 256
+        cpu    = var.php_laravel_fpm_nginx_cpu
+        memory = var.php_laravel_fpm_nginx_mem
       }
     }
   }
@@ -140,7 +143,7 @@ EOF
         SESSION_DRIVER = "array"
         APP_ENV      = "production"
         APP_DEBUG    = "false"
-        FPM_MAX_CHILDREN = 20
+        FPM_MAX_CHILDREN = var.php_laravel_fpm_gateway_max_children
       }
       resources {
         cpu    = var.php_laravel_fpm_gateway_cpu
@@ -177,8 +180,8 @@ EOF
         destination = "local/default.conf"
       }
       resources {
-        cpu    = 200
-        memory = 256
+        cpu    = var.php_laravel_fpm_nginx_cpu
+        memory = var.php_laravel_fpm_nginx_mem
       }
     }
   }

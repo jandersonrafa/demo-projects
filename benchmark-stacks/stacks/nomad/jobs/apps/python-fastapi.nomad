@@ -13,9 +13,12 @@ variable "python_fastapi_gateway_cpu" { type = number }
 variable "python_fastapi_gateway_mem" { type = number }
 
 # Count variables
+# Count variables
 variable "python_fastapi_monolith_count" { type = number }
 variable "python_fastapi_gateway_count" { type = number }
 variable "python_fastapi_max_pool_size" { type = number }
+variable "python_fastapi_monolith_workers" { type = number }
+variable "python_fastapi_gateway_workers" { type = number }
 
 job "python-fastapi" {
   datacenters = var.datacenters
@@ -56,6 +59,7 @@ job "python-fastapi" {
         DB_MAX_POOL_SIZE = var.python_fastapi_max_pool_size
         PORT        = "${NOMAD_PORT_http}"
         PROMETHEUS_MULTIPROC_DIR = "/tmp/prometheus_multiproc"
+        WORKERS     = var.python_fastapi_monolith_workers
       }
 
       resources {
@@ -97,6 +101,7 @@ job "python-fastapi" {
         MONOLITH_URL = "http://127.0.0.1:9108"
         PORT         = "${NOMAD_PORT_http}"
         PROMETHEUS_MULTIPROC_DIR = "/tmp/prometheus_multiproc"
+        WORKERS      = var.python_fastapi_gateway_workers
       }
 
       resources {

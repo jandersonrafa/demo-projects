@@ -15,7 +15,10 @@ variable "php_laravel_octane_gateway_mem" { type = number }
 # Count variables
 variable "php_laravel_octane_monolith_count" { type = number }
 variable "php_laravel_octane_gateway_count" { type = number }
-variable "php_laravel_octane_workers" { type = number }
+variable "php_laravel_octane_monolith_workers" { type = number }
+variable "php_laravel_octane_gateway_workers" { type = number }
+variable "php_laravel_octane_nginx_cpu" { type = number }
+variable "php_laravel_octane_nginx_mem" { type = number }
 
 job "php-laravel-octane" {
   datacenters = var.datacenters
@@ -60,7 +63,7 @@ job "php-laravel-octane" {
         SESSION_DRIVER = "array"
         APP_ENV       = "production"
         APP_DEBUG     = "false"
-        OCTANE_WORKERS = 15
+        OCTANE_WORKERS = var.php_laravel_octane_monolith_workers
         PORT           = "${NOMAD_PORT_octane}"
       }
       resources {
@@ -100,8 +103,8 @@ EOF
         destination = "local/default.conf"
       }
       resources {
-        cpu    = 512  
-        memory = 512
+        cpu    = var.php_laravel_octane_nginx_cpu
+        memory = var.php_laravel_octane_nginx_mem
       }
     }
   }
@@ -140,7 +143,7 @@ EOF
         SESSION_DRIVER = "array"
         APP_ENV      = "production"
         APP_DEBUG    = "false"
-        OCTANE_WORKERS = var.php_laravel_octane_workers
+        OCTANE_WORKERS = var.php_laravel_octane_gateway_workers
         PORT           = "${NOMAD_PORT_octane}"
       }
       resources {
@@ -180,8 +183,8 @@ EOF
         destination = "local/default.conf"
       }
       resources {
-        cpu    = 512
-        memory = 512
+        cpu    = var.php_laravel_octane_nginx_cpu
+        memory = var.php_laravel_octane_nginx_mem
       }
     }
   }
