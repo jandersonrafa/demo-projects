@@ -53,9 +53,9 @@ gateway_quarkus_image  = "benchmark-stacks/java-quarkus-gateway:1.0"
 java_mvc_vt_monolith_cpu   = 1536
 java_mvc_vt_monolith_mem   = 768
 java_mvc_vt_monolith_count = 3
-java_mvc_vt_gateway_cpu    = 1536
-java_mvc_vt_gateway_mem    = 768
-java_mvc_vt_gateway_count  = 2
+java_mvc_vt_gateway_cpu    = 2048
+java_mvc_vt_gateway_mem    = 1024
+java_mvc_vt_gateway_count  = 1
 java_mvc_vt_max_pool_size  = 20
 
 #java_mvc_vt_monolith_cpu   = 1536
