@@ -59,7 +59,7 @@ java_mvc_vt_gateway_count  = 0
 java_mvc_vt_max_pool_size  = 60
 
 # Java Quarkus
-java_quarkus_monolith_cpu   = 1024
+java_quarkus_monolith_cpu   = 1536
 java_quarkus_monolith_mem   = 512
 java_quarkus_monolith_count = 1
 java_quarkus_gateway_cpu    = 1024
@@ -77,22 +77,22 @@ java_webflux_gateway_count  = 0
 java_webflux_max_pool_size  = 60
 
 # DotNet
-dotnet_monolith_cpu   = 1024
-dotnet_monolith_mem   = 1024
+dotnet_monolith_cpu   = 1536
+dotnet_monolith_mem   = 512
 dotnet_monolith_count = 1
 dotnet_gateway_cpu    = 1024
 dotnet_gateway_mem    = 1024
-dotnet_gateway_count  = 1
-dotnet_max_pool_size  = 15
+dotnet_gateway_count  = 0
+dotnet_max_pool_size  = 60
 
 # Golang
-golang_monolith_cpu   = 1024
-golang_monolith_mem   = 1024
+golang_monolith_cpu   = 1536
+golang_monolith_mem   = 256
 golang_monolith_count = 1
 golang_gateway_cpu    = 1024
 golang_gateway_mem    = 1024
-golang_gateway_count  = 1
-golang_max_pool_size  = 15
+golang_gateway_count  = 0
+golang_max_pool_size  = 60
 
 # Node NestJS
 node_nestjs_monolith_cpu   = 1536
@@ -140,13 +140,13 @@ php_laravel_octane_nginx_cpu      = 256
 php_laravel_octane_nginx_mem      = 256
 
 # Python FastAPI
-python_fastapi_monolith_cpu   = 1024
-python_fastapi_monolith_mem   = 1024
+python_fastapi_monolith_cpu   = 1560
+python_fastapi_monolith_mem   = 512
 python_fastapi_monolith_count = 1
 python_fastapi_gateway_cpu    = 1024
 python_fastapi_gateway_mem    = 1024
-python_fastapi_gateway_count  = 1
-python_fastapi_max_pool_size  = 15
+python_fastapi_gateway_count  = 0
+python_fastapi_max_pool_size  = 60
 python_fastapi_monolith_workers = 6
 python_fastapi_gateway_workers  = 6
 
