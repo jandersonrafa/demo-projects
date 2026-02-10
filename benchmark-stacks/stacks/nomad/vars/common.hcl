@@ -51,30 +51,30 @@ gateway_quarkus_image  = "benchmark-stacks/java-quarkus-gateway:1.0"
 
 # Java MVC VT
 java_mvc_vt_monolith_cpu   = 1536
-java_mvc_vt_monolith_mem   = 1024
+java_mvc_vt_monolith_mem   = 512
 java_mvc_vt_monolith_count = 1
 java_mvc_vt_gateway_cpu    = 1536
 java_mvc_vt_gateway_mem    = 1024
-java_mvc_vt_gateway_count  = 1
-java_mvc_vt_max_pool_size  = 30
+java_mvc_vt_gateway_count  = 0
+java_mvc_vt_max_pool_size  = 60
 
 # Java Quarkus
 java_quarkus_monolith_cpu   = 1024
-java_quarkus_monolith_mem   = 1024
+java_quarkus_monolith_mem   = 512
 java_quarkus_monolith_count = 1
 java_quarkus_gateway_cpu    = 1024
 java_quarkus_gateway_mem    = 1024
-java_quarkus_gateway_count  = 1
-java_quarkus_max_pool_size  = 15
+java_quarkus_gateway_count  = 0
+java_quarkus_max_pool_size  = 60
 
 # Java WebFlux
-java_webflux_monolith_cpu   = 1024
-java_webflux_monolith_mem   = 1024
+java_webflux_monolith_cpu   = 2560
+java_webflux_monolith_mem   = 256
 java_webflux_monolith_count = 1
 java_webflux_gateway_cpu    = 1024
 java_webflux_gateway_mem    = 1024
-java_webflux_gateway_count  = 1
-java_webflux_max_pool_size  = 15
+java_webflux_gateway_count  = 0
+java_webflux_max_pool_size  = 60
 
 # DotNet
 dotnet_monolith_cpu   = 1024
@@ -95,12 +95,12 @@ golang_gateway_count  = 1
 golang_max_pool_size  = 15
 
 # Node NestJS
-node_nestjs_monolith_cpu   = 2048
-node_nestjs_monolith_mem   = 512
+node_nestjs_monolith_cpu   = 1536
+node_nestjs_monolith_mem   = 256
 node_nestjs_monolith_count = 1
 node_nestjs_gateway_cpu    = 1536
 node_nestjs_gateway_mem    = 512
-node_nestjs_gateway_count  = 1
+node_nestjs_gateway_count  = 0
 node_nestjs_max_pool_size  = 60
 
 # PHP Laravel FPM

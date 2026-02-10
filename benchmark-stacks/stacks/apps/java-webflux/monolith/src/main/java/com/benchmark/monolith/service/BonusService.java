@@ -54,9 +54,7 @@ public class BonusService {
 
     public Flux<Bonus> getRecents() {
         // Fetch top 100 bonuses ordered by ID ascending
-        return repository.findAll()
-                .sort(Comparator.comparing(Bonus::id))
-                .take(100)
+        return repository.findTop100ByOrderByIdAsc()
                 .collectList()
                 .flatMapMany(list -> {
                     // Then sort in memory by createdAt descending to stress memory
