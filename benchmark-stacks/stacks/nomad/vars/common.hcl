@@ -50,10 +50,10 @@ gateway_quarkus_image  = "benchmark-stacks/java-quarkus-gateway:1.0"
 # --- Application Resource Limits (Specific per Stack) ---
 
 # Java MVC VT
-java_mvc_vt_monolith_cpu   = 2048
+java_mvc_vt_monolith_cpu   = 1536
 java_mvc_vt_monolith_mem   = 1024
-java_mvc_vt_monolith_count = 2
-java_mvc_vt_gateway_cpu    = 2048
+java_mvc_vt_monolith_count = 1
+java_mvc_vt_gateway_cpu    = 1536
 java_mvc_vt_gateway_mem    = 1024
 java_mvc_vt_gateway_count  = 1
 java_mvc_vt_max_pool_size  = 30
@@ -95,36 +95,47 @@ golang_gateway_count  = 1
 golang_max_pool_size  = 15
 
 # Node NestJS
-node_nestjs_monolith_cpu   = 1024
-node_nestjs_monolith_mem   = 1024
+node_nestjs_monolith_cpu   = 2048
+node_nestjs_monolith_mem   = 512
 node_nestjs_monolith_count = 1
-node_nestjs_gateway_cpu    = 1024
-node_nestjs_gateway_mem    = 1024
+node_nestjs_gateway_cpu    = 1536
+node_nestjs_gateway_mem    = 512
 node_nestjs_gateway_count  = 1
-node_nestjs_max_pool_size  = 15
+node_nestjs_max_pool_size  = 60
 
 # PHP Laravel FPM
 # Nao tem hardware suficiente na maquina para atender, atende a no máximo 100 rps
-php_laravel_fpm_monolith_cpu   = 2560
-php_laravel_fpm_monolith_mem   = 2560
-php_laravel_fpm_monolith_count = 3
-php_laravel_fpm_monolith_max_children  = 2
-php_laravel_fpm_gateway_cpu    = 2560
-php_laravel_fpm_gateway_mem    = 2560
-php_laravel_fpm_gateway_count  = 2
-php_laravel_fpm_gateway_max_children  = 3
+#php_laravel_fpm_monolith_cpu   = 2560
+#php_laravel_fpm_monolith_mem   = 2560
+#php_laravel_fpm_monolith_count = 3
+#php_laravel_fpm_monolith_max_children  = 2
+#php_laravel_fpm_gateway_cpu    = 2560
+#php_laravel_fpm_gateway_mem    = 2560
+#php_laravel_fpm_gateway_count  = 2
+#php_laravel_fpm_gateway_max_children  = 3
+#php_laravel_fpm_nginx_cpu      = 256
+#php_laravel_fpm_nginx_mem      = 256
+
+php_laravel_fpm_monolith_cpu   = 2048
+php_laravel_fpm_monolith_mem   = 256
+php_laravel_fpm_monolith_count = 6
+php_laravel_fpm_monolith_max_children  = 6
+php_laravel_fpm_gateway_cpu    = 10
+php_laravel_fpm_gateway_mem    = 10
+php_laravel_fpm_gateway_count  = 0
+php_laravel_fpm_gateway_max_children  = 1
 php_laravel_fpm_nginx_cpu      = 256
 php_laravel_fpm_nginx_mem      = 256
 
 # PHP Laravel Octane
-php_laravel_octane_monolith_cpu   = 2048
-php_laravel_octane_monolith_mem   = 1536
-php_laravel_octane_monolith_count = 3
-php_laravel_octane_monolith_workers  = 15
-php_laravel_octane_gateway_cpu    = 1536
-php_laravel_octane_gateway_mem    = 1024
-php_laravel_octane_gateway_count  = 3
-php_laravel_octane_gateway_workers  = 20
+php_laravel_octane_monolith_cpu      = 2048
+php_laravel_octane_monolith_mem      = 1024
+php_laravel_octane_monolith_count    = 2
+php_laravel_octane_monolith_workers  = 6
+php_laravel_octane_gateway_cpu       = 10
+php_laravel_octane_gateway_mem       = 10
+php_laravel_octane_gateway_count     = 0
+php_laravel_octane_gateway_workers   = 0
 php_laravel_octane_nginx_cpu      = 256
 php_laravel_octane_nginx_mem      = 256
 
