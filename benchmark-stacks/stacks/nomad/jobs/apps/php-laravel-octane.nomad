@@ -49,7 +49,7 @@ job "php-laravel-octane" {
         image        = var.monolith_octane_image
         network_mode = "host"
         command      = "php"
-        args         = ["artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=${NOMAD_PORT_octane}", "--workers=${OCTANE_WORKERS:-auto}"]
+        args         = ["artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=${NOMAD_PORT_octane}", "--workers=${env.OCTANE_WORKERS}"]
         cpu_hard_limit    = true
       }
       env {
@@ -134,7 +134,7 @@ EOF
         image        = var.gateway_octane_image
         network_mode = "host"
         command      = "php"
-        args         = ["artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=${NOMAD_PORT_octane}", "--workers=${OCTANE_WORKERS:-auto}"]
+        args         = ["artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=${NOMAD_PORT_octane}", "--workers=${env.OCTANE_WORKERS}"]
         cpu_hard_limit    = true
       }
       env {

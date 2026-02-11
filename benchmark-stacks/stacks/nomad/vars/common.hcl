@@ -87,7 +87,7 @@ dotnet_max_pool_size  = 60
 
 # Golang
 golang_monolith_cpu   = 1536
-golang_monolith_mem   = 256
+golang_monolith_mem   = 512
 golang_monolith_count = 1
 golang_gateway_cpu    = 1024
 golang_gateway_mem    = 1024
