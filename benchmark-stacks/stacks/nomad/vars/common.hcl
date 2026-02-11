@@ -140,21 +140,21 @@ php_laravel_octane_nginx_cpu      = 256
 php_laravel_octane_nginx_mem      = 256
 
 # Python FastAPI
-python_fastapi_monolith_cpu   = 1560
+python_fastapi_monolith_cpu   = 1536
 python_fastapi_monolith_mem   = 512
-python_fastapi_monolith_count = 1
+python_fastapi_monolith_count = 2
 python_fastapi_gateway_cpu    = 1024
 python_fastapi_gateway_mem    = 1024
 python_fastapi_gateway_count  = 0
-python_fastapi_max_pool_size  = 60
-python_fastapi_monolith_workers = 6
-python_fastapi_gateway_workers  = 6
+python_fastapi_max_pool_size  = 30
+python_fastapi_monolith_workers = 3
+python_fastapi_gateway_workers  = 3
 
 # Rust
-rust_monolith_cpu   = 1024
-rust_monolith_mem   = 1024
+rust_monolith_cpu   = 512
+rust_monolith_mem   = 256
 rust_monolith_count = 1
 rust_gateway_cpu    = 1024
 rust_gateway_mem    = 1024
-rust_gateway_count  = 1
-rust_max_pool_size  = 15
+rust_gateway_count  = 0
+rust_max_pool_size  = 60
