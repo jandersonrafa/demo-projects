@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.." || exit 1
 # Deploy infrastructure
 echo "Deploying infrastructure..."
 nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/infra/postgres.nomad
-# nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/infra/pgbouncer.nomad
+nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/infra/pgbouncer.nomad
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/infra/traefik-private.nomad
 # nomad job run -hcl2-strict=false -var-file=nomad/vars/common.hcl nomad/jobs/infra/traefik-public.nomad
 
