@@ -33,10 +33,12 @@ func InitDB() *gorm.DB {
 	}
 
 	sqlDB.SetMaxOpenConns(15)
+	sqlDB.SetMaxIdleConns(15)
 	if maxPoolSize := os.Getenv("DB_MAX_POOL_SIZE"); maxPoolSize != "" {
 		var n int
 		if _, err := fmt.Sscanf(maxPoolSize, "%d", &n); err == nil {
 			sqlDB.SetMaxOpenConns(n)
+			sqlDB.SetMaxIdleConns(n)
 		}
 	}
 

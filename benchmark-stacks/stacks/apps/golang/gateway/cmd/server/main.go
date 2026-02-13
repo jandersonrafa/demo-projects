@@ -19,6 +19,9 @@ func main() {
 	httpClient := infra.NewHTTPClient()
 	proxyHandler := handler.NewProxyHandler(monolithURL, httpClient)
 
+	if os.Getenv("GIN_MODE") != "debug" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r := gin.New()
 	r.Use(gin.Recovery())
 
