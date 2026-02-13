@@ -21,9 +21,6 @@ func main() {
 	bonusService := service.NewBonusService(bonusRepo, clientRepo)
 	bonusHandler := handler.NewBonusHandler(bonusService)
 
-	if os.Getenv("GIN_MODE") != "debug" {
-		gin.SetMode(gin.ReleaseMode)
-	}
 	r := gin.New()
 	r.Use(gin.Recovery())
 

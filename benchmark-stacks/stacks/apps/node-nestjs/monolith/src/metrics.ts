@@ -1,4 +1,4 @@
-import { FastifyRequest, FastifyReply } from 'fastify';
+import { Request, Response, NextFunction } from 'express';
 import client from 'prom-client';
 
 const register = new client.Registry();
@@ -20,7 +20,7 @@ const httpRequestDurationSeconds = new client.Histogram({
     registers: [register],
 });
 
-export function metricsMiddleware(req: any, res: any, next: () => void) {
+export function metricsMiddleware(req: Request, res: Response, next: NextFunction) {
     const start = process.hrtime.bigint();
     res.on('finish', () => {
         const diffNs = Number(process.hrtime.bigint() - start);
@@ -28,7 +28,7 @@ export function metricsMiddleware(req: any, res: any, next: () => void) {
         const labels = {
             method: (req.method || 'GET').toUpperCase(),
             status: String(res.statusCode),
-            path: req.raw?.url || req.url || 'unknown',
+            path: req.route?.path || req.path || 'unknown',
         } as const;
         httpRequestsTotal.inc(labels);
         httpRequestDurationSeconds.observe(labels, seconds);
@@ -36,7 +36,7 @@ export function metricsMiddleware(req: any, res: any, next: () => void) {
     next();
 }
 
-export async function renderMetrics(_req: FastifyRequest, res: FastifyReply) {
-    res.header('Content-Type', register.contentType);
-    res.send(await register.metrics());
+export async function renderMetrics(_req: Request, res: Response) {
+    res.setHeader('Content-Type', register.contentType);
+    res.end(await register.metrics());
 }
