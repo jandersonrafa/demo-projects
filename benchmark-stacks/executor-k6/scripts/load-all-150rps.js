@@ -10,53 +10,68 @@ const targets = targetsEnv.split(',').filter(Boolean);
 
 export const options = {
   scenarios: Object.fromEntries(
-    targets.map((t) => [
-      `load_${t.replace(/[^a-zA-Z0-9]/g, '_')}`,
-      {
-        executor: 'ramping-arrival-rate',
-        startRate: 20,
-        timeUnit: '1s',
-        stages: [
-          { target: 25, duration: '1m' },
-          { target: 25, duration: '2m' },
-          { target: 50, duration: '1m' },
-          { target: 50, duration: '2m' },
-          { target: 100, duration: '1m' },
-          { target: 100, duration: '2m' },
-          { target: 150, duration: '1m' },
-          { target: 150, duration: '2m' },
-          { target: 200, duration: '1m' },
-          { target: 200, duration: '2m' },
-          { target: 300, duration: '1m' },
-          { target: 300, duration: '2m' },
-          { target: 400, duration: '1m' },
-          { target: 400, duration: '2m' },
-          { target: 500, duration: '1m' },
-          { target: 500, duration: '2m' },
-          { target: 600, duration: '1m' },
-          { target: 600, duration: '2m' },
-          { target: 700, duration: '1m' },
-          { target: 700, duration: '2m' },
-          { target: 800, duration: '1m' },
-          { target: 800, duration: '2m' }
+    targets.flatMap((t) => {
+      const name = t.replace(/[^a-zA-Z0-9]/g, '_');
+
+      return [
+        // 🔥 WARM-UP
+        [
+          `warmup_${name}`,
+          {
+            executor: 'ramping-arrival-rate',
+
+            timeUnit: '1s',
+            startRate: 10,
+
+            stages: [
+              { target: 25, duration: '1m' },
+              { target: 50, duration: '2m' },
+              { target: 75, duration: '2m' },
+            ],
+
+            preAllocatedVUs: 5,
+            maxVUs: 40,
+
+            exec: 'hit',
+            env: { TARGET: t },
+            tags: {
+              target: t,
+              phase: 'warmup',
+            },
+          },
         ],
-        preAllocatedVUs: 200,
-        maxVUs: 400,
-        exec: 'hit',
-        env: { TARGET: t },
-        tags: { target: t },
-      },
-    ])
+
+        // 🎯 CARGA REAL
+        [
+          `load_${name}`,
+          {
+            executor: 'constant-arrival-rate',
+            rate: 75,
+            startTime: '5m', // ⏱ começa após o warm-up
+            timeUnit: '1s',
+            duration: '10m',
+
+            preAllocatedVUs: 5,
+            maxVUs: 40,
+
+            exec: 'hit',
+            env: { TARGET: t },
+            tags: {
+              target: t,
+              phase: 'load',
+            },
+          },
+        ],
+      ];
+    })
   ),
 
   thresholds: {
-    http_req_duration: [
-      {
-        threshold: 'p(95)<1500',  // p95 deve ser menor que 400ms
-        abortOnFail: true,
-        delayAbortEval: '8m',   // opcional (evita abortar por aquecimento)
-      },
-    ]
+    // 🎯 Avalie SLA só na carga real
+    'http_req_duration{phase:load,method:POST}': ['p(95)<200'],
+    'http_req_duration{phase:load,method:GET}': ['p(95)<200'],
+    'http_req_duration{test_type:load}': ['p(95)<200'],
+    'http_req_failed{phase:load}': ['rate<0.01'],
   },
 
   ext: {
