@@ -4,7 +4,8 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     ports:
-      - "8080:8080"
+      - "7100:8080"
+    privileged: true
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
