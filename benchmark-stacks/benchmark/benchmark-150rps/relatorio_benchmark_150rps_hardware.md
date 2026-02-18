@@ -1,6 +1,6 @@
-# 📊 Relatório de Benchmark: Requisitos de Hardware para 150 RPS
+# Relatório de Benchmark: Requisitos de Hardware para 150 RPS
 
-## 🎯 Escopo do Teste
+## Escopo do Teste
 O benchmark simula um fluxo de trabalho típico de backend através de dois endpoints:
 
 1. **`POST /bonus` (Escrita)**: Exige validação de cliente em banco de dados, aplicação de regra de bônus condicional e persistência.
@@ -8,14 +8,14 @@ O benchmark simula um fluxo de trabalho típico de backend através de dois endp
 
 ---
 
-## 🚀 Resumo Executivo
+## Resumo Executivo
 Este documento analisa a eficiência de hardware de diferentes stacks tecnológicas ao sustentar uma carga constante de **150 requisições por segundo (RPS)**, mantendo a latência **P95 abaixo de 200ms**.
 
 O diferencial deste teste foi observar quanto de recurso (CPU e Memória) cada stack alocou e efetivamente consumiu sob uma carga de trabalho idêntica e pré-definida.
 
 ---
 
-## 🛠️ Metodologia do Teste
+## Metodologia do Teste
 
 ### Estratégia de Carga (k6)
 O script de teste (`load-all-150rps.js`) seguiu um rigoroso processo de aquecimento e estabilização:
@@ -23,21 +23,31 @@ O script de teste (`load-all-150rps.js`) seguiu um rigoroso processo de aquecime
 - **Carga Constante:** Após o aquecimento, foi aplicada uma carga fixa de **75 iterações/segundo** por **10 minutos**. Cada iteração realiza 2 chamadas (1 POST + 1 GET), totalizando exatamente **150 RPS**.
 - **Validação de SLA:** O threshold de sucesso foi definido como **P95 < 200ms** e taxa de erro inferior a **1%** durante a fase de carga real.
 
-### Infraestrutura e Coleta
-As aplicações rodaram no **Nomad** com diferentes níveis de alocação de hardware para garantir a estabilidade do P95. As métricas foram coletadas via **Prometheus**, consolidando dados do Nomad (container) e do **Traefik** (edge router).
-
 ### Calibragem de hardware
 Foram executadas repetitivas  baterias de testes calibrando o hardware até encontrar o hardware minímo de cada stack para atender o teste.
 
 ---
 
-## 🏆 Resultados Consolidados: Eficiência de Hardware (150 RPS)
+# Infraestrutura e Coleta
+As aplicações rodaram no **Nomad** com diferentes níveis de alocação de hardware para garantir a estabilidade do P95. As métricas foram coletadas via **Prometheus**, consolidando dados do Nomad (container) e do **Traefik** (edge router).
+Segue abaixo diagrama explicando a infraestrutura envolvida no teste:
+
+![alt text](infra-benchmark.png)
+
+- 1 - Na máquina 01 execução do teste pelo K6 enviando chamadas
+- 2 - Na máquina 02 as aplicações de cada stack rodando de forma separada atendendo as requisições, tendo como ponto de entrega Traefik
+- 3 - Na máquina 02 persiste e busca bônus no postgres
+- 4 - Na máquina 01 ambiente de monitoramento com prometheus consulta os endpoints nomad e traefik para coletar métricas
+- 5 - Na máquina 01 Grafana expoe dashboards para visualizar as métricas durante o teste 
+
+---
+## Resultados Consolidados: Eficiência de Hardware (150 RPS)
 
 Abaixo, os dados de infraestrutura e performance coletados durante a execução estável de 150 RPS:
 
 ### Infraestrutura e Consumo (Nomad)
 
-| Stack | Instâncias | CPU Alocado (Total) | CPU Médio (Total) | Mem. Alocada (Total) | Mem. Média (Total) |
+| Stack | Instâncias | CPU Alocado (Total) | CPU Usado (Total) | Mem. Alocada (Total) | Mem. Usada (Total) |
 | :--- | :---: | :--- | :--- | :--- | :--- |
 | **Rust Axum** | 1 | 0,50 core | **0,50 core** | 256 MiB | **3 MiB** |
 | **Java MVC VT** | 1 | 1,50 core | **0,99 core** | 512 MiB | 277 MiB |

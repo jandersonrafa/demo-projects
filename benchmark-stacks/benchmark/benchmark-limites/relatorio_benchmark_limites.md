@@ -1,6 +1,6 @@
-# 📊 Relatório de Benchmark: Limites de Performance por Stack
+# Relatório de Benchmark: Limites de Performance por Stack
 
-## 🎯 Escopo do Teste
+## Escopo do Teste
 O teste consiste em avaliar o comportamento das stacks em um cenário real de negócio através de dois endpoints principais:
 
 1. **`POST /bonus` (Escrita/Processamento)**:
@@ -15,14 +15,14 @@ O teste consiste em avaliar o comportamento das stacks em um cenário real de ne
 
 ---
 
-## 🚀 Resumo Executivo
+## Resumo Executivo
 Este documento detalha o teste de performance realizado em diversas tecnologias (stacks) para identificar a **taxa máxima de requisições por segundo (RPS)** que cada uma suporta, mantendo a latência **P95 abaixo de 200ms**.
 
 O teste focou em encontrar o "teto" de cada stack sob condições de hardware idênticas, utilizando uma estratégia de carga progressiva (ramping).
 
 ---
 
-## 🛠️ Metodologia do Teste
+## Metodologia do Teste
 
 ### Infraestrutura e Hardware
 Para garantir a isonomia, cada aplicação foi executada com exatamente os mesmos recursos:
@@ -44,14 +44,29 @@ O script de teste (`load-all.js`) utilizou o executor `ramping-arrival-rate` do 
 
 ---
 
-## 🏆 Resultados Obtidos
+
+# Infraestrutura e Coleta
+As aplicações rodaram no **Nomad** com diferentes níveis de alocação de hardware para garantir a estabilidade do P95. As métricas foram coletadas via **Prometheus**, consolidando dados do Nomad (container) e do **Traefik** (edge router).
+Segue abaixo diagrama explicando a infraestrutura envolvida no teste:
+
+![alt text](infra-benchmark.png)
+
+- 1 - Na máquina 01 execução do teste pelo K6 enviando chamadas
+- 2 - Na máquina 02 as aplicações de cada stack rodando de forma separada atendendo as requisições, tendo como ponto de entrega Traefik
+- 3 - Na máquina 02 persiste e busca bônus no postgres
+- 4 - Na máquina 01 ambiente de monitoramento com prometheus consulta os endpoints nomad e traefik para coletar métricas
+- 5 - Na máquina 01 Grafana expoe dashboards para visualizar as métricas durante o teste 
+
+---
+
+## Resultados Obtidos
 A tabela abaixo lista o **RPS máximo** alcançado por cada stack mantendo o **P95 < 200ms**:
 
 | Posição | Stack                              | RPS Máximo |
 |:-------:|:-----------------------------------|:-----------|
-| 🥇 1º   | **Rust**                           | 1200       |
-| 🥈 2º   | **Java MVC (Virtual Threads)**     | 600        |
-| 🥉 3º   | **Java Quarkus**                   | 400        |
+|  1º   | **Rust**                           | 1200       |
+|  2º   | **Java MVC (Virtual Threads)**     | 600        |
+|  3º   | **Java Quarkus**                   | 400        |
 | 4º      | **Node + NestJS + Fastify**        | 300        |
 | 5º      | **.NET**                           | 300        |
 | 6º      | **Golang**                         | 300        |
@@ -64,7 +79,7 @@ A tabela abaixo lista o **RPS máximo** alcançado por cada stack mantendo o **P
 
 ---
 
-## 🔍 Conclusões
+## Conclusões
 - **Rust** demonstrou uma performance excepcional, atingindo o dobro do segundo colocado com os mesmos recursos.
 - **Virtual Threads** no Java MVC teve um impacto significativo, triplicando a performance em relação ao modelo de threads tradicional.
 - Stacks interpretadas como **Python** e **PHP** (mesmo com Octane) apresentaram limites consideravelmente menores neste cenário de alta concorrência e restrição de hardware (1 core).
