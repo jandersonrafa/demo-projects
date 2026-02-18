@@ -1,4 +1,17 @@
-# Executar k6
+# Executor k6
+
+Esta pasta centraliza a inteligência e a execução dos testes de carga do projeto utilizando o **Grafana k6**. Aqui você encontrará os scripts que definem os cenários de teste e o local onde os relatórios de execução são armazenados.
+
+## Organização de Pastas
+
+- **[reports](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/executor-k6/reports)**: Contém os resultados das execuções consolidados. Os arquivos são gerados automaticamente em formato JSON (para processamento posterior) e HTML (para visualização rápida no navegador).
+- **[scripts](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/executor-k6/scripts)**: Contém a lógica dos testes em Javascript.
+  - `load-all.js`: Utilizado para o benchmark de **Limites** (RPS progressivo).
+  - `load-all-150rps.js`: Utilizado para o benchmark de **Eficiência de Hardware** (carga constante de 150 RPS).
+
+---
+
+# Como Executar os Testes
 ```
 sudo snap install k6
 
