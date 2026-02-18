@@ -1,0 +1,321 @@
+
+services:
+  # --- Infrastructure ---
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: benchmark
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ../infra/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ../infra/postgres/init-users.sql:/docker-entrypoint-initdb.d/02-init-users.sql
+    command: ["postgres", "-c", "max_connections=500"]
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4096M
+
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    environment:
+      PGBOUNCER_LISTEN_PORT: 6432
+    volumes:
+      - ../infra/pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+      - ../infra/pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
+    ports:
+      - "6432:6432"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2048M
+
+  traefik:
+    image: traefik:v3.0
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.swarmMode=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.traefik.address=:8082"
+      # Entrypoints for each stack (matching Nomad configuration)
+      - "--entrypoints.mvc-vt-gateway.address=:8101"
+      - "--entrypoints.webflux-gateway.address=:8102"
+      - "--entrypoints.nestjs-gateway.address=:8103"
+      - "--entrypoints.dotnet-gateway.address=:8104"
+      - "--entrypoints.golang-gateway.address=:8105"
+      - "--entrypoints.fpm-gateway.address=:8106"
+      - "--entrypoints.octane-gateway.address=:8107"
+      - "--entrypoints.python-gateway.address=:8108"
+      - "--entrypoints.rust-gateway.address=:8109"
+      - "--entrypoints.quarkus-gateway.address=:8110"
+    ports:
+      - "80:80"
+      - "8082:8082"
+      - "8101-8110:8101-8110"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 2048M
+
+  # --- Applications ---
+  
+  # Java MVC VT
+  mvc-vt-monolith:
+    image: benchmark-stacks/java-mvc-vt-monolith:1.0
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: java_mvc_user
+      DB_PASSWORD: java_mvc_pass
+      DB_NAME: benchmark
+      DB_MAX_POOL_SIZE: 30
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.mvc-vt-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.mvc-vt-monolith.entrypoints=mvc-vt-monolith"
+        - "traefik.http.services.mvc-vt-monolith.loadbalancer.server.port=8080"
+    profiles:
+      - java-mvc-vt
+
+  # Java Quarkus
+  quarkus-monolith:
+    image: benchmark-stacks/java-quarkus-monolith:1.0
+    environment:
+      DB_USER: java_quarkus_user
+      DB_PASSWORD: java_quarkus_pass
+      DB_NAME: benchmark
+      DB_MAX_POOL_SIZE: 30
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.quarkus-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.quarkus-monolith.entrypoints=quarkus-monolith"
+        - "traefik.http.services.quarkus-monolith.loadbalancer.server.port=8080"
+    profiles:
+      - java-quarkus
+
+  # Golang
+  golang-monolith:
+    image: benchmark-stacks/golang-monolith:1.0
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: golang_user
+      DB_PASSWORD: golang_pass
+      DB_NAME: benchmark
+      DB_MAX_POOL_SIZE: 30
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.golang-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.golang-monolith.entrypoints=golang-monolith"
+        - "traefik.http.services.golang-monolith.loadbalancer.server.port=8080"
+    profiles:
+      - golang
+
+  # node-nestjs
+  nestjs-monolith:
+    image: benchmark-stacks/nestjs-monolith:1.0
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: nestjs_user
+      DB_PASSWORD: nestjs_pass
+      DB_NAME: benchmark
+      DB_MAX_POOL_SIZE: 30
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.nestjs-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.nestjs-monolith.entrypoints=nestjs-monolith"
+        - "traefik.http.services.nestjs-monolith.loadbalancer.server.port=3000"
+    profiles:
+      - node-nestjs
+
+  # Add other services as needed... 
+  # For brevity in this initial write, I'll include the most important ones.
+  # The user can ask for the full list if they want.
+
+  # Java WebFlux
+  webflux-monolith:
+    image: benchmark-stacks/java-webflux-monolith:1.0
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: java_webflux_user
+      DB_PASSWORD: java_webflux_pass
+      DB_NAME: benchmark
+      DB_MAX_POOL_SIZE: 30
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.webflux-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.webflux-monolith.entrypoints=webflux-monolith"
+        - "traefik.http.services.webflux-monolith.loadbalancer.server.port=8080"
+    profiles:
+      - java-webflux
+
+  # DotNet
+  dotnet-monolith:
+    image: benchmark-stacks/dotnet-monolith:1.0
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: dotnet_user
+      DB_PASSWORD: dotnet_pass
+      DB_NAME: benchmark
+      DB_MAX_POOL_SIZE: 30
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.dotnet-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.dotnet-monolith.entrypoints=dotnet-monolith"
+        - "traefik.http.services.dotnet-monolith.loadbalancer.server.port=5000"
+    profiles:
+      - dotnet
+
+  # PHP Laravel FPM
+  fpm-monolith:
+    image: benchmark-stacks/php-laravel-fpm-monolith:1.0
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_DATABASE: benchmark
+      DB_USERNAME: php_fpm_user
+      DB_PASSWORD: php_fpm_pass
+      APP_KEY: "base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4="
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: "false"
+      FPM_MAX_CHILDREN: 2
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 768M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.fpm-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.fpm-monolith.entrypoints=fpm-monolith"
+        - "traefik.http.services.fpm-monolith.loadbalancer.server.port=9000"
+    profiles:
+      - php-laravel-fpm
+
+  # PHP Laravel Octane
+  octane-monolith:
+    image: benchmark-stacks/php-laravel-octane-monolith:1.0
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_DATABASE: benchmark
+      DB_USERNAME: php_octane_user
+      DB_PASSWORD: php_octane_pass
+      APP_KEY: "base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4="
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: "false"
+      OCTANE_WORKERS: 2
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 768M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.octane-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.octane-monolith.entrypoints=octane-monolith"
+        - "traefik.http.services.octane-monolith.loadbalancer.server.port=8000"
+    profiles:
+      - php-laravel-octane
+
+  # Python FastAPI
+  python-monolith:
+    image: benchmark-stacks/python-fastapi-monolith:1.0
+    environment:
+      DB_URL: "postgresql+asyncpg://python_user:python_pass@pgbouncer:6432/benchmark"
+      DB_MAX_POOL_SIZE: 30
+      WORKERS: 3
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.python-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.python-monolith.entrypoints=python-monolith"
+        - "traefik.http.services.python-monolith.loadbalancer.server.port=8000"
+    profiles:
+      - python-fastapi
+
+  # Rust
+  rust-monolith:
+    image: benchmark-stacks/rust-monolith:1.0
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: rust_user
+      DB_PASSWORD: rust_pass
+      DB_NAME: benchmark
+      DB_MAX_POOL_SIZE: 30
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.rust-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.rust-monolith.entrypoints=rust-monolith"
+        - "traefik.http.services.rust-monolith.loadbalancer.server.port=8080"
+    profiles:
+      - rust
+
+networks:
+  default:

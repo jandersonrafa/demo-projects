@@ -1,0 +1,15 @@
+services:
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    environment:
+      PGBOUNCER_LISTEN_PORT: 6432
+    volumes:
+      - ../../infra/pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+      - ../../infra/pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
+    ports:
+      - "6432:6432"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2048M

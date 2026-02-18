@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-remote-write-receiver'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.listen-address=:9091'
+    ports:
+      - "9091:9091"
+    volumes:
+      - ../infra/prometheus/data:/prometheus
+      - ../infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.10'
+          memory: 256M
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_DATA=/var/lib/grafana
+    volumes:
+      - ../infra/grafana/data:/var/lib/grafana
+      - ../infra/grafana/provisioning:/etc/grafana/provisioning
+      - ../infra/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.10'
+          memory: 128M
+
+networks:
+  default:
+    name: monitoring_network

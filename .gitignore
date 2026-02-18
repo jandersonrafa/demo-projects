@@ -46,3 +46,7 @@ mysql-replication/**/data/
 
 benchmark-stacks/monitoring/infra/grafana/data/**
 benchmark-stacks/monitoring/infra/prometheus/data/**
+
+benchmark-stacks-swarm/monitoring/infra/grafana/data/**
+benchmark-stacks-swarm/monitoring/infra/prometheus/data/**
+

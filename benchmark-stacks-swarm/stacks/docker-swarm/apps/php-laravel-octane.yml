@@ -1,0 +1,32 @@
+services:
+  octane-monolith:
+    image: benchmark-stacks/php-laravel-octane-monolith:1.0
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_DATABASE: benchmark
+      DB_USERNAME: php_octane_user
+      DB_PASSWORD: php_octane_pass
+      APP_KEY: "base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4="
+      SESSION_DRIVER: array
+      APP_ENV: production
+      APP_DEBUG: "false"
+      OCTANE_WORKERS: 2
+    networks:
+      - stacks_default
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 768M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.octane-monolith.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.octane-monolith.entrypoints=octane"
+        - "traefik.http.services.octane-monolith.loadbalancer.server.port=8000"
+
+networks:
+  stacks_default:
+    external: true
