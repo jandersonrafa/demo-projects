@@ -21,8 +21,9 @@ chmod 777 infra/prometheus/data
 chmod 777 infra/grafana/data
 chmod 777 infra/grafana/dashboards
 
-# Deploy the stack
-docker stack deploy -c "$SCRIPT_DIR/docker-stack.yml" monitoring
+# Deploy the stacks
+docker stack deploy -c "$PROJECT_ROOT/docker-swarm/prometheus.yml" monitoring
+docker stack deploy -c "$PROJECT_ROOT/docker-swarm/grafana.yml" monitoring
 
 echo "Waiting for services to start..."
 sleep 5

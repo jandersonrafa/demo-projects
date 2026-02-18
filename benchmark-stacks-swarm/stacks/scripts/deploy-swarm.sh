@@ -17,6 +17,7 @@ docker stack deploy -c ../docker-swarm/infra/postgres.yml stacks
 docker stack deploy -c ../docker-swarm/infra/pgbouncer.yml stacks
 
 docker stack deploy -c ../docker-swarm/infra/traefik.yml stacks
+docker stack deploy -c ../docker-swarm/infra/cadvisor.yml stacks
 
 # Wait for network to be ready before deploying apps
 sleep 3

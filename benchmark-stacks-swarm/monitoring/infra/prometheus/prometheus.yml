@@ -17,3 +17,9 @@ scrape_configs:
         labels:
           env: 'local'
 
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['192.168.0.114:8080']
+        labels:
+          env: 'local'
+

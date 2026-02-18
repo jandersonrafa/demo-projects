@@ -6,16 +6,15 @@ Stack de monitoramento com Prometheus e Grafana rodando no **Docker Swarm**.
 
 ```
 monitoring/
+├── docker-swarm/      # Configurações modularizadas do Swarm
+│   ├── prometheus.yml  # Serviço do Prometheus e cAdvisor
+│   └── grafana.yml     # Serviço do Grafana
 ├── infra/
 │   ├── prometheus/
 │   │   ├── data/           # Dados persistentes do Prometheus (TSDB)
 │   │   └── prometheus.yml  # Configuração do Prometheus
-│   └── grafana/
-│       ├── data/           # Dados persistentes do Grafana
-│       ├── dashboards/     # Dashboards do Grafana
-│       └── provisioning/   # Configuração de datasources
+...
 └── scripts/
-    ├── docker-stack.yml    # Definição dos serviços do Docker Swarm
     └── deploy-swarm.sh     # Script de deploy no Swarm
 ```
 
@@ -86,6 +85,7 @@ Os dashboards são provisionados automaticamente a partir de:
 
 Dashboards disponíveis:
 - **General - Performance Overview**: Visão geral consolidada de performance
+- **Docker Swarm - Performance (Full Clone)**: Clone completo do dashboard do Nomad usando cAdvisor
 - **Nomad - Performance**: Métricas detalhadas do Nomad (requer Nomad exportando métricas)
 - **K6 - Performance**: Métricas de testes de carga
 - **Traefik - Performance**: Métricas do gateway
