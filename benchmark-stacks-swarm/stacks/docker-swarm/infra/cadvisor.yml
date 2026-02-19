@@ -16,11 +16,11 @@ services:
       mode: global
       resources:
         limits:
+          cpus: '0.50'
+          memory: 500M
+        reservations:
           cpus: '0.20'
           memory: 200M
-        reservations:
-          cpus: '0.10'
-          memory: 100M
     networks:
       - default
 
