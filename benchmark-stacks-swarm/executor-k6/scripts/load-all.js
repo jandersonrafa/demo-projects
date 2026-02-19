@@ -17,8 +17,8 @@ export const options = {
         startRate: 20,
         timeUnit: '1s',
         stages: [
-          { target: 4000, duration: '1m' },
-          { target: 4000, duration: '2m' },
+          { target: 25, duration: '1m' },
+          { target: 25, duration: '2m' },
           { target: 50, duration: '1m' },
           { target: 50, duration: '2m' },
           { target: 100, duration: '1m' },
@@ -41,7 +41,7 @@ export const options = {
           { target: 800, duration: '2m' }
         ],
         preAllocatedVUs: 200,
-        maxVUs: 4000,
+        maxVUs: 400,
         exec: 'hit',
         env: { TARGET: t },
         tags: { target: t },
