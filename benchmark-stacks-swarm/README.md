@@ -2,6 +2,23 @@
 
 Este projeto visa comparar o desempenho de diferentes stacks tecnológicas (como Java, Node.js, Rust, Go, C++, etc.) em cenários de alta carga, utilizando o Nomad como orquestrador e Prometheus/Grafana para monitoramento.
 
+
+## Usar portainer para monitorar docker swarm local
+
+```bash
+docker volume create portainer_data
+
+docker service create \
+  --name portainer \
+  --publish 7000:9000 \
+  --constraint 'node.role==manager' \
+  --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  --mount type=volume,src=portainer_data,dst=/data \
+  portainer/portainer-ce:latest
+
+acessar http://<ip_maquina>:7000 // Não funciona localhost
+```
+
 ## Estrutura do Projeto
 
 Abaixo estão as descrições sucintas de cada pasta na raiz do projeto:

@@ -84,9 +84,7 @@ Os dashboards são provisionados automaticamente a partir de:
 - `infra/grafana/dashboards/teste-performance/`
 
 Dashboards disponíveis:
-- **General - Performance Overview**: Visão geral consolidada de performance
-- **Docker Swarm - Performance (Full Clone)**: Clone completo do dashboard do Nomad usando cAdvisor
-- **Nomad - Performance**: Métricas detalhadas do Nomad (requer Nomad exportando métricas)
+- **Docker Swarm - Performance**: Métricas de infraestutura
 - **K6 - Performance**: Métricas de testes de carga
 - **Traefik - Performance**: Métricas do gateway
 

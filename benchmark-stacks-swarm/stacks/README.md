@@ -2,22 +2,6 @@
 
 Este projeto é um benchmark comparativo de performance entre diferentes stacks tecnológicas, utilizando uma arquitetura de Gateway e Monolito com deployment via Docker Swarm.
 
-## Usar portainer para monitorar docker swarm local
-
-```bash
-docker volume create portainer_data
-
-docker service create \
-  --name portainer \
-  --publish 7000:9000 \
-  --constraint 'node.role==manager' \
-  --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-  --mount type=volume,src=portainer_data,dst=/data \
-  portainer/portainer-ce:latest
-
-acessar http://192.168.0.114:7000
-```
-
 ## 1. Inicializar Docker Swarm
 Caso ainda não tenha inicializado o Swarm no seu nó:
 ```bash

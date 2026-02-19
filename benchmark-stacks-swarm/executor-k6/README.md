@@ -36,8 +36,8 @@ docker run --rm \
   -v $(pwd)/scripts:/scripts \
   -v $(pwd)/reports:/reports \
   -w /scripts \
-  -e TARGETS="192.168.0.114:8101,192.168.0.114:8102" \
-  -e K6_PROMETHEUS_RW_SERVER_URL="http://localhost:9091/api/v1/write" \
+  -e TARGETS="192.168.0.114:8101" \
+  -e K6_PROMETHEUS_RW_SERVER_URL="http://192.168.0.137:9091/api/v1/write" \
   -e K6_PROMETHEUS_RW_TREND_STATS="p(95),p(99),avg" \
   grafana/k6:latest run \
   -o experimental-prometheus-rw \
