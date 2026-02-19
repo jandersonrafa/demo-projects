@@ -35,8 +35,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 256M
+          cpus: '4.0'
+          memory: 2048M
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.dashboard.rule=PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
