@@ -71,7 +71,7 @@ job "java-mvc-vt" {
       }
 
       resources {
-        cpu    = var.java_mvc_vt_monolith_cpu
+        cores    = 1
         memory = var.java_mvc_vt_monolith_mem
       }
     }

@@ -7,7 +7,7 @@ services:
       DB_USER: rust_user
       DB_PASSWORD: rust_pass
       DB_NAME: benchmark
-      DB_MAX_POOL_SIZE: 30
+      DB_MAX_POOL_SIZE: 100
     networks:
       - stacks_default
     deploy:
@@ -16,11 +16,14 @@ services:
         limits:
           cpus: '1.0'
           memory: 1024M
+        reservations:
+          cpus: '1.0'
+          memory: 1024M
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.rust-monolith.rule=PathPrefix(`/`)"
         - "traefik.http.routers.rust-monolith.entrypoints=rust"
-        - "traefik.http.services.rust-monolith.loadbalancer.server.port=8080"
+        - "traefik.http.services.rust-monolith.loadbalancer.server.port=3000"
 
 networks:
   stacks_default:

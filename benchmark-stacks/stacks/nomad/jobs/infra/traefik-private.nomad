@@ -119,7 +119,7 @@ EOF
       }
 
       resources {
-        cpu    = var.traefik_cpu
+        cores    = 1
         memory = var.traefik_mem
       }
     }

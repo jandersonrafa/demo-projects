@@ -56,7 +56,7 @@ java_mvc_vt_monolith_count = 2
 java_mvc_vt_gateway_cpu    = 1536
 java_mvc_vt_gateway_mem    = 1024
 java_mvc_vt_gateway_count  = 0
-java_mvc_vt_max_pool_size  = 30
+java_mvc_vt_max_pool_size  = 100
 
 # Java Quarkus
 java_quarkus_monolith_cpu   = 1024
@@ -74,7 +74,7 @@ java_webflux_monolith_count = 2
 java_webflux_gateway_cpu    = 1024
 java_webflux_gateway_mem    = 1024
 java_webflux_gateway_count  = 0
-java_webflux_max_pool_size  = 30
+java_webflux_max_pool_size  = 100
 
 # DotNet
 dotnet_monolith_cpu   = 1024

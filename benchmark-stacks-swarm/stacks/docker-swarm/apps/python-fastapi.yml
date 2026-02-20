@@ -2,8 +2,8 @@ services:
   python-monolith:
     image: benchmark-stacks/python-fastapi-monolith:1.0
     environment:
-      DB_URL: "postgresql+asyncpg://python_user:python_pass@pgbouncer:6432/benchmark"
-      DB_MAX_POOL_SIZE: 30
+      DB_URL: "postgresql+asyncpg://python_fastapi_user:python_fastapi_pass@pgbouncer:6432/benchmark"
+      DB_MAX_POOL_SIZE: 100
       WORKERS: 3
     networks:
       - stacks_default
@@ -11,6 +11,9 @@ services:
       replicas: 2
       resources:
         limits:
+          cpus: '1.0'
+          memory: 1024M
+        reservations:
           cpus: '1.0'
           memory: 1024M
       labels:

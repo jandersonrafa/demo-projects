@@ -26,7 +26,7 @@ sleep 3
 # Application Stacks (comment out any you don't want to deploy)
 # -----------------------------------------------------------------------
 
-docker stack deploy -c ../docker-swarm/apps/java-mvc-vt.yml stacks
+# docker stack deploy -c ../docker-swarm/apps/java-mvc-vt.yml stacks
 
 # docker stack deploy -c ../docker-swarm/apps/java-webflux.yml stacks
 
@@ -38,13 +38,13 @@ docker stack deploy -c ../docker-swarm/apps/java-mvc-vt.yml stacks
 
 # docker stack deploy -c ../docker-swarm/apps/golang.yml stacks
 
-# docker stack deploy -c ../docker-swarm/apps/php-laravel-fpm.yml stacks
+docker stack deploy -c ../docker-swarm/apps/php-laravel-fpm.yml stacks
 
-# docker stack deploy -c ../docker-swarm/apps/php-laravel-octane.yml stacks
+docker stack deploy -c ../docker-swarm/apps/php-laravel-octane.yml stacks
 
 # docker stack deploy -c ../docker-swarm/apps/python-fastapi.yml stacks
 
-# docker stack deploy -c ../docker-swarm/apps/rust.yml stacks
+docker stack deploy -c ../docker-swarm/apps/rust.yml stacks
 
 # -----------------------------------------------------------------------
 echo ""

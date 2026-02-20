@@ -68,7 +68,7 @@ job "java-webflux" {
       }
 
       resources {
-        cpu    = var.java_webflux_monolith_cpu
+        cores    = 1
         memory = var.java_webflux_monolith_mem
       }
     }

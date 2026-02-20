@@ -74,7 +74,7 @@ job "postgres" {
       }
 
       resources {
-        cpu    = var.postgres_cpu
+        cores    = 1
         memory = var.postgres_mem
       }
     }

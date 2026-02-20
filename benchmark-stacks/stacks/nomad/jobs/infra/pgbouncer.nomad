@@ -57,7 +57,7 @@ job "pgbouncer" {
       }
 
       resources {
-        cpu    = var.pgbouncer_cpu
+        cores    = 1
         memory = var.pgbouncer_mem
       }
     }
