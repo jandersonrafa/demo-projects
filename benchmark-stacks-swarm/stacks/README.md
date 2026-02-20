@@ -11,21 +11,13 @@ docker swarm init
 ## 2. Deploy das Aplicações
 Utilize o script centralizado para realizar o deploy no Docker Swarm.
 
-**Para subir tudo:**
+**Para subir tudo (ajuste quais stacks quer no script):**
 ```bash
 cd scripts
 ./deploy-swarm.sh
 ```
 
-**Para subir apenas uma stack específica (ex: Java MVC VT):**
-```bash
-# Profiles disponíveis: 
-# java-mvc-vt, java-webflux, java-quarkus, node-nestjs, dotnet, 
-# golang, php-laravel-fpm, php-laravel-octane, python-fastapi, rust
-
-cd scripts
-./deploy-swarm.sh java-mvc-vt
-```
+Você pode comentar/descomentar as stacks desejadas diretamente no `scripts/deploy-swarm.sh`.
 
 ## 3. Limpeza
 Para parar todos os serviços e remover a stack:
@@ -74,8 +66,9 @@ This project contains **10 different stacks** for performance benchmarking.
 | Stack | Technology | Swarm Service | Public Port (Traefik) | Database User | Notes |
 |-------|-----------|-------------------------|--------------------------|---------------|-------|
 | **Java MVC VT** | Spring MVC + Virtual Threads | `mvc-vt-monolith` | 8101 | `java_mvcvt_user` | Virtual threads enabled |
+| **Java MVC (no VT)** | Spring MVC (platform threads) | `mvc-without-vt-monolith` | 8012 | `java_mvc_user` | Traditional platform threads |
 | **Java WebFlux** | Spring WebFlux (Reactive) | `webflux-monolith` | 8102 | `java_webflux_user` | Non-blocking reactive stack |
-| **Node.js** | NestJS + TypeORM | `nestjs-monolith` | 8103 | `nodejs_user` | Event-driven architecture |
+| **Node.js (Express)** | NestJS + TypeORM | `nestjs-express-monolith` | 8103 | `nodejs_express_user` | Event-driven architecture |
 | **.NET Core** | ASP.NET Core 8.0 | `dotnet-monolith` | 8104 | `dotnet_user` | ASP.NET Core with EF Core |
 | **Golang Gin** | Gin + GORM (Postgres) | `golang-monolith` | 8105 | `golang_user` | High-performance compiled Go |
 | **PHP FPM** | Laravel + PHP-FPM + Nginx | `fpm-monolith` | 8106 | `php_fpm_user` | Production-ready FPM |
@@ -91,6 +84,9 @@ This project contains **10 different stacks** for performance benchmarking.
 ```bash
 # Java MVC VT
 curl -X POST http://localhost:8101/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus MVC VT", "clientId": "client_1"}';
+
+# Java MVC (no VT)
+curl -X POST http://localhost:8012/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus MVC no VT", "clientId": "client_1"}';
 
 # Java WebFlux
 curl -X POST http://localhost:8102/bonus -H "Content-Type: application/json" -d '{"amount": 150.00, "description": "Test Bonus WebFlux", "clientId": "client_1"}';

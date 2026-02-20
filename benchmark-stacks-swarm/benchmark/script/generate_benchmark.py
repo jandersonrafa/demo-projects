@@ -57,7 +57,7 @@ LOAD_SECONDS = 600  # 10 minutes
 STACK_MAP = {
     '9101': {'name': 'Java MVC VT', 'job': 'java-mvc-vt', 'traefik_service': 'mvc-vt-monolith'},
     '9102': {'name': 'Java WebFlux', 'job': 'java-webflux', 'traefik_service': 'webflux-monolith'},
-    '9103': {'name': 'Node.js', 'job': 'node-nestjs', 'traefik_service': 'nestjs-monolith'},
+    '9103': {'name': 'Node.js (Express)', 'job': 'node-nestjs-express', 'traefik_service': 'nestjs-express-monolith'},
     '9104': {'name': '.NET Core', 'job': 'dotnet', 'traefik_service': 'dotnet-monolith'},
     '9105': {'name': 'Golang Gin', 'job': 'golang', 'traefik_service': 'golang-monolith'},
     '9106': {'name': 'PHP FPM', 'job': 'php-laravel-fpm', 'traefik_service': 'fpm-monolith'},

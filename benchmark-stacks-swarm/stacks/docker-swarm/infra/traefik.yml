@@ -14,7 +14,7 @@ services:
       - "--entrypoints.traefik.address=:8082"
       - "--entrypoints.mvc-vt.address=:8101"
       - "--entrypoints.webflux.address=:8102"
-      - "--entrypoints.nestjs.address=:8103"
+      - "--entrypoints.nestjs-express.address=:8103"
       - "--entrypoints.dotnet.address=:8104"
       - "--entrypoints.golang.address=:8105"
       - "--entrypoints.fpm.address=:8106"
@@ -22,6 +22,8 @@ services:
       - "--entrypoints.python.address=:8108"
       - "--entrypoints.rust.address=:8109"
       - "--entrypoints.quarkus.address=:8110"
+      - "--entrypoints.nestjs-fastify.address=:8111"
+      - "--entrypoints.mvc-without-vt.address=:8112"
       - "--metrics.prometheus=true"
       - "--metrics.prometheus.addEntryPointsLabels=true"
       - "--metrics.prometheus.addServicesLabels=true"
@@ -29,7 +31,7 @@ services:
     ports:
       - "80:80"
       - "8082:8082"
-      - "8101-8110:8101-8110"
+      - "8101-8112:8101-8112"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     deploy:

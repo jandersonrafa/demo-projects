@@ -1,0 +1,8 @@
+/home/janderson/repositorios/demo-projects/benchmark-stacks/stacks/apps/java-mvc-vt/monolith/src/main/java/com/benchmark/monolith/MonolithApplication.java
+/home/janderson/repositorios/demo-projects/benchmark-stacks/stacks/apps/java-mvc-vt/monolith/src/main/java/com/benchmark/monolith/controller/BonusController.java
+/home/janderson/repositorios/demo-projects/benchmark-stacks/stacks/apps/java-mvc-vt/monolith/src/main/java/com/benchmark/monolith/domain/Bonus.java
+/home/janderson/repositorios/demo-projects/benchmark-stacks/stacks/apps/java-mvc-vt/monolith/src/main/java/com/benchmark/monolith/domain/Client.java
+/home/janderson/repositorios/demo-projects/benchmark-stacks/stacks/apps/java-mvc-vt/monolith/src/main/java/com/benchmark/monolith/dto/BonusDTO.java
+/home/janderson/repositorios/demo-projects/benchmark-stacks/stacks/apps/java-mvc-vt/monolith/src/main/java/com/benchmark/monolith/repository/BonusRepository.java
+/home/janderson/repositorios/demo-projects/benchmark-stacks/stacks/apps/java-mvc-vt/monolith/src/main/java/com/benchmark/monolith/repository/ClientRepository.java
+/home/janderson/repositorios/demo-projects/benchmark-stacks/stacks/apps/java-mvc-vt/monolith/src/main/java/com/benchmark/monolith/service/BonusService.java

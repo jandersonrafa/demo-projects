@@ -23,14 +23,14 @@ php_laravel_octane_nginx_cpu      = 256
 php_laravel_octane_nginx_mem      = 256
 
 
-# Node NestJS
-node_nestjs_monolith_cpu   = 1536
-node_nestjs_monolith_mem   = 256
-node_nestjs_monolith_count = 1
-node_nestjs_gateway_cpu    = 1536
-node_nestjs_gateway_mem    = 512
-node_nestjs_gateway_count  = 0
-node_nestjs_max_pool_size  = 60
+# Node NestJS (Express)
+node_nestjs_express_monolith_cpu   = 1536
+node_nestjs_express_monolith_mem   = 256
+node_nestjs_express_monolith_count = 1
+node_nestjs_express_gateway_cpu    = 1536
+node_nestjs_express_gateway_mem    = 512
+node_nestjs_express_gateway_count  = 0
+node_nestjs_express_max_pool_size  = 60
 
 # Java MVC VT
 java_mvc_vt_monolith_cpu   = 1536

@@ -26,25 +26,44 @@ sleep 3
 # Application Stacks (comment out any you don't want to deploy)
 # -----------------------------------------------------------------------
 
+echo "Uncomment the stacks you want to deploy:"
+
+
+# Java MVC VT (virtual threads)
 # docker stack deploy -c ../docker-swarm/apps/java-mvc-vt.yml stacks
 
+# Java WebFlux
 # docker stack deploy -c ../docker-swarm/apps/java-webflux.yml stacks
 
+# Java Quarkus
 # docker stack deploy -c ../docker-swarm/apps/java-quarkus.yml stacks
 
-# docker stack deploy -c ../docker-swarm/apps/node-nestjs.yml stacks
+# Node.js (NestJS - Express)
+# docker stack deploy -c ../docker-swarm/apps/node-nestjs-express.yml stacks
 
+# Node.js (NestJS - Fastify)
+# docker stack deploy -c ../docker-swarm/apps/node-nestjs-fastify.yml stacks
+
+# Java MVC without VT (platform threads)
+# docker stack deploy -c ../docker-swarm/apps/java-mvc-without-vt.yml stacks
+
+# .NET
 # docker stack deploy -c ../docker-swarm/apps/dotnet.yml stacks
 
+# Golang
 # docker stack deploy -c ../docker-swarm/apps/golang.yml stacks
 
-docker stack deploy -c ../docker-swarm/apps/php-laravel-fpm.yml stacks
+# PHP Laravel FPM
+# docker stack deploy -c ../docker-swarm/apps/php-laravel-fpm.yml stacks
 
+# PHP Laravel Octane
 docker stack deploy -c ../docker-swarm/apps/php-laravel-octane.yml stacks
 
+# Python FastAPI
 # docker stack deploy -c ../docker-swarm/apps/python-fastapi.yml stacks
 
-docker stack deploy -c ../docker-swarm/apps/rust.yml stacks
+# Rust Axum
+# docker stack deploy -c ../docker-swarm/apps/rust.yml stacks
 
 # -----------------------------------------------------------------------
 echo ""

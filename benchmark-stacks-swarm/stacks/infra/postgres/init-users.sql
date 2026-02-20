@@ -13,9 +13,13 @@ GRANT ALL PRIVILEGES ON DATABASE benchmark TO java_mvcvt_user;
 CREATE USER java_mvc_user WITH PASSWORD 'java_mvc_pass';
 GRANT ALL PRIVILEGES ON DATABASE benchmark TO java_mvc_user;
 
--- Node.js Stack
-CREATE USER nodejs_user WITH PASSWORD 'nodejs_pass';
-GRANT ALL PRIVILEGES ON DATABASE benchmark TO nodejs_user;
+-- Node.js Express Stack
+CREATE USER nodejs_express_user WITH PASSWORD 'nodejs_express_pass';
+GRANT ALL PRIVILEGES ON DATABASE benchmark TO nodejs_express_user;
+
+-- Node.js Fastify Stack
+CREATE USER nodejs_fastify_user WITH PASSWORD 'nodejs_fastify_pass';
+GRANT ALL PRIVILEGES ON DATABASE benchmark TO nodejs_fastify_user;
 
 -- Python FastAPI Stack
 CREATE USER python_fastapi_user WITH PASSWORD 'python_fastapi_pass';
@@ -57,10 +61,10 @@ GRANT ALL PRIVILEGES ON DATABASE benchmark TO java_quarkus_user;
 \c benchmark
 
 -- Grant privileges on all existing tables and sequences
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user, rust_user, java_quarkus_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user, rust_user, java_quarkus_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_express_user, nodejs_fastify_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user, rust_user, java_quarkus_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_express_user, nodejs_fastify_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user, rust_user, java_quarkus_user;
 
 -- Grant default privileges for future tables and sequences
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user, rust_user, java_quarkus_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user, rust_user, java_quarkus_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_express_user, nodejs_fastify_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user, rust_user, java_quarkus_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO java_webflux_user, java_mvcvt_user, java_mvc_user, nodejs_express_user, nodejs_fastify_user, python_fastapi_user, php_cli_user, php_fpm_user, php_octane_user, golang_user, dotnet_user, cpp_drogon_user, rust_user, java_quarkus_user;
 

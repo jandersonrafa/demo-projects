@@ -12,7 +12,7 @@ services:
       SESSION_DRIVER: array
       APP_ENV: production
       APP_DEBUG: "false"
-      OCTANE_WORKERS: 2
+      OCTANE_WORKERS: 8
     networks:
       - stacks_default
     deploy:
