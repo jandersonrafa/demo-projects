@@ -26,9 +26,17 @@ O teste focou em encontrar o "teto" de cada stack sob condições de hardware id
 
 ### Infraestrutura e Hardware
 Para garantir a isonomia, cada aplicação foi executada com exatamente os mesmos recursos:
-- **CPU:** 1 Core
+- **CPU:** 1 Core simulando clock de 1GHz
 - **Memória RAM:** 1 GB
 - **Instâncias:** 2 instâncias por stack, rodando em um orquestrador **HashiCorp Nomad**.
+
+```BASH
+Importante: Nomad foi configurado 1024Mhz para cada instância para simular um processador com menos ciclos do que o processador robusto da máquina. Essa configuração ajuda a aproximar o ambiente de máquinas T burnstable da aws que trabalham com 20% de baseline de performance:
+- https://aws.amazon.com/pt/blogs/aws/new-t3-instances-burstable-cost-effective-performance/
+
+- https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/-burstable-performance-instances-unlimited-mode.html?icmpid=docs_ec2_console 
+
+```
 
 ### Coleta de Métricas
 As métricas foram coletadas e centralizadas em um servidor **Prometheus**, recebendo dados de duas fontes principais:
