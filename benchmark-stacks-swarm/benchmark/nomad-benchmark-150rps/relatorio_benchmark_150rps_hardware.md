@@ -47,18 +47,23 @@ Abaixo, os dados de infraestrutura e performance coletados durante a execução 
 
 ### Infraestrutura e Consumo (Nomad)
 
-| Stack | Instâncias | CPU Alocado (Total) | CPU Usado (Total) | Mem. Alocada (Total) | Mem. Usada (Total) |
+```BASH
+Importante: Nomad foi configurado usando medidas Mhz para cada instância para simular um processador com menos ciclos do que o processador robusto da máquina. Ou seja 1024 mhz não é exatamente 1 core, pois se meu computador tiver velocidade de 4,3GHz ele vai usar 23% da capacidade de 1 core
+
+```
+
+| Stack | Instâncias | CPU Alocado (Total Ghz) | CPU Usado (Total Ghz) | Mem. Alocada (Total) | Mem. Usada (Total) |
 | :--- | :---: | :--- | :--- | :--- | :--- |
-| **Rust Axum** | 1 | 0,50 core | **0,50 core** | 256 MiB | **3 MiB** |
-| **Java MVC VT** | 1 | 1,50 core | **0,99 core** | 512 MiB | 277 MiB |
-| **Golang Gin** | 1 | 1,50 core | **0,99 core** | 512 MiB | 40 MiB |
-| **Node.js** | 1 | 1,50 core | 1,36 core | 256 MiB | 209 MiB |
-| **Java Quarkus** | 1 | 1,50 core | 0,64 core | 512 MiB | 189 MiB |
-| **.NET Core** | 1 | 1,50 core | 1,46 core | 512 MiB | 192 MiB |
-| **Java WebFlux** | 1 | 2,50 core | 1,44 core | 256 MiB | 238 MiB |
-| **Python** | 2 | 3,00 core | 2,20 core | 1024 MiB | 437 MiB |
-| **PHP Octane** | 2 | 4,50 core | 2,80 core | 2560 MiB | 1002 MiB |
-| **PHP FPM** | 6 | 13,50 core | 5,10 core | 3072 MiB | 442 MiB |
+| **Rust Axum** | 1 | 0,50 Ghz | **0,50 Ghz** | 256 MiB | **3 MiB** |
+| **Java MVC VT** | 1 | 1,50 Ghz | **0,99 Ghz** | 512 MiB | 277 MiB |
+| **Golang Gin** | 1 | 1,50 Ghz | **0,99 Ghz** | 512 MiB | 40 MiB |
+| **Node.js** | 1 | 1,50 Ghz | 1,36 Ghz | 256 MiB | 209 MiB |
+| **Java Quarkus** | 1 | 1,50 Ghz | 0,64 Ghz | 512 MiB | 189 MiB |
+| **.NET Core** | 1 | 1,50 Ghz | 1,46 Ghz | 512 MiB | 192 MiB |
+| **Java WebFlux** | 1 | 2,50 Ghz | 1,44 Ghz | 256 MiB | 238 MiB |
+| **Python** | 2 | 3,00 Ghz | 2,20 Ghz | 1024 MiB | 437 MiB |
+| **PHP Octane** | 2 | 4,50 Ghz | 2,80 Ghz | 2560 MiB | 1002 MiB |
+| **PHP FPM** | 6 | 13,50 Ghz | 5,10 Ghz | 3072 MiB | 442 MiB |
 
 ### Performance de Rede (K6 & Traefik)
 
@@ -80,7 +85,7 @@ Todas as stacks listadas abaixo cumpriram o SLA de **P95 < 200ms** para 150 RPS.
 ---
 
 ## 🔍 Conclusões Principais
-1. **Eficiência Extrema:** O **Rust Axum** foi a stack mais eficiente, utilizando apenas **0.5 core** e meros **3 MB** de RAM média para sustentar a carga total de 150 RPS com excelente latência.
-2. **Virtual Threads:** O **Java MVC VT** apresentou um consumo de CPU equilibrado (0.99 core) e latências consistentes, mostrando-se uma opção sólida e eficiente.
-3. **Escalabilidade PHP:** O modelo **PHP FPM** exigiu a maior quantidade de hardware (6 instâncias, 13,5 cores alocados) para garantir que o P95 não ultrapassasse o limite de 200ms sob os mesmos 150 RPS.
+1. **Eficiência Extrema:** O **Rust Axum** foi a stack mais eficiente, utilizando apenas **0.5 Ghz** e meros **3 MB** de RAM média para sustentar a carga total de 150 RPS com excelente latência.
+2. **Virtual Threads:** O **Java MVC VT** apresentou um consumo de CPU equilibrado (0.99 Ghz) e latências consistentes, mostrando-se uma opção sólida e eficiente.
+3. **Escalabilidade PHP:** O modelo **PHP FPM** exigiu a maior quantidade de hardware (6 instâncias, 13,5 Ghz alocados) para garantir que o P95 não ultrapassasse o limite de 200ms sob os mesmos 150 RPS.
 4. **Interpretadas vs Compiladas:** Stacks como Python e PHP requerem significativamente mais instâncias e CPU total para entregar o mesmo throughput com a latência desejada em comparação a Rust, Go ou Java.

@@ -27,3 +27,8 @@ Abaixo estão as descrições sucintas de cada pasta na raiz do projeto:
 - **[executor-k6](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/executor-k6)**: Contém os scripts de teste de carga escritos em Javascript para o K6, além da lógica de execução automatizada dos benchmarks.
 - **[monitoring](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/monitoring)**: Configurações de infraestrutura e jobs Nomad para a stack de observabilidade, incluindo Prometheus, Grafana e Traefik.
 - **[stacks](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/stacks)**: Código-fonte das aplicações em diversas linguagens e frameworks, incluindo seus respectivos Dockerfiles e arquivos de configuração para deploy no Nomad.
+
+
+<!-- 
+https://aws.amazon.com/pt/blogs/aws/new-t3-instances-burstable-cost-effective-performance/
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances-unlimited-mode.html?icmpid=docs_ec2_console -->
