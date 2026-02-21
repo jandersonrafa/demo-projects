@@ -12,19 +12,19 @@ services:
       SESSION_DRIVER: array
       APP_ENV: production
       APP_DEBUG: "false"
-      FPM_MAX_CHILDREN: 2
+      FPM_MAX_CHILDREN: 4
     networks:
       - stacks_default
     deploy:
-      replicas: 2
+      replicas: 5
       resources:
         limits:
-          cpus: '0.768'
+          cpus: '2.0'
           memory: 768M
         reservations:
-          cpus: '0.768'
+          cpus: '2.0'
           memory: 768M
-
+# 8 replicas e cpus 1.0 passou perto
   fpm-nginx:
     image: nginx:alpine
     volumes:
@@ -36,11 +36,11 @@ services:
       replicas: 2
       resources:
         limits:
-          cpus: '0.256'
-          memory: 256M
+          cpus: '0.512'
+          memory: 512M
         reservations:
-          cpus: '0.256'
-          memory: 256M
+          cpus: '0.512'
+          memory: 512M
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.fpm-monolith.rule=PathPrefix(`/`)"
