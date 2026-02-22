@@ -29,6 +29,7 @@ Para garantir a isonomia, cada aplicação foi executada com exatamente os mesmo
 - **CPU:** 1 Core com clock de 4.3GHz
 - **Memória RAM:** 1 GB
 - **Instâncias:** 2 instâncias por stack, rodando em um orquestrador **Docker Swarm**.
+- **Banco de dados:** foi utilizado banco de dados postgres com pgbouncer na frente garantindo que todas as stacks fossem limitadas igualmente a 240 conexões máximas.
 
 ```BASH
 Importante: Diferentemente do Nomad aqui com docker swarm foi configurado para utilizar 1 core lógico inteiro com velocidade de 4.3GHz 

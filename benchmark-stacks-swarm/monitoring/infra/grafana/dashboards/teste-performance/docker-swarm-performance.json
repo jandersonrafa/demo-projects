@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 7,
+  "id": 9,
   "links": [],
   "panels": [
     {
@@ -880,10 +880,13 @@
               "type": "auto"
             },
             "footer": {
-              "reducers": []
+              "reducers": [
+                "sum"
+              ]
             },
             "inspect": false
           },
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -1664,10 +1667,12 @@
       {
         "current": {
           "text": [
-            "stacks_mvc-vt-monolith"
+            "stacks_fpm-nginx",
+            "stacks_fpm-monolith"
           ],
           "value": [
-            "stacks_mvc-vt-monolith"
+            "stacks_fpm-nginx",
+            "stacks_fpm-monolith"
           ]
         },
         "datasource": "Prometheus",
@@ -1686,12 +1691,12 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Docker Swarm - Performance",
   "uid": "docker-swarm-performance",
-  "version": 1
+  "version": 2
 }
