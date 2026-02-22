@@ -47,6 +47,6 @@ services:
         - "traefik.http.routers.fpm-monolith.entrypoints=fpm"
         - "traefik.http.services.fpm-monolith.loadbalancer.server.port=80"
 
-networks:
-  stacks_default:
-    external: true
+  networks:
+    stacks_default:
+      external: true

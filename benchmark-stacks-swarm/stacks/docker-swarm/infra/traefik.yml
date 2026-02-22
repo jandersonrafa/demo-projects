@@ -48,3 +48,7 @@ services:
         - "traefik.http.routers.dashboard.service=api@internal"
         - "traefik.http.routers.dashboard.entrypoints=traefik"
         - "traefik.http.services.dummy.loadbalancer.server.port=9999" # Simple dummy to satiate validation
+networks:
+  default:
+    external: true
+    name: stacks_default

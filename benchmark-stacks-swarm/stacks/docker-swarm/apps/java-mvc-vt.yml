@@ -15,10 +15,10 @@ services:
       resources:
         limits:
           cpus: '1.0'
-          memory: 1024M
+          memory: 256M
         reservations:
           cpus: '1.0'
-          memory: 1024M
+          memory: 256M
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.mvc-vt-monolith.rule=PathPrefix(`/`)"

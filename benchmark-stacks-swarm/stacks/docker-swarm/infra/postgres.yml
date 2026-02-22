@@ -17,3 +17,7 @@ services:
         reservations:
           cpus: '1.0'
           memory: 4096M
+networks:
+  default:
+    external: true
+    name: stacks_default
