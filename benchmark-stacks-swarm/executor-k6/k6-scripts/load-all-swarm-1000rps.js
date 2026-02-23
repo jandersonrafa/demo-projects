@@ -11,47 +11,25 @@ const targets = targetsEnv.split(',').filter(Boolean);
 export const options = {
   scenarios: Object.fromEntries(
     targets.map((t) => [
-      `load_${t.replace(/[^a-zA-Z0-9]/g, '_')}`,
+      `load_${t.replace(/[^a-zA-Z0-9]/g, '_')}`, 
       {
         executor: 'ramping-arrival-rate',
         startRate: 20,
         timeUnit: '1s',
         stages: [
-          { target: 25, duration: '1m' },
-          { target: 25, duration: '2m' },
-          { target: 50, duration: '1m' },
-          { target: 50, duration: '2m' },
-          { target: 75, duration: '1m' },
-          { target: 75, duration: '2m' },
-          { target: 100, duration: '1m' },
-          { target: 100, duration: '2m' },
-          { target: 125, duration: '1m' },
-          { target: 125, duration: '2m' },
-          { target: 150, duration: '1m' },
-          { target: 150, duration: '2m' },
-          { target: 175, duration: '1m' },
-          { target: 175, duration: '2m' },          
-          { target: 200, duration: '1m' },
-          { target: 200, duration: '2m' },
-          { target: 300, duration: '1m' },
-          { target: 300, duration: '2m' },
-          { target: 400, duration: '1m' },
-          { target: 400, duration: '2m' },
-          { target: 500, duration: '1m' },
-          { target: 500, duration: '2m' },
-          { target: 600, duration: '1m' },
-          { target: 600, duration: '2m' },
-          { target: 700, duration: '1m' },
-          { target: 700, duration: '2m' },
-          { target: 800, duration: '1m' },
-          { target: 800, duration: '2m' },
-          { target: 900, duration: '1m' },
-          { target: 900, duration: '2m' },
-          { target: 1000, duration: '1m' },
-          { target: 1000, duration: '2m' },
+            // Warm-up rápido (essencial para JIT/AOT)
+            { target:  100, duration: '1m' },   // subindo + 2 min estável
+            { target:  100, duration: '1m' },
+
+            // Ramp intermediário curto
+            { target: 300, duration: '1m' },
+
+            // Ramp final + plateau em 500
+            { target: 500, duration: '2m' },   // sobe para 500
+            { target: 500, duration: '5m' },   // ~5 min estável → métrica principal
         ],
-        preAllocatedVUs: 200,
-        maxVUs: 500,
+        preAllocatedVUs: 100,
+        maxVUs: 250,
         exec: 'hit',
         env: { TARGET: t },
         tags: { target: t },
@@ -60,13 +38,9 @@ export const options = {
   ),
 
   thresholds: {
-    http_req_duration: [
-      {
-        threshold: 'p(95)<1500',  // p95 deve ser menor que 400ms
-        abortOnFail: true,
-        delayAbortEval: '8m',   // opcional (evita abortar por aquecimento)
-      },
-    ]
+    'http_req_duration{method:POST}': ['p(95)<200'],
+    'http_req_duration{method:GET}': ['p(95)<200'],
+    'http_req_failed': ['rate<0.01'],
   },
 
   ext: {

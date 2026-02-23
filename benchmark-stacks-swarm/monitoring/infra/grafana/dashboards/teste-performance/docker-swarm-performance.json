@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 7,
+  "id": 9,
   "links": [],
   "panels": [
     {
@@ -249,7 +249,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "max_over_time(\n  sum by (\n    container_label_com_docker_swarm_service_name,\n    container_label_com_docker_swarm_task_name,\n    container_label_com_docker_swarm_task_id\n  ) (\n    rate(container_cpu_usage_seconds_total{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n    }[30s])\n  )\n[$__range:])",
+          "expr": "max_over_time(\n  sum by (\n    container_label_com_docker_swarm_service_name,\n    container_label_com_docker_swarm_task_name,\n    container_label_com_docker_swarm_task_id\n  ) (\n    rate(container_cpu_usage_seconds_total{\n      container_label_com_docker_swarm_service_name=~\"$service\",\n      container_label_com_docker_swarm_task_id=~\"$task_id\"\n    }[30s])\n  )\n[$__range:])",
           "legendFormat": "{{container_label_com_docker_swarm_service_name}} {{container_label_com_docker_swarm_task_id}}",
           "range": true,
           "refId": "B"
@@ -311,7 +311,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max by (container_label_com_docker_swarm_task_name)(\n  max_over_time(\n    container_memory_working_set_bytes{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n    }\n  [$__range:])\n) ",
+          "expr": "max by (container_label_com_docker_swarm_task_name)(\n  max_over_time(\n    container_memory_working_set_bytes{\n      container_label_com_docker_swarm_service_name=~\"$service\",      container_label_com_docker_swarm_task_id=~\"$task_id\"\n\n    }\n  [$__range:])\n) ",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -375,7 +375,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "  avg by (\n    container_label_com_docker_swarm_service_name,\n    container_label_com_docker_swarm_task_name,\n    container_label_com_docker_swarm_task_id\n  ) (\n    rate(container_cpu_usage_seconds_total{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n    }[$__range])\n  )\n\n\n\n\n",
+          "expr": "  avg by (\n    container_label_com_docker_swarm_service_name,\n    container_label_com_docker_swarm_task_name,\n    container_label_com_docker_swarm_task_id\n  ) (\n    rate(container_cpu_usage_seconds_total{\n      container_label_com_docker_swarm_service_name=~\"$service\",\n            container_label_com_docker_swarm_task_id=~\"$task_id\"\n\n    }[$__range])\n  )\n\n\n\n\n",
           "legendFormat": "{{container_label_com_docker_swarm_service_name}} {{container_label_com_docker_swarm_task_id}}",
           "range": true,
           "refId": "B"
@@ -437,7 +437,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "  avg_over_time(\n    container_memory_working_set_bytes{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n    }\n  [$__range:])\n ",
+          "expr": "  avg_over_time(\n    container_memory_working_set_bytes{\n      container_label_com_docker_swarm_service_name=~\"$service\",      container_label_com_docker_swarm_task_id=~\"$task_id\"\n\n    }\n  [$__range:])\n ",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -735,7 +735,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (container_label_com_docker_swarm_task_name)(\n  rate(container_cpu_usage_seconds_total{\n    container_label_com_docker_swarm_service_name=~\"$service\"\n  }[$__range])\n)",
+          "expr": "sum by (container_label_com_docker_swarm_task_name)(\n  rate(container_cpu_usage_seconds_total{\n    container_label_com_docker_swarm_service_name=~\"$service\",       container_label_com_docker_swarm_task_id=~\"$task_id\"\n\n  }[$__range])\n)",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -843,7 +843,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "\n    container_memory_working_set_bytes{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n    }\n  \n ",
+          "expr": "\n    container_memory_working_set_bytes{\n      container_label_com_docker_swarm_service_name=~\"$service\",       container_label_com_docker_swarm_task_id=~\"$task_id\"\n\n    }\n  \n ",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -880,10 +880,13 @@
               "type": "auto"
             },
             "footer": {
-              "reducers": []
+              "reducers": [
+                "sum"
+              ]
             },
             "inspect": false
           },
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -1037,7 +1040,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "max_over_time(\n  sum by (\n    container_label_com_docker_swarm_service_name,\n\n  ) (\n    rate(container_cpu_usage_seconds_total{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n    }[30s])\n  )\n[$__range:])",
+          "expr": "max_over_time(\n  sum by (\n    container_label_com_docker_swarm_service_name,\n\n  ) (\n    rate(container_cpu_usage_seconds_total{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n\n    }[30s])\n  )\n[$__range:])",
           "legendFormat": "{{container_label_com_docker_swarm_service_name}}",
           "range": true,
           "refId": "B"
@@ -1163,7 +1166,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "avg_over_time(\n  sum by (container_label_com_docker_swarm_service_name)(\n    rate(container_cpu_usage_seconds_total{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n    }[$__range])\n  )\n[$__range:])",
+          "expr": "avg_over_time(\n  sum by (container_label_com_docker_swarm_service_name)(\n    rate(container_cpu_usage_seconds_total{\n      container_label_com_docker_swarm_service_name=~\"$service\",       container_label_com_docker_swarm_task_id=~\"$task_id\"\n\n    }[$__range])\n  )\n[$__range:])",
           "legendFormat": "{{container_label_com_docker_swarm_service_name}}",
           "range": true,
           "refId": "B"
@@ -1225,7 +1228,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "  sum by (container_label_com_docker_swarm_service_name)(avg_over_time(\n    container_memory_working_set_bytes{\n      container_label_com_docker_swarm_service_name=~\"$service\"\n    }\n  [$__range:]))\n ",
+          "expr": "  sum by (container_label_com_docker_swarm_service_name)(avg_over_time(\n    container_memory_working_set_bytes{\n      container_label_com_docker_swarm_service_name=~\"$service\",       container_label_com_docker_swarm_task_id=~\"$task_id\"\n\n    }\n  [$__range:]))\n ",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1663,11 +1666,9 @@
     "list": [
       {
         "current": {
-          "text": [
-            "stacks_mvc-vt-monolith"
-          ],
+          "text": "All",
           "value": [
-            "stacks_mvc-vt-monolith"
+            "$__all"
           ]
         },
         "datasource": "Prometheus",
@@ -1680,18 +1681,41 @@
           "query": "label_values(container_label_com_docker_swarm_service_name)",
           "refId": "StandardVariableQuery"
         },
-        "refresh": 1,
+        "refresh": 2,
+        "type": "query"
+      },
+      {
+        "allowCustomValue": true,
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "Prometheus",
+        "definition": "query_result(  max by (container_label_com_docker_swarm_task_id) (    max_over_time(      container_spec_memory_limit_bytes{        container_label_com_docker_swarm_service_name=~\"$service\"      }[$__range]    )  ))",
+        "includeAll": true,
+        "multi": true,
+        "name": "task_id",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result(  max by (container_label_com_docker_swarm_task_id) (    max_over_time(      container_spec_memory_limit_bytes{        container_label_com_docker_swarm_service_name=~\"$service\"      }[$__range]    )  ))",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/container_label_com_docker_swarm_task_id=\"([^\"]+)\"/",
         "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-30m",
-    "to": "now"
+    "from": "2026-02-23T15:47:15.052Z",
+    "to": "2026-02-23T15:53:15.155Z"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Docker Swarm - Performance",
   "uid": "docker-swarm-performance",
-  "version": 1
+  "version": 6
 }
