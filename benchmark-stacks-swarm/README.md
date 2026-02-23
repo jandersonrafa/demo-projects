@@ -1,6 +1,6 @@
 # Benchmark Stacks
 
-Este projeto visa comparar o desempenho de diferentes stacks tecnológicas (como Java, Node.js, Rust, Go, C++, etc.) em cenários de alta carga, utilizando o Nomad como orquestrador e Prometheus/Grafana para monitoramento.
+Este projeto visa comparar o desempenho de diferentes stacks tecnológicas (como Java, Node.js, Rust, Go, C++, etc.) em cenários de alta carga, utilizando o Docker swarm como orquestrador e Prometheus/Grafana para monitoramento.
 
 
 ## Usar portainer para monitorar docker swarm local
@@ -25,8 +25,8 @@ Abaixo estão as descrições sucintas de cada pasta na raiz do projeto:
 
 - **[benchmark](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/benchmark)**: Contém relatórios detalhados, resultados de testes de limites (RPS máximo, latência P95) e scripts em Python para processamento e consolidação de métricas.
 - **[executor-k6](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/executor-k6)**: Contém os scripts de teste de carga escritos em Javascript para o K6, além da lógica de execução automatizada dos benchmarks.
-- **[monitoring](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/monitoring)**: Configurações de infraestrutura e jobs Nomad para a stack de observabilidade, incluindo Prometheus, Grafana e Traefik.
-- **[stacks](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/stacks)**: Código-fonte das aplicações em diversas linguagens e frameworks, incluindo seus respectivos Dockerfiles e arquivos de configuração para deploy no Nomad.
+- **[monitoring](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/monitoring)**: Configurações de infraestrutura e jobs Docker Swarm para a stack de observabilidade, incluindo Prometheus, Grafana e Traefik.
+- **[stacks](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/stacks)**: Código-fonte das aplicações em diversas linguagens e frameworks, incluindo seus respectivos Dockerfiles e arquivos de configuração para deploy no Docker Swarm.
 
 
 <!-- 

@@ -3,15 +3,15 @@
 Benchmark Report Generator
 
 This script generates a comprehensive benchmark report by querying Prometheus metrics
-for K6 load tests, Nomad infrastructure, and Traefik proxy performance.
+for K6 load tests, Docker Swarm infrastructure, and Traefik proxy performance.
 
 Prerequisites:
     - Python 3.7+
-    - Prometheus running at http://localhost:9091
+    - Prometheus running at http://192.168.0.137:9091
     - K6 test reports in JSON format (summary-*.json files)
 
 Usage:
-    python3 generate_benchmark.py
+    python3 generate_benchmark_swarm.py
 
 Configuration:
     Edit the constants below to customize:
@@ -20,7 +20,7 @@ Configuration:
     - LOAD_SECONDS: Duration of the load phase (default: 600s = 10 minutes)
 
 Output:
-    - benchmark-gerado.md: Markdown file with three tables (Nomad, K6, Traefik metrics)
+    - benchmark-gerado.md: Markdown file with three tables (Swarm, K6, Traefik metrics)
 """
 
 import glob
@@ -40,11 +40,11 @@ from statistics import mean
 BASE_DIR = Path(__file__).resolve().parent
 
 # Prometheus server URL
-PROMETHEUS_URL = os.getenv('PROMETHEUS_URL', 'http://localhost:9091')
+PROMETHEUS_URL = os.getenv('PROMETHEUS_URL', 'http://192.168.0.137:9091')
 
 # Directory containing K6 benchmark reports (JSON files)
 REPORTS_ROOT_DIR = Path(
-    os.getenv("REPORTS_ROOT_DIR", BASE_DIR / "../reports")
+    os.getenv("REPORTS_ROOT_DIR", BASE_DIR / "../docker-swarm-benchmark-1000rps")
 ).resolve()
 
 # Load test duration in seconds (excludes warmup phase)
@@ -53,18 +53,20 @@ LOAD_SECONDS = 600  # 10 minutes
 # ============================================================================
 # STACK CONFIGURATION
 # ============================================================================
-# Maps port numbers (as strings) to stack names, Nomad job names, and Traefik service names
+# Maps port numbers (as strings) to stack names, Docker Swarm job names, and Traefik service names
 STACK_MAP = {
-    '9101': {'name': 'Java MVC VT', 'job': 'java-mvc-vt', 'traefik_service': 'mvc-vt-monolith'},
-    '9102': {'name': 'Java WebFlux', 'job': 'java-webflux', 'traefik_service': 'webflux-monolith'},
-    '9103': {'name': 'Node.js (Express)', 'job': 'node-nestjs-express', 'traefik_service': 'nestjs-express-monolith'},
-    '9104': {'name': '.NET Core', 'job': 'dotnet', 'traefik_service': 'dotnet-monolith'},
-    '9105': {'name': 'Golang Gin', 'job': 'golang', 'traefik_service': 'golang-monolith'},
-    '9106': {'name': 'PHP FPM', 'job': 'php-laravel-fpm', 'traefik_service': 'fpm-monolith'},
-    '9107': {'name': 'PHP Octane', 'job': 'php-laravel-octane', 'traefik_service': 'octane-monolith'},
-    '9108': {'name': 'Python', 'job': 'python-fastapi', 'traefik_service': 'python-monolith'},
-    '9109': {'name': 'Rust Axum', 'job': 'rust', 'traefik_service': 'rust-monolith'},
-    '9110': {'name': 'Java Quarkus', 'job': 'java-quarkus', 'traefik_service': 'quarkus-monolith'},
+    '8101': {'name': 'Java MVC VT', 'job': 'java-mvc-vt', 'traefik_service': 'mvc-vt-monolith'},
+    '8102': {'name': 'Java WebFlux', 'job': 'java-webflux', 'traefik_service': 'webflux-monolith'},
+    '8103': {'name': 'Node.js (Express)', 'job': 'node-nestjs-express', 'traefik_service': 'nestjs-express-monolith'},
+    '8104': {'name': '.NET Core', 'job': 'dotnet', 'traefik_service': 'dotnet-monolith'},
+    '8105': {'name': 'Golang Gin', 'job': 'golang', 'traefik_service': 'golang-monolith'},
+    '8106': {'name': 'PHP FPM', 'job': 'php-laravel-fpm', 'traefik_service': 'fpm-monolith'},
+    '8107': {'name': 'PHP Octane', 'job': 'php-laravel-octane', 'traefik_service': 'octane-monolith'},
+    '8108': {'name': 'Python', 'job': 'python-fastapi', 'traefik_service': 'python-monolith'},
+    '8109': {'name': 'Rust Axum', 'job': 'rust', 'traefik_service': 'rust-monolith'},
+    '8110': {'name': 'Java Quarkus', 'job': 'java-quarkus', 'traefik_service': 'quarkus-monolith'},
+    '8111': {'name': 'Node.js (Fastify)', 'job': 'node-nestjs-fastify', 'traefik_service': 'nestjs-monolith-fastify'},
+    '8112': {'name': 'Java MVC Without VT', 'job': 'java-mvc-without-vt', 'traefik_service': 'mvc-without-vt-monolith'},
 }
 
 # ============================================================================
@@ -87,7 +89,7 @@ def query_prometheus(query, time=None):
         params = {'query': query}
         if time:
             params['time'] = time
-        response = requests.get(url, params=params)
+        response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
         data = response.json()
         if data['status'] == 'success':
@@ -120,7 +122,7 @@ def query_prometheus_range(query, start, end, step='15s'):
             'end': end,
             'step': step
         }
-        response = requests.get(url, params=params)
+        response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
         data = response.json()
         if data['status'] == 'success':
@@ -163,6 +165,39 @@ def get_timestamp_from_filename(filename):
             return None
     return None
 
+
+def get_active_task_ids(swarm_service, start_ts, end_ts):
+    """
+    Retorna os task_ids "ativos" para um serviço Swarm em um intervalo de tempo.
+    Consideramos ativo qualquer task_id que tenha container_last_seen > 0
+    em algum momento dentro do intervalo [start_ts, end_ts].
+    """
+    query = (
+        "max by (container_label_com_docker_swarm_task_id) ("
+        "  container_spec_memory_limit_bytes{"
+        f"    container_label_com_docker_swarm_service_name=~'{swarm_service}'"
+        "  }"
+        ")"
+    )
+    data = query_prometheus_range(query, start_ts, end_ts, step="60s")
+
+    task_ids = set()
+    for series in data:
+        metric = series.get("metric", {})
+        task_id = metric.get("container_label_com_docker_swarm_task_id")
+        if not task_id:
+            continue
+
+        for _, value in series.get("values", []):
+            try:
+                if float(value) > 0:
+                    task_ids.add(task_id)
+                    break
+            except (TypeError, ValueError):
+                continue
+
+    return sorted(task_ids)
+
 # ============================================================================
 # MAIN PROCESSING FUNCTION
 # ============================================================================
@@ -174,7 +209,7 @@ def main():
     Process:
         1. Find all K6 JSON report files
         2. Extract test metadata (stack, port, timestamps)
-        3. Query Prometheus for Nomad, K6, and Traefik metrics
+        3. Query Prometheus for Docker Swarm Cadvisor, K6, and Traefik metrics
         4. Generate benchmark-gerado.md with three tables
     """
     print(f"Searching for reports in {REPORTS_ROOT_DIR}...")
@@ -197,8 +232,8 @@ def main():
         
         stack_info = STACK_MAP[port]
         stack_name = stack_info['name']
-        nomad_job = stack_info['job']
         traefik_service = stack_info.get('traefik_service')
+        swarm_service = f"stacks_{traefik_service}" if traefik_service else ""
         
         # Extract test end time from filename
         test_end_dt = get_timestamp_from_filename(os.path.basename(file_path))
@@ -263,37 +298,58 @@ def main():
              k6_avg_mean = 0
 
         # ====================================================================
-        # 2. NOMAD METRICS (from Prometheus)
+        # 2. SWARM METRICS (from Prometheus)
         # ====================================================================
         
-        # Instance count (unique allocation IDs)
-        q_instances = f"count(count(nomad_client_allocs_cpu_total_ticks{{exported_job='{nomad_job}'}}) by (alloc_id))"
+        # Instance count (running containers)
+        q_instances = f"count(container_last_seen{{container_label_com_docker_swarm_service_name=~'{swarm_service}'}}) by (container_label_com_docker_swarm_task_name)"
         prom_inst_data = query_prometheus(q_instances, time=prom_end_ts)
-        nomad_instances = int(float(prom_inst_data[0]['value'][1])) if prom_inst_data else 0
+        swarm_instances = len(prom_inst_data) if prom_inst_data else 0
+
+        # Descobrir tasks ativas no intervalo do teste (para filtrar CPU/Memory Avg)
+        active_task_ids = get_active_task_ids(swarm_service, prom_start_ts, prom_end_ts)
+        task_filter = ""
+        if active_task_ids:
+            # Regex com todos os task_ids ativos, ex: (id1|id2|id3)
+            task_regex = "(" + "|".join(active_task_ids) + ")"
+            task_filter = f',container_label_com_docker_swarm_task_id=~"{task_regex}"'
         
-        # CPU allocation (MHz)
-        q_cpu_alloc = f"sum(nomad_client_allocs_cpu_allocated{{exported_job='{nomad_job}'}})"
+        # CPU allocation (Cores)
+        q_cpu_alloc = f"sum(container_spec_cpu_quota{{container_label_com_docker_swarm_service_name=~'{swarm_service}'}} / container_spec_cpu_period{{container_label_com_docker_swarm_service_name=~'{swarm_service}'}})"
         prom_cpu_alloc_data = query_prometheus(q_cpu_alloc, time=prom_end_ts)
-        nomad_cpu_alloc = float(prom_cpu_alloc_data[0]['value'][1]) if prom_cpu_alloc_data else 0
+        swarm_cpu_alloc = float(prom_cpu_alloc_data[0]['value'][1]) if prom_cpu_alloc_data else 0
         
-        # CPU usage (average and max over time)
-        q_cpu_usage_gauge = f"sum(nomad_client_allocs_cpu_total_ticks{{exported_job='{nomad_job}'}})"
-        prom_cpu_usage_data = query_prometheus_range(q_cpu_usage_gauge, prom_start_ts, prom_end_ts, step='15s')
-        cpu_usage_vals = [float(x[1]) for r in prom_cpu_usage_data for x in r['values']]
-        nomad_cpu_avg = mean(cpu_usage_vals) if cpu_usage_vals else 0
-        nomad_cpu_max = max(cpu_usage_vals) if cpu_usage_vals else 0
+        # CPU usage (average and max over time in Cores)
+        q_cpu_avg = (
+            "avg_over_time("
+            "sum by (container_label_com_docker_swarm_service_name)("
+            f"rate(container_cpu_usage_seconds_total{{container_label_com_docker_swarm_service_name=~'{swarm_service}'{task_filter}}}[{LOAD_SECONDS}s])"
+            f")[{LOAD_SECONDS}s:])"
+        )
+        prom_cpu_avg_data = query_prometheus(q_cpu_avg, time=prom_end_ts)
+        swarm_cpu_avg = float(prom_cpu_avg_data[0]['value'][1]) if prom_cpu_avg_data else 0
+
+        q_cpu_max = f"max_over_time(sum by (container_label_com_docker_swarm_service_name)(rate(container_cpu_usage_seconds_total{{container_label_com_docker_swarm_service_name=~'{swarm_service}'}}[30s]))[{LOAD_SECONDS}s:])"
+        prom_cpu_max_data = query_prometheus(q_cpu_max, time=prom_end_ts)
+        swarm_cpu_max = float(prom_cpu_max_data[0]['value'][1]) if prom_cpu_max_data else 0
         
         # Memory allocation (bytes)
-        q_mem_alloc = f"sum(nomad_client_allocs_memory_allocated{{exported_job='{nomad_job}'}})"
+        q_mem_alloc = f"sum(container_spec_memory_limit_bytes{{container_label_com_docker_swarm_service_name=~'{swarm_service}'}})"
         prom_mem_alloc_data = query_prometheus(q_mem_alloc, time=prom_end_ts)
-        nomad_mem_alloc = float(prom_mem_alloc_data[0]['value'][1]) if prom_mem_alloc_data else 0
+        swarm_mem_alloc = float(prom_mem_alloc_data[0]['value'][1]) if prom_mem_alloc_data else 0
         
-        # Memory usage (average and max over time)
-        q_mem_usage = f"sum(nomad_client_allocs_memory_usage{{exported_job='{nomad_job}'}})"
-        prom_mem_usage_data = query_prometheus_range(q_mem_usage, prom_start_ts, prom_end_ts, step='15s')
-        mem_usage_vals = [float(x[1]) for r in prom_mem_usage_data for x in r['values']]
-        nomad_mem_avg = mean(mem_usage_vals) if mem_usage_vals else 0
-        nomad_mem_max = max(mem_usage_vals) if mem_usage_vals else 0
+        # Memory usage (average and max over time in bytes)
+        q_mem_avg = (
+            "avg_over_time("
+            f"sum(container_memory_working_set_bytes{{container_label_com_docker_swarm_service_name=~'{swarm_service}'{task_filter}}})"
+            f"[{LOAD_SECONDS}s:])"
+        )
+        prom_mem_avg_data = query_prometheus(q_mem_avg, time=prom_end_ts)
+        swarm_mem_avg = float(prom_mem_avg_data[0]['value'][1]) if prom_mem_avg_data else 0
+
+        q_mem_max = f"max_over_time(sum(container_memory_working_set_bytes{{container_label_com_docker_swarm_service_name=~'{swarm_service}'}})[{LOAD_SECONDS}s:])"
+        prom_mem_max_data = query_prometheus(q_mem_max, time=prom_end_ts)
+        swarm_mem_max = float(prom_mem_max_data[0]['value'][1]) if prom_mem_max_data else 0
 
         # ====================================================================
         # 3. TRAEFIK METRICS (from Prometheus)
@@ -347,13 +403,13 @@ def main():
             'start_time': start_time_str,
             'end_time': end_time_str,
             'stack': stack_name,
-            'nomad_instances': nomad_instances,
-            'nomad_cpu_alloc': nomad_cpu_alloc,
-            'nomad_cpu_avg': nomad_cpu_avg,
-            'nomad_cpu_max': nomad_cpu_max,
-            'nomad_mem_alloc': nomad_mem_alloc,
-            'nomad_mem_avg': nomad_mem_avg,
-            'nomad_mem_max': nomad_mem_max,
+            'swarm_instances': swarm_instances,
+            'swarm_cpu_alloc': swarm_cpu_alloc,
+            'swarm_cpu_avg': swarm_cpu_avg,
+            'swarm_cpu_max': swarm_cpu_max,
+            'swarm_mem_alloc': swarm_mem_alloc,
+            'swarm_mem_avg': swarm_mem_avg,
+            'swarm_mem_max': swarm_mem_max,
             'k6_reqs': k6_reqs,
             'k6_errors': k6_errors,
             'k6_rps_avg': k6_rps_avg,
@@ -369,7 +425,7 @@ def main():
         })
         
     # Sort by CPU allocation, then memory allocation (ascending)
-    results_data.sort(key=lambda x: (x['nomad_cpu_alloc'], x['nomad_mem_alloc']))
+    results_data.sort(key=lambda x: (x['swarm_cpu_alloc'], x['swarm_mem_alloc']))
     
     # ========================================================================
     # GENERATE MARKDOWN REPORT
@@ -386,27 +442,27 @@ def main():
             return f"{val:.2f}".replace('.', ',')
 
         # ====================================================================
-        # TABLE 1: NOMAD METRICS
+        # TABLE 1: SWARM METRICS
         # ====================================================================
         
-        f.write("## Nomad Metrics - Infraestrutura\n\n")
-        f.write("| Date | Start Time | End Time | Stack | Nomad Inst | Total - CPU Alloc | Total - CPU Avg | Total - CPU Max | Total - Mem Alloc (MiB) | Total - Mem Avg (MiB) | Total - Mem Max (MiB) |\n")
+        f.write("## Swarm Metrics - Infraestrutura\n\n")
+        f.write("| Date | Start Time | End Time | Stack | Swarm Inst | Total - CPU Alloc | Total - CPU Avg | Total - CPU Max | Total - Mem Alloc (MiB) | Total - Mem Avg (MiB) | Total - Mem Max (MiB) |\n")
         f.write("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n")
         
         for r in results_data:
-            # Convert MHz to cores (1024 MHz = 1 core)
-            cpu_alloc_core = r['nomad_cpu_alloc'] / 1024
-            cpu_avg_core = r['nomad_cpu_avg'] / 1024
-            cpu_max_core = r['nomad_cpu_max'] / 1024
+            # CPU is already in cores
+            cpu_alloc_core = r['swarm_cpu_alloc']
+            cpu_avg_core = r['swarm_cpu_avg']
+            cpu_max_core = r['swarm_cpu_max']
             
             # Convert bytes to MiB
-            mem_alloc_mib = r['nomad_mem_alloc'] / 1024 / 1024
-            mem_avg_mib = r['nomad_mem_avg'] / 1024 / 1024
-            mem_max_mib = r['nomad_mem_max'] / 1024 / 1024
+            mem_alloc_mib = r['swarm_mem_alloc'] / 1024 / 1024
+            mem_avg_mib = r['swarm_mem_avg'] / 1024 / 1024
+            mem_max_mib = r['swarm_mem_max'] / 1024 / 1024
             
             row = [
                 r['date'], r['start_time'], r['end_time'], r['stack'],
-                f"{int(r['nomad_instances'])}",
+                f"{int(r['swarm_instances'])}",
                 f"{fmt(cpu_alloc_core)} core",
                 f"{fmt(cpu_avg_core)} core",
                 f"{fmt(cpu_max_core)} core",

@@ -52,6 +52,11 @@ Importante: Docker Swarm foi configurado usando medidas em cores para cada inst�
 
 ```
 
+```BASH
+Importante: php-laravel-fpm não conseguiu alcançar 1000 rps com o hardware disponível, por isso foi removido do relatório, chegou a apenas 650 rps tendo alocado 11 cores total, 10gb total de ram divididos em 5 instancias
+
+```
+
 | Stack | Instâncias | CPU Alocado (Total Ghz) | CPU Usado (Total Ghz) | Mem. Alocada (Total) | Mem. Usada (Total) |
 | :--- | :---: | :--- | :--- | :--- | :--- |
 | **Rust Axum** | 2 | 0,52 core | **0,39 core** | 512 MiB | **16 MiB** |

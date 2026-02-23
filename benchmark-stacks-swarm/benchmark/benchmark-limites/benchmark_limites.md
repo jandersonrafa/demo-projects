@@ -31,10 +31,6 @@ Para garantir a isonomia, cada aplicação foi executada com exatamente os mesmo
 - **Instâncias:** 2 instâncias por stack, rodando em um orquestrador **Docker Swarm**.
 - **Banco de dados:** foi utilizado banco de dados postgres com pgbouncer na frente garantindo que todas as stacks fossem limitadas igualmente a 240 conexões máximas.
 
-```BASH
-Importante: Diferentemente do Nomad aqui com docker swarm foi configurado para utilizar 1 core lógico inteiro com velocidade de 4.3GHz 
-
-```
 
 ```BASH
 Calibragem: foram realizados diversos testes calibrando parametros importantes nas linguagens como por exemplo workers no octane e python , max children no fpm, por exemplo foram testados valores como 1,2,3,4,5,6 e foi definido nessas stacks o melhor cenário.
@@ -60,6 +56,7 @@ As aplicações rodaram no **Docker swarm** e foram coletadas via **Prometheus**
 Segue abaixo diagrama explicando a infraestrutura envolvida no teste:
 
 ![alt text](infra-benchmark.png)
+
 
 - 1 - Na máquina 01 execução do teste pelo K6 enviando chamadas
 - 2 - Na máquina 02 as aplicações de cada stack rodando de forma separada atendendo as requisições, tendo como ponto de entrega Traefik

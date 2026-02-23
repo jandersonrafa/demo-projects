@@ -1,4 +1,4 @@
-# Grafana Nomad
+# Grafana Docker Swarm
 - `dotnet`: https://snapshots.raintank.io/dashboard/snapshot/UdXtCdKtGqv5YxGwhlYm2KEBZ9xqFbQt
 - `golang`: https://snapshots.raintank.io/dashboard/snapshot/3i4ehHzKMLLx9bJpYzhu4KM1eLIlQmU3
 - `java-mvc-vt`: https://snapshots.raintank.io/dashboard/snapshot/4H5inBFqRRUb2Z9T7oCTcZnhreWPERRo
