@@ -17,12 +17,16 @@ export const options = {
         startRate: 20,
         timeUnit: '1s',
         stages: [
-          { target: 450, duration: '1m' },
-          { target: 450, duration: '2m' },
-          { target: 500, duration: '1m' },
-          { target: 500, duration: '10m' },
-          // { target: 300, duration: '1m' },
-          // { target: 300, duration: '10m' },
+            // Warm-up rápido (essencial para JIT/AOT)
+            { target:  100, duration: '1m' },   // subindo + 2 min estável
+            { target:  100, duration: '1m' },
+
+            // Ramp intermediário curto
+            { target: 300, duration: '1m' },
+
+            // Ramp final + plateau em 500
+            { target: 500, duration: '2m' },   // sobe para 500
+            { target: 500, duration: '5m' },   // ~5 min estável → métrica principal
         ],
         preAllocatedVUs: 100,
         maxVUs: 250,

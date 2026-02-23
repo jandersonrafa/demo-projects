@@ -47,9 +47,9 @@ As métricas foram coletadas e centralizadas em um servidor **Prometheus**, rece
 2. **Traefik:** O ponto de entrada (Edge Router/Load Balancer) que forneceu as métricas de latência e throughput do tráfego real.
 
 ### Estratégia de Carga (k6)
-O script de teste (`load-all.js`) utilizou o executor `ramping-arrival-rate` do k6:
+O script de teste (`load-all-swarm-limits.js`) utilizou o executor `ramping-arrival-rate` do k6:
 - **Aquecimento (Warm-up):** O script escala a carga gradualmente. Foram ignorados os primeiros **8 minutos** de cada execução (utilizando `delayAbortEval`) para permitir o aquecimento da JVM, JIT e caches internos.
-- **Escalonamento:** A carga inicia em 20 RPS e sobe em degraus (25,50,75, 100, 125, 150, 175, 200, 300, 400, 500, 600, 700, 800, 900 e 1000), com cada patamar durando entre 1 a 2 minutos.
+- **Escalonamento:** A carga inicia em 20 RPS e sobe em degraus (25,50,75, 100, 125, 150, 175, 200, 300, 400, 500, 600, 700, 800, 900 e 1000), com cada patamar durando 2 minutos.
 - **Abort automático:** O teste é interrompido automaticamente se o threshold de latência for violado por um período sustentado, garantindo que o limite reportado seja o último patamar estável.
 
 ---
