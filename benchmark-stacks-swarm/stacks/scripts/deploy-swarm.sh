@@ -62,7 +62,7 @@ echo "Uncomment the stacks you want to deploy:"
 # docker stack deploy -c ../docker-swarm/apps/golang.yml stacks
 
 # PHP Laravel FPM
-# docker stack deploy -c ../docker-swarm/apps/php-laravel-fpm.yml stacks
+docker stack deploy -c ../docker-swarm/apps/php-laravel-fpm.yml stacks
 
 # PHP Laravel Octane
 # docker stack deploy -c ../docker-swarm/apps/php-laravel-octane.yml stacks
@@ -71,7 +71,7 @@ echo "Uncomment the stacks you want to deploy:"
 # docker stack deploy -c ../docker-swarm/apps/python-fastapi.yml stacks
 
 # Rust Axum
-docker stack deploy -c ../docker-swarm/apps/rust.yml stacks
+# docker stack deploy -c ../docker-swarm/apps/rust.yml stacks
 
 # -----------------------------------------------------------------------
 echo ""

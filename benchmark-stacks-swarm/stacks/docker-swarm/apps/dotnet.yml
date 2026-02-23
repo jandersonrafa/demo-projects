@@ -1,3 +1,4 @@
+# OK
 services:
   dotnet-monolith:
     image: benchmark-stacks/dotnet-monolith:1.0

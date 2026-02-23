@@ -1,3 +1,4 @@
+# ok
 services:
   nestjs-monolith-fastify:
     image: benchmark-stacks/nestjs-fastify-monolith:1.0
