@@ -34,6 +34,7 @@ O script de teste k6 seguiu um rigoroso processo de aquecimento e estabilizaçã
 As aplicações rodaram no **Docker Swarm** com diferentes níveis de alocação de hardware para garantir a estabilidade do P95. As métricas foram coletadas via **Prometheus**, consolidando dados do Swarm (container) e do **Traefik** (edge router).
 Segue abaixo diagrama explicando a infraestrutura envolvida no teste:
 
+
 ![alt text](infra-benchmark.png)
 
 - 1 - Na máquina 01 execução do teste pelo K6 enviando chamadas
@@ -100,6 +101,7 @@ Para complementar a análise técnica, foi realizada uma simulação de custos u
 - **Região:** US East (Ohio)  
 - **Data da consulta:** 24/02/2026  
 - **Horas consideradas:** 730 horas/mês (24x7)
+- **Moeda Utilizada:** Os custos citados estão em dólar USD
 
 ---
 
@@ -118,19 +120,19 @@ Para complementar a análise técnica, foi realizada uma simulação de custos u
 
 Simulação considerando exatamente o hardware mínimo necessário identificado no teste.
 
-| Stack | Instâncias | vCPU Por Instância | Memória Por Instância | Custo Mensal | Custo Anual |
+| Stack | Instâncias | vCPU Por Instância | Memória Por Instância | Custo Mensal (USD) | Custo Anual (USD) |
 |--------|------------|------------|--------------|--------------|-------------|
-| Rust Axum | 2 | 0,256 | 0,256 | R$ 16,79 | R$ 201,49 |
-| Java Quarkus | 2 | 0,512 | 0,256 | R$ 31,92 | R$ 383,05 |
-| Java MVC VT | 2 | 0,512 | 0,256 | R$ 31,92 | R$ 383,05 |
-| Java WebFlux | 2 | 1 | 0,256 | R$ 60,76 | R$ 729,15 |
-| Node.js (Fastify) | 2 | 1 | 0,256 | R$ 60,76 | R$ 729,15 |
-| Java MVC Without VT | 2 | 1 | 0,256 | R$ 60,76 | R$ 729,15 |
-| Node.js (Express) | 2 | 1,5 | 0,256 | R$ 90,31 | R$ 1.083,75 |
-| .NET Core | 2 | 1,5 | 0,256 | R$ 90,31 | R$ 1.083,75 |
-| Golang Gin | 2 | 2 | 0,256 | R$ 119,86 | R$ 1.438,36 |
-| Python FastAPI | 3 | 2 | 0,5 | R$ 182,17 | R$ 2.186,04 |
-| PHP Laravel Octane | 8 | 1 | 0,756 | R$ 256,03 | R$ 3.072,34 |
+| Rust Axum | 2 | 0,256 | 0,256 | $16,79 | $201,49 |
+| Java Quarkus | 2 | 0,512 | 0,256 | $31,92 | $383,05 |
+| Java MVC VT | 2 | 0,512 | 0,256 | $31,92 | $383,05 |
+| Java WebFlux | 2 | 1 | 0,256 | $60,76 | $729,15 |
+| Node.js (Fastify) | 2 | 1 | 0,256 | $60,76 | $729,15 |
+| Java MVC Without VT | 2 | 1 | 0,256 | $60,76 | $729,15 |
+| Node.js (Express) | 2 | 1,5 | 0,256 | $90,31 | $1.083,75 |
+| .NET Core | 2 | 1,5 | 0,256 | $90,31 | $1.083,75 |
+| Golang Gin | 2 | 2 | 0,256 | $119,86 | $1.438,36 |
+| Python FastAPI | 3 | 2 | 0,5 | $182,17 | $2.186,04 |
+| PHP Laravel Octane | 8 | 1 | 0,756 | $256,03 | $3.072,34 |
 
 ---
 
@@ -146,26 +148,28 @@ Simulação considerando exatamente o hardware mínimo necessário identificado 
 
 Como o Fargate possui combinações fixas de CPU/memória, foi realizada nova simulação respeitando os tamanhos válidos do serviço.
 
-| Stack | Instâncias | vCPU Total | Memória Total (GB) | Custo Mensal | Custo Anual |
+Para esse cálculo foi utilizado calculadora aws https://calculator.aws/#/estimate?id=e971eac2788ec67bde6bf68d8f6f92415f3fa264
+
+| Stack | Instâncias | vCPU Total | Memória Total (GB) | Custo Mensal (USD) | Custo Anual (USD) |
 |--------|------------|------------|--------------------|--------------|-------------|
-| Rust Axum | 2 | 0,256 | 0,5 | **R$ 18,37** | **R$ 220,50** |
-| Java Quarkus | 2 | 0,512 | 1 | R$ 36,75 | R$ 440,99 |
-| Java MVC VT | 2 | 0,512 | 1 | R$ 36,75 | R$ 440,99 |
-| Java WebFlux | 2 | 1 | 2 | R$ 72,08 | R$ 864,96 |
-| Node.js (Fastify) | 2 | 1 | 2 | R$ 72,08 | R$ 864,96 |
-| Java MVC Without VT | 2 | 1 | 2 | R$ 72,08 | R$ 864,96 |
-| Node.js (Express) | 2 | 2 | 4 | R$ 144,16 | R$ 1.729,92 |
-| .NET Core | 2 | 2 | 4 | R$ 144,16 | R$ 1.729,92 |
-| Golang Gin | 2 | 2 | 4 | R$ 144,16 | R$ 1.729,92 |
-| Python FastAPI | 3 | 2 | 4 | R$ 216,24 | R$ 2.594,89 |
-| PHP Laravel Octane | 8 | 1 | 2 | R$ 288,32 | R$ 3.459,85 |
+| Rust Axum | 2 | 0,256 | 0,5 | $18,37 | $220,50 |
+| Java Quarkus | 2 | 0,512 | 1 | $36,75 | $440,99 |
+| Java MVC VT | 2 | 0,512 | 1 | $36,75 | $440,99 |
+| Java WebFlux | 2 | 1 | 2 | $72,08 | $864,96 |
+| Node.js (Fastify) | 2 | 1 | 2 | $72,08 | $864,96 |
+| Java MVC Without VT | 2 | 1 | 2 | $72,08 | $864,96 |
+| Node.js (Express) | 2 | 2 | 4 | $144,16 | $1.729,92 |
+| .NET Core | 2 | 2 | 4 | $144,16 | $1.729,92 |
+| Golang Gin | 2 | 2 | 4 | $144,16 | $1.729,92 |
+| Python FastAPI | 3 | 2 | 4 | $216,24 | $2.594,89 |
+| PHP Laravel Octane | 8 | 1 | 2 | $288,32 | $3.459,85 |
 
 
 
 ---
 
 # Conclusões
-1. **Eficiência Extrema:** O **Rust Axum** foi a stack mais eficiente, precisando alocar apenas **0,52 core** e  **512 MiB** de RAM divididas em 2 instâncias para sustentar a carga total de 1000 RPS com excelente latência.
+1. **Eficiência Extrema:** O **Rust Axum** foi a stack mais eficiente, precisando alocar apenas **0,52 core** e  **512 MiB** de RAM divididas em 2 instâncias para sustentar a carga total de 1000 RPS.
 2. **Boa performance:** O **Java Quarkus** e **JAVA MVC VT** ficaram logo abaixo demonstrando boa eficiência com pouco hardware.
 3. **Meio de tabela:** As stacks de meio de tabela — Java WebFlux, Node.js (Fastify), Java MVC sem Virtual Threads e .NET Core — conseguiram atingir 1000 RPS usando 2 cores no total, mostrando um equilíbrio entre desempenho e custo. Não são as mais eficientes em hardware, mas entregam performance consistente com infraestrutura simples e previsível.
 4. **Interpretadas vs Compiladas:** Stacks como Python e PHP requerem significativamente mais instâncias e CPU total para entregar o mesmo throughput com a latência desejada em comparação a Rust, Go ou Java.
