@@ -23,10 +23,10 @@ acessar http://<ip_maquina>:7000 // Não funciona localhost
 
 Abaixo estão as descrições sucintas de cada pasta na raiz do projeto:
 
-- **[benchmark](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/benchmark)**: Contém relatórios detalhados, resultados de testes de limites (RPS máximo, latência P95) e scripts em Python para processamento e consolidação de métricas.
-- **[executor-k6](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/executor-k6)**: Contém os scripts de teste de carga escritos em Javascript para o K6, além da lógica de execução automatizada dos benchmarks.
-- **[monitoring](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/monitoring)**: Configurações de infraestrutura e jobs Docker Swarm para a stack de observabilidade, incluindo Prometheus, Grafana e Traefik.
-- **[stacks](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/stacks)**: Código-fonte das aplicações em diversas linguagens e frameworks, incluindo seus respectivos Dockerfiles e arquivos de configuração para deploy no Docker Swarm.
+- **[benchmark](/benchmark-stacks/benchmark)**: Contém relatórios detalhados, resultados de testes de limites (RPS máximo, latência P95) e scripts em Python para processamento e consolidação de métricas.
+- **[executor-k6](/benchmark-stacks/executor-k6)**: Contém os scripts de teste de carga escritos em Javascript para o K6, além da lógica de execução automatizada dos benchmarks.
+- **[monitoring](/benchmark-stacks/monitoring)**: Configurações de infraestrutura e jobs Docker Swarm para a stack de observabilidade, incluindo Prometheus, Grafana e Traefik.
+- **[stacks](/benchmark-stacks/stacks)**: Código-fonte das aplicações em diversas linguagens e frameworks, incluindo seus respectivos Dockerfiles e arquivos de configuração para deploy no Docker Swarm.
 
 
 <!-- 

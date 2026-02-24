@@ -31,11 +31,9 @@ Para garantir a isonomia, cada aplicação foi executada com exatamente os mesmo
 - **Instâncias:** 2 instâncias por stack, rodando em um orquestrador **Docker Swarm**.
 - **Banco de dados:** foi utilizado banco de dados postgres com pgbouncer na frente garantindo que todas as stacks fossem limitadas igualmente a 240 conexões máximas.
 
+### Pontos importantes
+- Calibragem: foram realizados diversos testes calibrando parametros importantes nas linguagens como por exemplo workers no octane e python , max children no fpm, por exemplo foram testados valores como 1,2,3,4,5,6 e foi definido nessas stacks o melhor cenário.
 
-```BASH
-Calibragem: foram realizados diversos testes calibrando parametros importantes nas linguagens como por exemplo workers no octane e python , max children no fpm, por exemplo foram testados valores como 1,2,3,4,5,6 e foi definido nessas stacks o melhor cenário.
-
-```
 
 ### Coleta de Métricas
 As métricas foram coletadas e centralizadas em um servidor **Prometheus**, recebendo dados de duas fontes principais:
@@ -43,7 +41,7 @@ As métricas foram coletadas e centralizadas em um servidor **Prometheus**, rece
 2. **Traefik:** O ponto de entrada (Edge Router/Load Balancer) que forneceu as métricas de latência e throughput do tráfego real.
 
 ### Estratégia de Carga (k6)
-O script de teste (`load-all-swarm-limits.js`) utilizou o executor `ramping-arrival-rate` do k6:
+O script de teste k6 utilizou o executor `ramping-arrival-rate` do k6:
 - **Aquecimento (Warm-up):** O script escala a carga gradualmente. Foram ignorados os primeiros **8 minutos** de cada execução (utilizando `delayAbortEval`) para permitir o aquecimento da JVM, JIT e caches internos.
 - **Escalonamento:** A carga inicia em 20 RPS e sobe em degraus (25,50,75, 100, 125, 150, 175, 200, 300, 400, 500, 600, 700, 800, 900 e 1000), com cada patamar durando 2 minutos.
 - **Abort automático:** O teste é interrompido automaticamente se o threshold de latência for violado por um período sustentado, garantindo que o limite reportado seja o último patamar estável.
@@ -85,6 +83,14 @@ A tabela abaixo lista o **RPS máximo** alcançado por cada stack mantendo o **P
 | 6º        | PHP + Laravel + FPM                 | 200        |
 
 ---
+
+## Materiais/Documentos
+O código fonte das aplicações e teste escrito está disponível em https://github.com/crmbonus-oficial/benchmark-stacks/benchmark/benchmark-limites
+
+- `load-all-swarm-limites.js`: script com cenário de teste k6.
+- `graficos-grafana.md`: Links dos dashboards grafana com as métricas de performance obtidas ao longo do teste.
+- `reports`: Relatórios gerados pelo k6 resumindo o teste executado.
+
 
 ## Conclusões
 

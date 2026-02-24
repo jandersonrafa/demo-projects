@@ -4,8 +4,8 @@ Esta pasta centraliza a inteligência e a execução dos testes de carga do proj
 
 ## Organização de Pastas
 
-- **[reports](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/executor-k6/reports)**: Contém os resultados das execuções consolidados. Os arquivos são gerados automaticamente em formato JSON (para processamento posterior) e HTML (para visualização rápida no navegador).
-- **[k6-scripts](file:///home/jandersonrafaeldasilvarosa/repositorios/demo-projects/benchmark-stacks/executor-k6/k6-scripts)**: Contém a lógica dos testes em Javascript.
+- **[reports](/benchmark-stacks/executor-k6/reports)**: Contém os resultados das execuções consolidados. Os arquivos são gerados automaticamente em formato JSON (para processamento posterior) e HTML (para visualização rápida no navegador).
+- **[k6-scripts](/benchmark-stacks/executor-k6/k6-scripts)**: Contém a lógica dos testes em Javascript.
   - `load-all.js`: Utilizado para o benchmark de **Limites** (RPS progressivo).
   - `load-all-1000rps.js`: Utilizado para o benchmark de **Eficiência de Hardware** (carga constante de 150 RPS) com aplicações utilizando orquestrador docker swarm.
   - `load-all-limits.js`: Utilizado para o benchmark de **Limites** (RPS progressivo) com aplicações utilizando orquestrador docker swarm.
