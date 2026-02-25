@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: benchmark
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ../../infra/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ../../infra/postgres/init-users.sql:/docker-entrypoint-initdb.d/02-init-users.sql
+    command: ["postgres", "-c", "max_connections=500"]
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4096M
+        reservations:
+          cpus: '1.0'
+          memory: 4096M
+networks:
+  default:
+    external: true
+    name: stacks_default

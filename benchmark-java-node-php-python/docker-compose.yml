@@ -312,7 +312,7 @@ services:
       APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
       SESSION_DRIVER: array
       APP_ENV: production
-      APP_DEBUG: false
+      APP_DEBUG: "false"
       LOG_CHANNEL: stderr
       FPM_MAX_CHILDREN: 20
       DB_PERSISTENT: "true"
@@ -356,7 +356,7 @@ services:
       APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
       SESSION_DRIVER: array
       APP_ENV: production
-      APP_DEBUG: false
+      APP_DEBUG: "false"
       LOG_CHANNEL: stderr
       FPM_MAX_CHILDREN: 20
       DB_PERSISTENT: "true"
@@ -402,7 +402,7 @@ services:
       APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
       SESSION_DRIVER: array
       APP_ENV: production
-      APP_DEBUG: false
+      APP_DEBUG: "false"
       LOG_CHANNEL: stderr
       OCTANE_WORKERS: 15
       DB_PERSISTENT: "true"
@@ -441,7 +441,7 @@ services:
       APP_KEY: base64:u8MvK+1512zU2m6XvP3Yv1rK8Z5o8z8k9u0u1u2u3u4=
       SESSION_DRIVER: array
       APP_ENV: production
-      APP_DEBUG: false
+      APP_DEBUG: "false"
       LOG_CHANNEL: stderr
       OCTANE_WORKERS: 15
       DB_PERSISTENT: "true"
@@ -468,3 +468,171 @@ services:
       resources:
         limits:
           memory: 1G
+
+  # Golang Gin
+  golang-gateway:
+    build:
+      context: ./golang/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-golang-gateway
+    environment:
+      MONOLITH_URL: http://golang-monolith:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3018:3000"
+    profiles: [ "golang" ]
+    depends_on:
+      - golang-monolith
+
+  golang-monolith:
+    build:
+      context: ./golang/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-golang-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: golang_user
+      DB_PASSWORD: golang_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3019:3000" # Exposed for Prometheus
+    profiles: [ "golang" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # .NET Core
+  dotnet-gateway:
+    build:
+      context: ./dotnet/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-dotnet-gateway
+    environment:
+      MONOLITH_URL: http://dotnet-monolith:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3020:3000"
+    profiles: [ "dotnet" ]
+    depends_on:
+      - dotnet-monolith
+
+  dotnet-monolith:
+    build:
+      context: ./dotnet/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-dotnet-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: dotnet_user
+      DB_PASSWORD: dotnet_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3021:3000" # Exposed for Prometheus
+    profiles: [ "dotnet" ]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      pgbouncer:
+        condition: service_started
+
+  # C++ Drogon
+  cpp-drogon-gateway:
+    build:
+      context: ./cpp-drogon/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-cpp-drogon-gateway
+    environment:
+      MONOLITH_URL: http://cpp-drogon-monolith:3000
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3022:3000"
+    profiles: [ "cpp-drogon" ]
+    depends_on:
+      - cpp-drogon-monolith
+
+  cpp-drogon-monolith:
+    build:
+      context: ./cpp-drogon/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-cpp-drogon-monolith
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: cpp_drogon_user
+      DB_PASSWORD: cpp_drogon_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3023:3000" # Exposed for Prometheus
+    profiles: [ "cpp-drogon" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started
+
+  # Rust Stack
+  rust-gateway:
+    build:
+      context: ./rust/gateway
+      dockerfile: Dockerfile
+    container_name: benchmark-rust-gateway
+    environment:
+      MONOLITH_URL: http://rust-monolith:3000
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3024:3000"
+    profiles: [ "rust" ]
+    depends_on:
+      - rust-monolith
+
+  rust-monolith:
+    build:
+      context: ./rust/monolith
+      dockerfile: Dockerfile
+    container_name: benchmark-rust-monolith
+    environment:
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
+      DB_USER: rust_user
+      DB_PASSWORD: rust_pass
+      DB_NAME: benchmark
+      PORT: 3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "3025:3000" # Exposed for Prometheus
+    profiles: [ "rust" ]
+    depends_on:
+      pgbouncer:
+        condition: service_started

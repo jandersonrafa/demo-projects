@@ -1,6 +1,6 @@
 # Docker Compose Stack Commands
 
-This document lists the commands to start and stop each of the 8 benchmarking stacks independently.
+This document lists the commands to start and stop each of the 10 benchmarking stacks independently.
 
 > [!NOTE]
 > All stacks depend on the **Postgres** service. The commands below are configured to automatically start Postgres if it's not already running.
@@ -45,6 +45,22 @@ This document lists the commands to start and stop each of the 8 benchmarking st
 ## 8. PHP Laravel Octane
 - **Up**: `docker compose --profile php-octane up -d`
 - **Down**: `docker compose --profile php-octane down`
+
+## 9. Golang Gin
+- **Up**: `docker compose --profile golang up -d`
+- **Down**: `docker compose --profile golang down`
+
+## 10. .NET Core
+- **Up**: `docker compose --profile dotnet up -d`
+- **Down**: `docker compose --profile dotnet down`
+
+## 11. Rust Axum
+- **Up**: `docker compose --profile rust up -d`
+- **Down**: `docker compose --profile rust down`
+
+## 12. C++ Drogon
+- **Up**: `docker compose --profile cpp-drogon up -d`
+- **Down**: `docker compose --profile cpp-drogon down`
 
 ---
 

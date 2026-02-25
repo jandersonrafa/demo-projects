@@ -1,0 +1,53 @@
+{
+    "listeners": [
+        {
+            "address": "0.0.0.0",
+            "port": 3000,
+            "https": false
+        }
+    ],
+    "app": {
+        "threads_num": 12,
+        "max_connection_num_per_epoll": 10000,
+        "load_config": true
+    },
+    "log": {
+        "log_path": "./logs",
+        "log_base_name": "benchmark",
+        "log_extension": ".log",
+        "log_size_limit": 1000000000,
+        "log_level": "INFO"
+    },
+    "run_as_daemon": false,
+    "relaunch_on_error": false,
+    "use_sendfile": true,
+    "use_gzip": true,
+    "static_files": {
+        "types": [
+            "*"
+        ],
+        "search_paths": [
+            "./static"
+        ],
+        "enable_last_modified": true
+    },
+    "max_request_size": 10000000,
+    "max_request_body_size": 10000000,
+    "idle_connection_timeout": 60,
+    "keepalive_requests": 1000,
+    "pipeline_size": 1000,
+    "gzip_static": true,
+    "client_max_body_size": "1M",
+    "client_body_timeout": 60,
+    "client_header_timeout": 60,
+    "send_timeout": 60,
+    "large_buffers": {
+        "number": 4,
+        "size": 8192
+    },
+    "output_buffer_size": 8192,
+    "file_system": {
+        "thread_num": 0,
+        "io_uring": false
+    }
+}
