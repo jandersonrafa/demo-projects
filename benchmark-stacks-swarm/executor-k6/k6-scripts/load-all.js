@@ -11,22 +11,22 @@ const targets = targetsEnv.split(',').filter(Boolean);
 export const options = {
   scenarios: Object.fromEntries(
     targets.map((t) => [
-      `load_${t.replace(/[^a-zA-Z0-9]/g, '_')}`, 
+      `load_${t.replace(/[^a-zA-Z0-9]/g, '_')}`,
       {
         executor: 'ramping-arrival-rate',
         startRate: 20,
         timeUnit: '1s',
         stages: [
-            // Warm-up rápido (essencial para JIT/AOT)
-            { target:  100, duration: '1m' },   // subindo + 2 min estável
-            { target:  100, duration: '1m' },
+          // Warm-up rápido (essencial para JIT/AOT)
+          { target: 100, duration: '1m' },   // subindo + 2 min estável
+          { target: 100, duration: '1m' },
 
-            // Ramp intermediário curto
-            { target: 300, duration: '1m' },
+          // Ramp intermediário curto
+          { target: 300, duration: '1m' },
 
-            // Ramp final + plateau em 500
-            { target: 500, duration: '2m' },   // sobe para 500
-            { target: 500, duration: '5m' },   // ~5 min estável → métrica principal
+          // Ramp final + plateau em 500
+          { target: 500, duration: '2m' },   // sobe para 500
+          { target: 500, duration: '5m' },   // ~5 min estável → métrica principal
         ],
         preAllocatedVUs: 100,
         maxVUs: 250,

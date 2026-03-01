@@ -24,8 +24,7 @@ O script de teste k6 seguiu um rigoroso processo de aquecimento e estabilizaçã
 - **Validação de SLA:** O threshold de sucesso foi definido como **P95 < 200ms** e taxa de erro inferior a **1%** durante a fase de carga real.
 
 ### Pontos importantes
-- Foram executadas repetitivas  baterias de testes calibrando o hardware até encontrar o hardware minímo de cada stack para atender o teste.
-- Stack PHP Laravel utilizando FPM foi removido do teste porque conseguiu alcançar somente 600 rps mesmo tendo 5 instâncias, 10 core alocado de cpu e 10gb de ram.
+- Foram executadas repetitivas baterias de testes calibrando o hardware até encontrar o hardware minímo de cada stack para atender o teste.
 - Esse teste não é util para comparar tempos de resposta porque foi utilizado o menos hardware em cada um, ou seja, tem hardwares diferentes em cada stack.
 
 ---
@@ -63,6 +62,7 @@ Abaixo, os dados de infraestrutura e performance coletados durante a execução 
 | **Golang Gin** | 2 | 4,00 core | 1,10 core | 512 MiB | 32 MiB |
 | **Python FastAPI** | 3 | 6,00 core | 3,48 core | 1536 MiB | 749 MiB |
 | **PHP Laravel Octane** | 8 | 8,00 core | 3,44 core | 6048 MiB | 2957 MiB |
+| **PHP Laravel FPM** | 24 | 24,00 core | 8,84 core | 18144 MiB | 936 MiB |
 
 
 ### Performance de Rede (K6 & Traefik)
@@ -82,6 +82,7 @@ Todas as stacks listadas abaixo cumpriram o SLA de **P95 < 200ms** para 1000 RPS
 | **Java WebFlux** | 137,05 | 71,12 | 99,74% | ✅ |
 | **.NET Core** | 136,52 | 9,77 | 99,54% | ✅ |
 | **Java MVC VT** | 138,25 | 20,30 | 99,72% | ✅ |
+| **PHP Laravel FPM** | 173,13 | 0,00 | 100,00% | ✅ |
 | **Node.js (Fastify)** | 182,56 | 44,17 | 99,57% | ✅ |
 
 
@@ -133,6 +134,7 @@ Simulação considerando exatamente o hardware mínimo necessário identificado 
 | Golang Gin | 2 | 2 | 0,256 | $119,86 | $1.438,36 |
 | Python FastAPI | 3 | 2 | 0,5 | $182,17 | $2.186,04 |
 | PHP Laravel Octane | 8 | 1 | 0,756 | $256,03 | $3.072,34 |
+| PHP Laravel FPM | 24 | 1 | 0,756 | $768,08 | $9.217,01 |
 
 ---
 
@@ -140,7 +142,7 @@ Simulação considerando exatamente o hardware mínimo necessário identificado 
 
 - Rust custa apresentou o custo mais baixo para sustentar os mesmos 1000 RPS.
 - Java (Quarkus / MVC VT) apresenta excelente equilíbrio entre custo e previsibilidade.
-- Python e PHP exigem investimento significativamente maior para manter o SLA.
+- Python e PHP (especialmente PHP FPM) exigem investimento significativamente maior para manter o SLA.
 
 ---
 
@@ -163,6 +165,7 @@ Para esse cálculo foi utilizado calculadora aws https://calculator.aws/#/estima
 | Golang Gin | 2 | 2 | 4 | $144,16 | $1.729,92 |
 | Python FastAPI | 3 | 2 | 4 | $216,24 | $2.594,89 |
 | PHP Laravel Octane | 8 | 1 | 2 | $288,32 | $3.459,85 |
+| PHP Laravel FPM | 24 | 1 | 2 | $864,96 | $10.379,55 |
 
 
 
@@ -172,5 +175,4 @@ Para esse cálculo foi utilizado calculadora aws https://calculator.aws/#/estima
 1. **Eficiência Extrema:** O **Rust Axum** foi a stack mais eficiente, precisando alocar apenas **0,52 core** e  **512 MiB** de RAM divididas em 2 instâncias para sustentar a carga total de 1000 RPS.
 2. **Boa performance:** O **Java Quarkus** e **JAVA MVC VT** ficaram logo abaixo demonstrando boa eficiência com pouco hardware.
 3. **Meio de tabela:** As stacks de meio de tabela — Java WebFlux, Node.js (Fastify), Java MVC sem Virtual Threads e .NET Core — conseguiram atingir 1000 RPS usando 2 cores no total, mostrando um equilíbrio entre desempenho e custo. Não são as mais eficientes em hardware, mas entregam performance consistente com infraestrutura simples e previsível.
-4. **Interpretadas vs Compiladas:** Stacks como Python e PHP requerem significativamente mais instâncias e CPU total para entregar o mesmo throughput com a latência desejada em comparação a Rust, Go ou Java.
-
+4. **Interpretadas vs Compiladas:** Stacks como Python e PHP requerem significativamente mais instâncias e CPU total para entregar o mesmo throughput com a latência desejada em comparação a Rust, Go ou Java. 

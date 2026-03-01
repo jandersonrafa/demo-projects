@@ -5,7 +5,7 @@
 - `java-mvc-without-vt`: https://snapshots.raintank.io/dashboard/snapshot/0uyg3kcbdrJ3gv8edXkQceGzdxpxE46j
 - `java-quarkus`: https://snapshots.raintank.io/dashboard/snapshot/aXvlZLATJpWaRs4pnoWkCGqM0V2A18m6
 - `java-webflux`: https://snapshots.raintank.io/dashboard/snapshot/uFHqZTF7TeFQugQtND3wl08T4FopBdDd
-- `php-fpm`: https://snapshots.raintank.io/dashboard/snapshot/p7GX1V4jt20KpHbZAiJZV4Gs6s7m5Tob
+- `php-fpm`: https://snapshots.raintank.io/dashboard/snapshot/quCP5oDxITWmxHV2ykKMVY6jOF3nfA5i
 - `php-octane`: https://snapshots.raintank.io/dashboard/snapshot/pyC1IbaUZeEX3TmEXMSEW79r3pzv2LrL
 - `python`: https://snapshots.raintank.io/dashboard/snapshot/lk9bok11297Wx7Dz2FkzacySl7Krrg97
 - `rust-axum`: https://snapshots.raintank.io/dashboard/snapshot/23L8xVklbmi2Q9Y2ekePBuMXl0ZpyuzO
@@ -19,7 +19,7 @@
 - `java-mvc-without-vt`: https://snapshots.raintank.io/dashboard/snapshot/Ud9HU4DO4Ywg2IBpGTNIxZ9w1ODC3S91
 - `java-quarkus`: https://snapshots.raintank.io/dashboard/snapshot/5BGMfQUTRPFEn1hy0Vonu1qpaXbNJ79m
 - `java-webflux`: https://snapshots.raintank.io/dashboard/snapshot/ye5WkVpQFfi53G1DY7CvgbBfHvujkq50
-- `php-fpm`: https://snapshots.raintank.io/dashboard/snapshot/wLRxefKEIse2xdJoHjDaZzGF4rN2JNTC
+- `php-fpm`: https://snapshots.raintank.io/dashboard/snapshot/uQ9Dgm9pNegSFodNJIc2UGSExlJoyS1l
 - `php-octane`: https://snapshots.raintank.io/dashboard/snapshot/3fWOlxH3EqTK8eLTNoYrXrOXEILR2Mk1
 - `python`: https://snapshots.raintank.io/dashboard/snapshot/g9NqmLUw9i4T236avxC69q4rgr3nwGg5
 - `rust-axum`: https://snapshots.raintank.io/dashboard/snapshot/4iZPopeFasdecOZtWN2ve2IJgvrcYMxB
@@ -33,7 +33,7 @@
 - `java-mvc-without-vt`: https://snapshots.raintank.io/dashboard/snapshot/R2iiNh95SBubUBL9sMJvvWTlJE840YtU
 - `java-quarkus`: https://snapshots.raintank.io/dashboard/snapshot/P7dK6ejonuqkwTW1FvdEvd6LFxSrlEDn
 - `java-webflux`: https://snapshots.raintank.io/dashboard/snapshot/hlKOwzDozwYITS1kcJWMAan6x7Zkwo8C
-- `php-fpm`: https://snapshots.raintank.io/dashboard/snapshot/cutQg4631dRy4e3r9LFsmY7nxoahB68e
+- `php-fpm`: https://snapshots.raintank.io/dashboard/snapshot/Z4kItsA3qIN15WaeuOzsDIKQ3iwqrg3u
 - `php-octane`: https://snapshots.raintank.io/dashboard/snapshot/cJlMkLj5POIXBvfLvpywtltwxumNkQEL
 - `python`: https://snapshots.raintank.io/dashboard/snapshot/WhaXA6eaPc5ylkvnh6LMjasX3PkiwIER
 - `rust-axum`: https://snapshots.raintank.io/dashboard/snapshot/4ndoGiuFgsPVCkvs9nCqu0GR90LhwHL2

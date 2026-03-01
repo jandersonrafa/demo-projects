@@ -17,24 +17,20 @@ export const options = {
         startRate: 20,
         timeUnit: '1s',
         stages: [
-          { target: 25, duration: '1m' },
-          { target: 25, duration: '2m' },
-          { target: 50, duration: '1m' },
-          { target: 50, duration: '2m' },
-          { target: 75, duration: '1m' },
-          { target: 75, duration: '2m' },
-          { target: 100, duration: '1m' },
-          { target: 100, duration: '2m' },
-          { target: 125, duration: '1m' },
-          { target: 125, duration: '2m' },
-          { target: 150, duration: '1m' },
-          { target: 150, duration: '2m' },
-          { target: 175, duration: '1m' },
-          { target: 175, duration: '2m' },          
-          { target: 200, duration: '1m' },
-          { target: 200, duration: '2m' },
-          { target: 300, duration: '1m' },
-          { target: 300, duration: '2m' },
+          // { target: 25, duration: '1m' },
+          // { target: 25, duration: '2m' },
+          // { target: 50, duration: '1m' },
+          // { target: 50, duration: '2m' },
+          // { target: 75, duration: '1m' },
+          // { target: 75, duration: '2m' },
+          // { target: 100, duration: '1m' },
+          // { target: 100, duration: '2m' },
+          // { target: 150, duration: '1m' },
+          // { target: 150, duration: '2m' },
+          // { target: 200, duration: '1m' },
+          // { target: 200, duration: '2m' },
+          // { target: 300, duration: '1m' },
+          // { target: 300, duration: '2m' },
           { target: 400, duration: '1m' },
           { target: 400, duration: '2m' },
           { target: 500, duration: '1m' },
@@ -60,13 +56,27 @@ export const options = {
   ),
 
   thresholds: {
-    http_req_duration: [
+    'http_req_duration{method:POST}': [
       {
-        threshold: 'p(95)<1500',  // p95 deve ser menor que 400ms
+        threshold: 'avg<1000',
         abortOnFail: true,
-        delayAbortEval: '8m',   // opcional (evita abortar por aquecimento)
+        delayAbortEval: '5m',
       },
-    ]
+    ],
+    'http_req_duration{method:GET}': [
+      {
+        threshold: 'avg<1000',
+        abortOnFail: true,
+        delayAbortEval: '5m',
+      },
+    ],
+    'http_req_failed': [
+      {
+        threshold: 'rate<0.01',
+        abortOnFail: true,
+        delayAbortEval: '5m',
+      },
+    ],
   },
 
   ext: {

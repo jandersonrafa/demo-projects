@@ -7,6 +7,7 @@
 
 TARGETS="$1"           # Recebe os targets como primeiro argumento
 RUNS=2                 # Sempre roda 2 vezes
+# RUNS=2                 # Sempre roda 2 vezes
 INTERVAL=10            # Pausa de 10 segundos entre as duas execuções
 
 # Loop para executar 2 vezes
