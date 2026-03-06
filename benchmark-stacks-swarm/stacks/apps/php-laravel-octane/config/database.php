@@ -101,7 +101,7 @@ return [
             'options' => extension_loaded('pdo_pgsql') ? array_filter([
                 PDO::ATTR_PERSISTENT => env('DB_PERSISTENT', true),
             ]) : [],
-            'pool_max' => env('DB_MAX_POOL_SIZE', 15),
+            'pool_max' => env('DB_MAX_POOL_SIZE', 80),
         ],
 
         'sqlsrv' => [

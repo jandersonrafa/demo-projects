@@ -20,7 +20,8 @@ class PrometheusMiddleware
             $request->is('metrics') ||
             $request->is('prometheus') ||
             $request->is('up') ||
-            $request->is('health')
+            $request->is('health') ||
+            $request->is('bonus*')
         ) {
             return $response;
         }
