@@ -49,20 +49,20 @@ Abaixo, os dados de infraestrutura e performance coletados durante a execução 
 
 ### Infraestrutura e Consumo (Docker Swarm)
 
-| Stack | Instâncias | CPU Alocado (Total) | CPU Usado (Total) | Mem. Alocada (Total) | Mem. Usada (Total) |
+| Stack | Instâncias | CPU Alocado (Total) | CPU Max (Total) | Mem. Alocada (Total) | Mem. Max (Total) |
 | :--- | :---: | :--- | :--- | :--- | :--- |
-| **Rust Axum** | 2 | 0,52 core | 0,39 core | 512 MiB | 16 MiB |
-| **Java Quarkus** | 2 | 1,04 core | 0,59 core | 512 MiB | 471 MiB |
-| **Java MVC VT** | 2 | 1,04 core | 0,74 core | 512 MiB | 504 MiB |
-| **Java WebFlux** | 2 | 2,00 core | 1,35 core | 512 MiB | 479 MiB |
-| **Node.js (Fastify)** | 2 | 2,00 core | 1,18 core | 512 MiB | 223 MiB |
-| **Java MVC Without VT** | 2 | 2,00 core | 0,87 core | 512 MiB | 509 MiB |
-| **Node.js (Express)** | 2 | 3,00 core | 1,41 core | 512 MiB | 232 MiB |
-| **.NET Core** | 2 | 3,00 core | 1,70 core | 512 MiB | 187 MiB |
-| **Golang Gin** | 2 | 4,00 core | 1,10 core | 512 MiB | 32 MiB |
-| **Python FastAPI** | 3 | 6,00 core | 3,48 core | 1536 MiB | 749 MiB |
-| **PHP Laravel Octane** | 8 | 8,00 core | 3,44 core | 6048 MiB | 2957 MiB |
-| **PHP Laravel FPM** | 24 | 24,00 core | 8,84 core | 18144 MiB | 936 MiB |
+| **Rust Axum** | 2 | 0,52 core | 0,52 core | 512 MiB | 17 MiB |
+| **Java Quarkus** | 2 | 1,04 core | 0,82 core | 512 MiB | 502 MiB |
+| **Java MVC VT** | 2 | 1,04 core | 0,98 core | 512 MiB | 508 MiB |
+| **Java WebFlux** | 2 | 2,00 core | 1,94 core | 512 MiB | 480 MiB |
+| **Node.js (Fastify)** | 2 | 2,00 core | 1,64 core | 512 MiB | 280 MiB |
+| **Java MVC Without VT** | 2 | 2,00 core | 1,21 core | 512 MiB | 511 MiB |
+| **Node.js (Express)** | 2 | 3,00 core | 1,92 core | 512 MiB | 271 MiB |
+| **.NET Core** | 2 | 3,00 core | 2,38 core | 512 MiB | 202 MiB |
+| **Golang Gin** | 2 | 4,00 core | 1,69 core | 512 MiB | 40 MiB |
+| **Python FastAPI** | 3 | 6,00 core | 5,27 core | 1536 MiB | 750 MiB |
+| **PHP Laravel Octane** | 3 | 6,00 core | 4,86 core | 1536 MiB | 1344 MiB |
+| **PHP Laravel FPM** | 24 | 24,00 core | 13,02 core | 18144 MiB | 939 MiB |
 
 
 ### Performance de Rede (K6 & Traefik)
@@ -78,7 +78,7 @@ Todas as stacks listadas abaixo cumpriram o SLA de **P95 < 200ms** para 1000 RPS
 | **Node.js (Express)** | 62,83 | 48,82 | 99,82% | ✅ |
 | **Python FastAPI** | 65,55 | 37,29 | 99,69% | ✅ |
 | **Java MVC Without VT** | 42,81 | 9,95 | 99,53% | ✅ |
-| **PHP Laravel Octane** | 117,40 | 46,57 | 99,77% | ✅ |
+| **PHP Laravel Octane** | 87,00 | 47,50 | 99,69% | ✅ |
 | **Java WebFlux** | 137,05 | 71,12 | 99,74% | ✅ |
 | **.NET Core** | 136,52 | 9,77 | 99,54% | ✅ |
 | **Java MVC VT** | 138,25 | 20,30 | 99,72% | ✅ |
@@ -132,8 +132,8 @@ Simulação considerando exatamente o hardware mínimo necessário identificado 
 | Node.js (Express) | 2 | 1,5 | 0,256 | $90,31 | $1.083,75 |
 | .NET Core | 2 | 1,5 | 0,256 | $90,31 | $1.083,75 |
 | Golang Gin | 2 | 2 | 0,256 | $119,86 | $1.438,36 |
-| Python FastAPI | 3 | 2 | 0,5 | $182,17 | $2.186,04 |
-| PHP Laravel Octane | 8 | 1 | 0,756 | $256,03 | $3.072,34 |
+| Python FastAPI | 3 | 2 | 0,5 | $182,29 | $2.187,44 |
+| PHP Laravel Octane | 3 | 2 | 0,5 | $182,29 | $2.187,44 |
 | PHP Laravel FPM | 24 | 1 | 0,756 | $768,08 | $9.217,01 |
 
 ---
@@ -164,7 +164,7 @@ Para esse cálculo foi utilizado calculadora aws https://calculator.aws/#/estima
 | .NET Core | 2 | 2 | 4 | $144,16 | $1.729,92 |
 | Golang Gin | 2 | 2 | 4 | $144,16 | $1.729,92 |
 | Python FastAPI | 3 | 2 | 4 | $216,24 | $2.594,89 |
-| PHP Laravel Octane | 8 | 1 | 2 | $288,32 | $3.459,85 |
+| PHP Laravel Octane | 3 | 2 | 4 | $216,24 | $2.594,89 |
 | PHP Laravel FPM | 24 | 1 | 2 | $864,96 | $10.379,55 |
 
 

@@ -16,7 +16,7 @@ O teste consiste em avaliar o comportamento das stacks em um cenário real de ne
 ---
 
 ## Resumo Executivo
-Este documento detalha o teste de performance realizado em ambiente **Google Cloud Platform (GCP)** em diversas tecnologias (stacks) para identificar a **taxa máxima de requisições por segundo (RPS)** que cada uma suporta.
+Este documento detalha o teste de performance realizado em ambiente **Google Cloud Platform (GCP)** em diversas tecnologias (stacks) para identificar a **taxa máxima de requisições por segundo (RPS)** que cada uma suporta, mantendo a latência **P95 abaixo de 1000ms**.
 
 O diferencial deste teste foi observar o comportamento das stacks em um ambiente de nuvem pública, mantendo a estratégia de carga progressiva (ramping) até atingir o limite de estabilidade.
 
