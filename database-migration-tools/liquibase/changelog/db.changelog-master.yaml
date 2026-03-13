@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - include:
+      file: "changelog/sql/01_create_users_table.sql"
+      context: "prod, test, dev"
+
+  - include:
+      file: "changelog/sql/02_insert_admin_user.sql"
+      context: "prod, test, dev"
+
+  - include:
+      file: "changelog/sql-dev/99_insert_dev_users.sql"
+      context: "dev"

@@ -10,21 +10,25 @@ cd "$(dirname "$0")"
 echo "Verificando o status das migrações do Liquibase..."
 docker run --rm \
   --network migration_demo_net \
-  -v $(pwd)/changelog:/liquibase/changelog \
-  -v $(pwd)/liquibase.properties:/liquibase/liquibase.properties \
+  -v $(pwd):/liquibase/workspace \
+  -v $(pwd)/external_lib:/external_lib \
   liquibase/liquibase:latest \
-  --defaultsFile=/liquibase/liquibase.properties \
+  --defaults-file=/liquibase/workspace/liquibase.properties \
+  --search-path=/liquibase/workspace \
+  --classpath=/external_lib/postgresql.jar \
   status --verbose
 
 echo ""
-echo "Aplicando as migrações no banco de dados (update)..."
+echo "Aplicando as migrações no banco de dados (update) forçando o contexto 'dev'..."
 docker run --rm \
   --network migration_demo_net \
-  -v $(pwd)/changelog:/liquibase/changelog \
-  -v $(pwd)/liquibase.properties:/liquibase/liquibase.properties \
+  -v $(pwd):/liquibase/workspace \
+  -v $(pwd)/external_lib:/external_lib \
   liquibase/liquibase:latest \
-  --defaultsFile=/liquibase/liquibase.properties \
-  update
+  --defaults-file=/liquibase/workspace/liquibase.properties \
+  --search-path=/liquibase/workspace \
+  --classpath=/external_lib/postgresql.jar \
+  update --contexts="dev"
 
 echo ""
 echo "Criando o arquivo de changelog (geração automática caso haja diferenças)... (Apenas demonstração)"
