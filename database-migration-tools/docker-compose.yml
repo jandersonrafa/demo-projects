@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # O banco de dados alvo onde as migrações serão testadas
+  postgres:
+    image: postgres:15-alpine
+    container_name: demo_postgres
+    environment:
+      POSTGRES_USER: demo_user
+      POSTGRES_PASSWORD: demo_password
+      POSTGRES_DB: demo_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+  # Ferramenta Bytebase (UI para gerenciamento e aprovação de migrações)
+  bytebase:
+    image: bytebase/bytebase:latest
+    container_name: demo_bytebase
+    ports:
+      - "8080:8080"
+    volumes:
+      - bytebase_data:/var/opt/bytebase
+    depends_on:
+      - postgres
+    # O comando é necessário para expor o servidor na porta correta
+    command: ["--data", "/var/opt/bytebase", "--port", "8080"]
+    networks:
+      - db_net
+
+volumes:
+  pgdata:
+  bytebase_data:
+
+networks:
+  db_net:
+    name: migration_demo_net
